@@ -1,0 +1,11 @@
+[package]
+name = "tadeuszhs/catvert"
+description = "Library for converting between CatWeb's JSON structure and Roblox instances."
+license = "BSD-3-Clause"
+authors = ["TadeuszHS"]
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+private = true
+
+[dependencies]

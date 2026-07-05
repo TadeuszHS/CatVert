@@ -1,0 +1,11 @@
+.vscode
+_local
+
+Packages
+
+sourcemap.json
+
+wally.lock
+/CatVert.rbxlx
+/*.rbxlx.lock
+/*.rbxl.lock
