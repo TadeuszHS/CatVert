@@ -132,29 +132,29 @@ export type LinkElement = ButtonElement & {
 }
 
 --[=[
-	CatWeb DonationButton Element.
+	CatWeb Donation Element.
 	@deprecated As of 2.17.3.0 due to [Roblox updates](https://devforum.roblox.com/t/disabling-cross-game-sales-of-passes-and-dev-products-and-introducing-the-transfers-api/4618396)
-	in favor of the Transfers API, use {@link TransferButtonElement} or {@link AvatarItemButtonElement} instead.
+	in favor of the Transfers API, use {@link TransferElement} or {@link AvatarItem} instead.
 	@since 1.2.0
 ]=]
-export type DonationButtonElement = ButtonElement & {
+export type DonationElement = ButtonElement & {
 	product: string?,
 	product_type: string?,
 	thanks_href: string?,
 }
 --[=[
-	CatWeb TransferButton Element.
+	CatWeb Transfer Element.
 	@since 2.17.3.0
 ]=]
-export type TransferButtonElement = ButtonElement & {
+export type TransferElement = ButtonElement & {
 	robux_amount: string?,
 	transfer_id: string?,
 }
 --[=[
-	CatWeb AvatarItem Element.
+	CatWeb Avatar Item Element.
 	@since 2.17.3.0
 ]=]
-export type AvatarItemButtonElement = ButtonElement & {
+export type AvatarItemElement = ButtonElement & {
 	product: string?,
 	product_type: string?,
 }
