@@ -2,6 +2,7 @@
 
 const HttpService = game:GetService("HttpService")
 const Types = require("../shared/Types")
+const EnumMap = require("../shared/EnumMap")
 
 type JSONUnknown = Types.JSONUnknown
 type JSONTable = Types.JSONTable
@@ -300,7 +301,7 @@ function TypeDecoder.NumberSequence(v: JSONUnknown): NumberSequence?
 	return decodeSequence(v, tonumber :: (string) -> number, NumberSequenceKeypoint.new, NumberSequence.new)
 end
 
-for name, enum in Types.EnumMap :: { [CatWebEnums]: Enum } do
+for name, enum in EnumMap :: { [CatWebEnums]: Enum } do
 	TypeDecoder[name] = function(v: string): EnumItem?
 		return enumItem(v, enum)
 	end

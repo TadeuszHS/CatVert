@@ -2,6 +2,7 @@
 
 const HttpService = game:GetService("HttpService")
 const Types = require("../shared/Types")
+const EnumMap = require("../shared/EnumMap")
 
 type CatWebEnums = Types.CatWebEnums
 
@@ -160,7 +161,7 @@ function TypeEncoder.NumberSequence(v: NumberSequence): string
 	end)
 end
 
-for name, enum in Types.EnumMap :: { [CatWebEnums]: Enum } do
+for name, enum in EnumMap :: { [CatWebEnums]: Enum } do
 	TypeEncoder[name] = function(v: EnumItem): string
 		return v.Name
 	end
