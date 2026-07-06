@@ -160,26 +160,7 @@ function TypeEncoder.NumberSequence(v: NumberSequence): string
 	end)
 end
 
-const enumEncoders: { [CatWebEnums]: Enum } = {
-	ApplyStrokeMode = Enum.ApplyStrokeMode,
-	BorderStrokePosition = Enum.BorderStrokePosition,
-	FillDirection = Enum.FillDirection,
-	Font = Enum.Font,
-	FontStyle = Enum.FontStyle,
-	FontWeight = Enum.FontWeight,
-	HorizontalAlignment = Enum.HorizontalAlignment,
-	LineJoinMode = Enum.LineJoinMode,
-	ResamplerMode = Enum.ResamplerMode,
-	ScaleType = Enum.ScaleType,
-	SortOrder = Enum.SortOrder,
-	StrokeSizingMode = Enum.StrokeSizingMode,
-	TextTruncate = Enum.TextTruncate,
-	TextXAlignment = Enum.TextXAlignment,
-	TextYAlignment = Enum.TextYAlignment,
-	VerticalAlignment = Enum.VerticalAlignment,
-}
-
-for name, enum in enumEncoders do
+for name, enum in Types.EnumMap :: { [CatWebEnums]: Enum } do
 	TypeEncoder[name] = function(v: EnumItem): string
 		return v.Name
 	end

@@ -300,26 +300,7 @@ function TypeDecoder.NumberSequence(v: JSONUnknown): NumberSequence?
 	return decodeSequence(v, tonumber :: (string) -> number, NumberSequenceKeypoint.new, NumberSequence.new)
 end
 
-const enumDecoders: { [CatWebEnums]: Enum } = {
-	ApplyStrokeMode = Enum.ApplyStrokeMode,
-	BorderStrokePosition = Enum.BorderStrokePosition,
-	FillDirection = Enum.FillDirection,
-	Font = Enum.Font,
-	FontStyle = Enum.FontStyle,
-	FontWeight = Enum.FontWeight,
-	HorizontalAlignment = Enum.HorizontalAlignment,
-	LineJoinMode = Enum.LineJoinMode,
-	ResamplerMode = Enum.ResamplerMode,
-	ScaleType = Enum.ScaleType,
-	SortOrder = Enum.SortOrder,
-	StrokeSizingMode = Enum.StrokeSizingMode,
-	TextTruncate = Enum.TextTruncate,
-	TextXAlignment = Enum.TextXAlignment,
-	TextYAlignment = Enum.TextYAlignment,
-	VerticalAlignment = Enum.VerticalAlignment,
-}
-
-for name, enum in enumDecoders do
+for name, enum in Types.EnumMap :: { [CatWebEnums]: Enum } do
 	TypeDecoder[name] = function(v: string): EnumItem?
 		return enumItem(v, enum)
 	end
