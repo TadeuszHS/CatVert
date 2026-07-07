@@ -4,6 +4,7 @@ const Structure = require("./Structure")
 const AbstractElementData = require("./AbstractElementData")
 
 type ElementClassNames = Structure.ElementClassNames
+type PropertyList = AbstractElementData.PropertyList
 type PropertyMap = AbstractElementData.PropertyMap
 type OverrideMap = AbstractElementData.OverrideMap
 type AbstractElementData = AbstractElementData.AbstractElementData
@@ -22,14 +23,16 @@ const ElementData = {}
 function ElementData.new(
     element_class: ElementClassNames,
     roblox_class: string,
-    properties: PropertyMap,
+    properties: PropertyList,
     overrides: OverrideMap,
     ...: ElementData | AbstractElementData
 ): ElementData
+    const property_map = AbstractElementData.propertyListToMap(properties)
+
     return table.freeze({
         class = element_class,
         roblox_class = roblox_class,
-        properties = table.freeze(properties),
+        properties = table.freeze(property_map),
         overrides = table.freeze(overrides),
         inherit = table.freeze({...}),
         abstract = false,

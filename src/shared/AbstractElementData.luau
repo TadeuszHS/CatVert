@@ -11,6 +11,7 @@ type AttributeData = AttributeData.AttributeData
 type CustomData = CustomData.CustomData
 
 export type PropertyMap = { [string]: PropertyData | AttributeData | CustomData }
+export type PropertyList = { PropertyData | AttributeData | CustomData }
 export type OverrideMap = { [string]: unknown }
 
 export type AbstractElementData = {
@@ -25,17 +26,29 @@ const AbstractElementData = {}
 
 function AbstractElementData.new(
     class: AbstractElementClassNames,
-    properties: PropertyMap,
+    properties: PropertyList,
     overrides: OverrideMap,
     ...: AbstractElementData
 ): AbstractElementData
+    const property_map = AbstractElementData.propertyListToMap(properties)
+
     return table.freeze({
         class = class,
-        properties = table.freeze(properties),
+        properties = table.freeze(property_map),
         overrides = table.freeze(overrides),
         inherit = table.freeze({ ... }),
         abstract = true,
     })
+end
+
+function AbstractElementData.propertyListToMap(properties: PropertyList)
+    const property_map: PropertyMap = {}
+
+    for _, property in properties do
+        property_map[property.catweb_index] = property
+    end
+
+    return property_map
 end
 
 return table.freeze(AbstractElementData)
