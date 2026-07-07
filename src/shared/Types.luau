@@ -22,6 +22,7 @@ export type CatWebEnums =
 	| "VerticalAlignment"
 	| "UIFlexMode"
 	| "ItemLineAlignment"
+	| "InfoType"
 --[=[
 	Representation of all named types in CatWeb.
 ]=]

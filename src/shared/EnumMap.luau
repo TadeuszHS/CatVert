@@ -22,4 +22,5 @@ return table.freeze({
 	VerticalAlignment = Enum.VerticalAlignment,
 	UIFlexMode = Enum.UIFlexMode,
 	ItemLineAlignment = Enum.ItemLineAlignment,
+	InfoType = Enum.InfoType,
 })
