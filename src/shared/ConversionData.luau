@@ -26,7 +26,7 @@ const BaseGuiElement = AbstractElementData.new("BaseGuiElement", {
     PropertyData.new("visible", "Visible", "boolean", true),
     PropertyData.new("z_index", "ZIndex", "number", 0),
     AttributeData.new("tooltip", "string", ""),
-    CustomData.new("Size"),
+    CustomData.new("size"),
 }, {
     alias = "BaseGuiElement",
     class = "BaseGuiElement",
