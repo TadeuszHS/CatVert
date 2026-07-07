@@ -2,10 +2,11 @@
 
 const HttpService = game:GetService("HttpService")
 const Types = require("../shared/Types")
+const Structure = require("../shared/Structure")
 const EnumMap = require("../shared/EnumMap")
 
-type JSONUnknown = Types.JSONUnknown
-type JSONTable = Types.JSONTable
+type JSONUnknown = Structure.JSONUnknown
+type JSONTable = Structure.JSONTable
 type CatWebTypes = Types.CatWebTypes
 type CatWebEnums = Types.CatWebEnums
 
