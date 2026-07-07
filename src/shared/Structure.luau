@@ -164,10 +164,7 @@ export type ButtonElement = BaseTextElement & {
 	CatWeb Link Element.
 	@since 1.2.0
 ]=]
-export type LinkElement = ButtonElement & {
-	href: string?,
-	new_tab: string?,
-}
+export type LinkElement = BaseTextElement & BaseLinkElement
 
 --[=[
 	CatWeb Donation Element.
