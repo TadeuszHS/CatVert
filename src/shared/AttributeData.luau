@@ -10,17 +10,15 @@ export type AttributeData = {
     read class: PropertyClassNames,
     read catweb_index: string,
     read value_type: CatWebTypes,
-    read default: unknown,
 }
 
 const AttributeData = {}
 
-function AttributeData.new(catweb_index: string, value_type: CatWebTypes, default: unknown): AttributeData
+function AttributeData.new(catweb_index: string, value_type: CatWebTypes): AttributeData
     return table.freeze({
         class = "Attribute" :: PropertyClassNames,
         catweb_index = catweb_index,
         value_type = value_type,
-        default = default
     })
 end
 
