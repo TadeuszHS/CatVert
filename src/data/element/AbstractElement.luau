@@ -1,21 +1,21 @@
 --!strict
 
-const Structure = require("./Structure")
-const PropertyData = require("./PropertyData")
-const AttributeData = require("./AttributeData")
-const CustomData = require("./CustomData")
+const Structure = require("../Structure")
+const Property = require("../property/Property")
+const Attribute = require("../property/Attribute")
+const Custom = require("../property/Custom")
 
 type AbstractElementClassNames = Structure.AbstractElementClassNames
-type PropertyData = PropertyData.PropertyData
-type AttributeData = AttributeData.AttributeData
-type CustomData = CustomData.CustomData
+type Property = Property.Property
+type Attribute = Attribute.Attribute
+type Custom = Custom.Custom
 
-export type PropertyMap = { [string]: PropertyData | AttributeData | CustomData }
-export type PropertyList = { PropertyData | AttributeData | CustomData }
+export type PropertyMap = { [string]: Property | Attribute | Custom }
+export type PropertyList = { Property | Attribute | Custom }
 export type DefaultsMap = { [string]: unknown }
 export type InstancePropertyMap<I> = { [keyof<I>]: unknown } 
 
-export type AbstractElementData = {
+export type AbstractElement = {
     read class: string,
     read properties: typeof(table.freeze({} :: PropertyMap)),
     read default_props: typeof(table.freeze({} :: DefaultsMap)),
@@ -23,15 +23,15 @@ export type AbstractElementData = {
     read abstract: boolean,
 }
 
-const AbstractElementData = {}
+const AbstractElement = {}
 
-function AbstractElementData.new<I>(
+function AbstractElement.new<I>(
     class: AbstractElementClassNames,
     properties: PropertyList,
     default_props: InstancePropertyMap<I>,
     default_attr: DefaultsMap,
-    ...: AbstractElementData
-): AbstractElementData
+    ...: AbstractElement
+): AbstractElement
     const self = {
         class = class,
         properties = {},
@@ -40,15 +40,15 @@ function AbstractElementData.new<I>(
         abstract = true,
     }
 
-    AbstractElementData.inherit(self, ...)
+    AbstractElement.inherit(self, ...)
 
-    const property_map = AbstractElementData.propertyListToMap(properties)
-    AbstractElementData.putPropertiesAndDefaults(self, property_map, default_props, default_attr)
+    const property_map = AbstractElement.propertyListToMap(properties)
+    AbstractElement.putPropertiesAndDefaults(self, property_map, default_props, default_attr)
     
-    return AbstractElementData.finalize(self)
+    return AbstractElement.finalize(self)
 end
 
-function AbstractElementData.propertyListToMap(properties: PropertyList): PropertyMap
+function AbstractElement.propertyListToMap(properties: PropertyList): PropertyMap
     const property_map: PropertyMap = {}
 
     for _, property in properties do
@@ -58,19 +58,19 @@ function AbstractElementData.propertyListToMap(properties: PropertyList): Proper
     return property_map
 end
 
-function AbstractElementData.finalize(self: AbstractElementData): AbstractElementData
+function AbstractElement.finalize(self: AbstractElement): AbstractElement
     table.freeze(self.properties)
     table.freeze(self.default_props)
     table.freeze(self.default_attr)
     return table.freeze(self)
 end
 
-function AbstractElementData.putPropertiesAndDefaults<I>(
-    to: AbstractElementData,
+function AbstractElement.putPropertiesAndDefaults<I>(
+    to: AbstractElement,
     properties: PropertyMap,
     default_props: DefaultsMap | InstancePropertyMap<I>,
     default_attr: DefaultsMap
-): AbstractElementData
+): AbstractElement
     for catweb_index, property in properties do
         to.properties[catweb_index] = property
     end
@@ -84,12 +84,12 @@ function AbstractElementData.putPropertiesAndDefaults<I>(
     return to
 end
 
-function AbstractElementData.inherit(to: AbstractElementData, ...: AbstractElementData): AbstractElementData
+function AbstractElement.inherit(to: AbstractElement, ...: AbstractElement): AbstractElement
     for _, parent in { ... } do
-        AbstractElementData.putPropertiesAndDefaults(to, parent.properties, parent.default_props, parent.default_attr)
+        AbstractElement.putPropertiesAndDefaults(to, parent.properties, parent.default_props, parent.default_attr)
     end
 
     return to
 end
 
-return table.freeze(AbstractElementData)
+return table.freeze(AbstractElement)

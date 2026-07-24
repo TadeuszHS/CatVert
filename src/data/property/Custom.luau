@@ -1,28 +1,28 @@
 --!strict
 
-const Types = require("./Types")
-const Structure = require("./Structure")
-const PropertyData = require("./PropertyData")
+const Types = require("../Types")
+const Structure = require("../Structure")
+const Property = require("./Property")
 
 type CatWebTypes = Types.CatWebTypes
 type JSONUnknown = Structure.JSONUnknown
 type UnknownElement = Structure.UnknownElement
-type PropertyClassNames = PropertyData.PropertyClassNames
+type PropertyClassNames = Property.PropertyClassNames
 
 export type CustomEncodeFunction = (UnknownElement, Instance, (Instance) -> UnknownElement) -> ()
 export type CustomDecodeFunction = (UnknownElement, Instance, (UnknownElement) -> Instance) -> ()
-export type CustomDataTranscodable = {
+export type CustomTranscodable = {
     read encode: CustomEncodeFunction,
     read decode: CustomDecodeFunction,
 }
-export type CustomData = CustomDataTranscodable & {
+export type Custom = CustomTranscodable & {
     read class: PropertyClassNames,
     read catweb_index: string,
 }
 
-const CustomData = {}
+const Custom = {}
 
-function CustomData.new(catweb_index: string, encode: CustomEncodeFunction, decode: CustomDecodeFunction): CustomData
+function Custom.new(catweb_index: string, encode: CustomEncodeFunction, decode: CustomDecodeFunction): Custom
     return table.freeze({
         class = "Custom" :: PropertyClassNames,
         catweb_index = catweb_index,
@@ -31,4 +31,4 @@ function CustomData.new(catweb_index: string, encode: CustomEncodeFunction, deco
     })
 end
 
-return table.freeze(CustomData)
+return table.freeze(Custom)

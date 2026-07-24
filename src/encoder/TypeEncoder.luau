@@ -1,8 +1,8 @@
 --!strict
 
 const HttpService = game:GetService("HttpService")
-const Types = require("../shared/Types")
-const EnumMap = require("../shared/EnumMap")
+const Types = require("../data/Types")
+const EnumMap = require("../data/EnumMap")
 
 type CatWebEnums = Types.CatWebEnums
 

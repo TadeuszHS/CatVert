@@ -1,9 +1,9 @@
 --!strict
 
 const HttpService = game:GetService("HttpService")
-const Types = require("../shared/Types")
-const Structure = require("../shared/Structure")
-const EnumMap = require("../shared/EnumMap")
+const Types = require("../data/Types")
+const Structure = require("../data/Structure")
+const EnumMap = require("../data/EnumMap")
 
 type JSONUnknown = Structure.JSONUnknown
 type JSONTable = Structure.JSONTable
