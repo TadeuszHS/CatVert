@@ -161,6 +161,25 @@ function TypeEncoder.NumberSequence(v: NumberSequence): string
 	end)
 end
 
+--[=[
+    Encodes Enum.AutomaticSize as a JSON string.
+    Enum.AutomaticSize.None is not representable in this encoded type and will return nil.
+
+    @param v Enum.AutomaticSize
+    @return string
+]=]
+function TypeEncoder.AutomaticSize(v: Enum.AutomaticSize): string?
+    if v == Enum.AutomaticSize.XY then
+        return "auto"
+    elseif v == Enum.AutomaticSize.X then
+        return "auto_x"
+    elseif v == Enum.AutomaticSize.Y then
+        return "auto_y"
+    end
+
+    return nil
+end
+
 for name, enum in EnumMap :: { [CatWebEnums]: Enum } do
 	TypeEncoder[name] = function(v: EnumItem): string
 		return v.Name

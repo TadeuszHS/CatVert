@@ -302,6 +302,28 @@ function TypeDecoder.NumberSequence(v: JSONUnknown): NumberSequence?
 	return decodeSequence(v, tonumber :: (string) -> number, NumberSequenceKeypoint.new, NumberSequence.new)
 end
 
+--[=[
+	Decodes Enum.AutomaticSize from a JSON-encoded string.
+	If the value is invalid, it will return nil.
+	Enum.AutomaticSize.None has no representation in the encoded format, and is what nil can be inferred as.
+
+	@param v JSONUnknown
+	@return Enum.AutomaticSize?
+]=]
+function TypeDecoder.AutomaticSize(v: JSONUnknown): Enum.AutomaticSize?
+	const decoded_size = TypeDecoder.string(v)
+
+    if decoded_size == "auto" then
+        return Enum.AutomaticSize.XY
+    elseif decoded_size == "auto_x" then
+        return Enum.AutomaticSize.X
+    elseif decoded_size == "auto_y" then
+        return Enum.AutomaticSize.Y
+    end
+
+    return nil
+end
+
 for name, enum in EnumMap :: { [CatWebEnums]: Enum } do
 	TypeDecoder[name] = function(v: string?): EnumItem?
 		return enumItem(v, enum)
