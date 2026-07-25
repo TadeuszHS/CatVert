@@ -167,4 +167,4 @@ for name, enum in EnumMap :: { [CatWebEnums]: Enum } do
 	end
 end
 
-return table.freeze(TypeEncoder)
+return table.freeze(TypeEncoder :: typeof(TypeEncoder))

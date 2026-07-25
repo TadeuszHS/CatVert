@@ -152,7 +152,7 @@ end
     @param of Enum
     @return EnumItem?
 ]=]
-const function enumItem(itemName: string, of: Enum): EnumItem?
+const function enumItem(itemName: string?, of: Enum): EnumItem?
 	for _, v in of:GetEnumItems() do
 		if v.Name == itemName then
 			return v
@@ -303,7 +303,7 @@ function TypeDecoder.NumberSequence(v: JSONUnknown): NumberSequence?
 end
 
 for name, enum in EnumMap :: { [CatWebEnums]: Enum } do
-	TypeDecoder[name] = function(v: string): EnumItem?
+	TypeDecoder[name] = function(v: string?): EnumItem?
 		return enumItem(v, enum)
 	end
 end
