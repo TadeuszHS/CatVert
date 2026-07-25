@@ -93,15 +93,15 @@ end
 
     @param v JSONUnknown
     @param parse (string) -> T?
-    @param newKeypoint (time: number, value: T) -> K
-    @param newSequence ({ K }) -> S
+    @param new_keypoint (time: number, value: T) -> K
+    @param new_sequence ({ K }) -> S
     @return S?
 ]=]
 const function decodeSequence<T, K, S>(
 	v: JSONUnknown,
 	parse: (string) -> T,
-	newKeypoint: (time: number, value: T, ...any) -> K,
-	newSequence: ({ K }) -> S
+	new_keypoint: (time: number, value: T, ...any) -> K,
+	new_sequence: ({ K }) -> S
 ): S?
 	const decoded = sequenceJSON(v)
 	if not decoded then
@@ -115,11 +115,11 @@ const function decodeSequence<T, K, S>(
 		if not value or not time then
 			return nil
 		end
-		points[i] = newKeypoint(time, value)
+		points[i] = new_keypoint(time, value)
 	end
 
 	if isValidKeypointArray(points) then
-		return newSequence(points)
+		return new_sequence(points)
 	end
 	return nil
 end
@@ -148,13 +148,13 @@ end
     Returns the EnumItem of the same name from the given Enum.
     If no match is found, it will return nil.
 
-    @param itemName string
+    @param item_name string
     @param of Enum
     @return EnumItem?
 ]=]
-const function enumItem(itemName: string?, of: Enum): EnumItem?
+const function enumItem(item_name: string?, of: Enum): EnumItem?
 	for _, v in of:GetEnumItems() do
-		if v.Name == itemName then
+		if v.Name == item_name then
 			return v
 		end
 	end
@@ -265,8 +265,8 @@ function TypeDecoder.UDim2(v: JSONUnknown): UDim2
 		result[i] = tonumber(value) or 0
 	end
 
-	const xScale, xOffset, yScale, yOffset = table.unpack(result)
-	return UDim2.new(xScale, xOffset, yScale, yOffset)
+	const x_scale, x_offset, y_scale, y_offset = table.unpack(result)
+	return UDim2.new(x_scale, x_offset, y_scale, y_offset)
 end
 
 --[=[

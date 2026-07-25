@@ -20,15 +20,15 @@ type CatWebEnums = Types.CatWebEnums
     }
     ```
     @param sequence NumberSequence | ColorSequence
-    @param encodeValue (T) -> E
+    @param encode_value (T) -> E
     @return string
 ]=]
-const function fromSequence<T, E>(sequence: NumberSequence | ColorSequence, encodeValue: (T) -> E): string
+const function fromSequence<T, E>(sequence: NumberSequence | ColorSequence, encode_value: (T) -> E): string
 	const result = {}
 
 	for i, point in sequence.Keypoints do
 		const t: { number | E } = {}
-		t[1] = encodeValue(point.Value)
+		t[1] = encode_value(point.Value)
 		t[2] = tostring(point.Time)
 		result[i] = t
 	end
