@@ -16,6 +16,7 @@ export type AbstractElementClassNames =
 	"WebContent"
 	| "BaseElement"
 	| "BaseGuiElement"
+	| "BaseButtonElement"
 	| "BaseTextElement"
 	| "BaseImageElement"
 	| "BaseLinkElement"
@@ -76,6 +77,8 @@ export type BaseGuiElement = {
 	position: string?,
 	rotation: string?,
 	size: string?,
+	auto_x: string?,
+	auto_y: string?,
 	tooltip: string?,
 	visible: string?,
 	z_index: string?,
@@ -114,10 +117,17 @@ export type BaseImageElement = BaseGuiElement & {
 	slice_scale: string?,
 }
 --[=[
+	Abstract JSON Element for all CatWeb Button Elements.
+	@since 1.2.0
+]=]
+export type BaseButtonElement = BaseGuiElement & {
+	auto_color: string?,
+}
+--[=[
 	Abstract JSON Element for all CatWeb Link Elements.
 	@since 1.2.0
 ]=]
-export type BaseLinkElement = BaseGuiElement & {
+export type BaseLinkElement = BaseButtonElement & {
 	href: string?,
 	new_tab: string?,
 }
@@ -157,9 +167,7 @@ export type InputElement = BaseTextElement & {
 	CatWeb Button Element.
 	@since 1.2.0
 ]=]
-export type ButtonElement = BaseTextElement & {
-	auto_color: string?,
-}
+export type ButtonElement = BaseTextElement & BaseButtonElement
 --[=[
 	CatWeb Link Element.
 	@since 1.2.0
@@ -168,8 +176,9 @@ export type LinkElement = BaseTextElement & BaseLinkElement
 
 --[=[
 	CatWeb Donation Element.
-	@deprecated As of 2.17.3.0 due to [Roblox updates](https://devforum.roblox.com/t/disabling-cross-game-sales-of-passes-and-dev-products-and-introducing-the-transfers-api/4618396)
-	in favor of the Transfers API, use {@link TransferElement} or {@link AvatarItemElement} instead.
+	@deprecated As of 2.17.3.0 due to
+	[Roblox updates](https://devforum.roblox.com/t/disabling-cross-game-sales-of-passes-and-dev-products-and-introducing-the-transfers-api/4618396)
+	in favor of the Transfers API, use TransferElement or AvatarItemElement instead.
 	@since 1.2.0
 ]=]
 export type DonationElement = ButtonElement & {
@@ -203,7 +212,7 @@ export type ImageElement = BaseImageElement
 	CatWeb Image Button Element.
 	@since 2.18.0.0
 ]=]
-export type ImageButtonElement = BaseImageElement
+export type ImageButtonElement = BaseImageElement & BaseButtonElement
 --[=[
 	CatWeb Image Link Element.
 	@since 2.18.0.0
