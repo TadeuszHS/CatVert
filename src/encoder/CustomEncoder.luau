@@ -21,39 +21,40 @@ const CustomEncoder = table.freeze({
                 end
             end :: CustomEncodeFunction,
         }),
+
         Gui = table.freeze({
             size = function(element: GuiAbstractElement, inst: GuiObject, _)
-                if inst.AutomaticSize == Enum.AutomaticSize.XY then
-                    element.size = TypeEncoder.string("auto")
-                elseif inst.AutomaticSize == Enum.AutomaticSize.X then
-                    element.size = TypeEncoder.string("auto_x")
-                elseif inst.AutomaticSize == Enum.AutomaticSize.Y then
-                    element.size = TypeEncoder.string("auto_y")
-                else
-                    element.size = TypeEncoder.UDim2(inst.Size)
-                end
+                const auto_size = TypeEncoder.AutomaticSize(inst.AutomaticSize)
+
+                element.size = auto_size or TypeEncoder.UDim2(inst.Size)
             end :: CustomEncodeFunction,
+
             height = function(element: GuiAbstractElement, inst: GuiObject, _)
                 if inst.AutomaticSize == Enum.AutomaticSize.X then
                     element.height = TypeEncoder.UDim(inst.Size.Y)
                 end
             end :: CustomEncodeFunction,
+
             width = function(element: GuiAbstractElement, inst: GuiObject, _)
                 if inst.AutomaticSize == Enum.AutomaticSize.Y then
                     element.width = TypeEncoder.UDim(inst.Size.X)
                 end
             end :: CustomEncodeFunction,
         }),
+
         Text = table.freeze({
             font = function(element: TextAbstractElement, inst: TextLabel, _)
                 element.font = TypeEncoder.string(inst.FontFace.Family)
             end :: CustomEncodeFunction,
+
             font_style = function(element: TextAbstractElement, inst: TextLabel, _)
                 element.font_style = TypeEncoder.FontStyle(inst.FontFace.Style)
             end :: CustomEncodeFunction,
+
             font_weight = function(element: TextAbstractElement, inst: TextLabel, _)
                 element.font_weight = TypeEncoder.FontWeight(inst.FontFace.Weight)
             end :: CustomEncodeFunction,
+
             font_size = function(element: TextAbstractElement, inst: TextLabel, _)
                 if inst.TextScaled then
                     element.font_size = TypeEncoder.string("scaled")
@@ -63,18 +64,13 @@ const CustomEncoder = table.freeze({
             end :: CustomEncodeFunction,
         }),
     }),
+
     Element = table.freeze({
         ScrollingFrame = table.freeze({
             canvassize = function(element: ScrollingFrameElement, inst: ScrollingFrame, _)
-                if inst.AutomaticCanvasSize == Enum.AutomaticSize.XY then
-                    element.canvassize = "auto"
-                elseif inst.AutomaticCanvasSize == Enum.AutomaticSize.X then
-                    element.canvassize = "auto_x"
-                elseif inst.AutomaticCanvasSize == Enum.AutomaticSize.Y then
-                    element.canvassize = "auto_y"
-                else
-                    element.canvassize = TypeEncoder.UDim2(inst.CanvasSize)
-                end
+                const auto_size = TypeEncoder.AutomaticSize(inst.AutomaticCanvasSize)
+
+                element.canvassize = auto_size or TypeEncoder.UDim2(inst.CanvasSize)
             end :: CustomEncodeFunction,
         }),
     })

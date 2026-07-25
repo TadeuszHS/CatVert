@@ -14,24 +14,26 @@ type CatWebEnums = Types.CatWebEnums
     Checks if the keypoint array is valid for being an argument of a sequence.
 
     Keypoints are only valid if they:
-    * Have a minimum of two keypoints.
-	* Have a maximum of twenty keypoints.
-	* Have keypoints with 0 and 1 for time.
-	* Keypoints in the array are ordered in non-descending time value order.
+		* Have a minimum of two keypoints.
+		* Have a maximum of twenty keypoints.
+		* Have keypoints with 0 and 1 for time.
+		* Keypoints in the array are ordered in non-descending time value order.
 	
 	@param t { ColorSequenceKeypoint} | { NumberSequenceKeypoint }
 	@return boolean
 ]=]
 const function isValidKeypointArray(t: { ColorSequenceKeypoint } | { NumberSequenceKeypoint }): boolean
-	if #t < 2 or #t > 21 then
+	const size = #t
+
+	if size < 2 or size > 21 then
 		return false
 	end
 
-	if t[1].Time ~= 0 or t[#t].Time ~= 1 then
+	if t[1].Time ~= 0 or t[size].Time ~= 1 then
 		return false
 	end
 
-	for i = 2, #t do
+	for i = 2, size do
 		if t[i].Time < t[i - 1].Time then
 			return false
 		end
@@ -99,7 +101,7 @@ end
 ]=]
 const function decodeSequence<T, K, S>(
 	v: JSONUnknown,
-	parse: (string) -> T,
+	decode: (string) -> T,
 	new_keypoint: (time: number, value: T, ...any) -> K,
 	new_sequence: ({ K }) -> S
 ): S?
@@ -110,7 +112,7 @@ const function decodeSequence<T, K, S>(
 
 	const points = {}
 	for i, point in decoded do
-		const value = parse(point[1])
+		const value = decode(point[1])
 		const time = tonumber(point[2])
 		if not value or not time then
 			return nil
