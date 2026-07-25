@@ -8,16 +8,16 @@ const Custom = require("./property/Custom")
 const CustomEncoder = require("../encoder/CustomEncoder")
 const CustomDecoder = require("../decoder/CustomDecoder")
 
-const BaseElement = AbstractElement.new<<Instance>>(
-    "BaseElement",
+const RootAbstractElement = AbstractElement.new<<Instance>>(
+    "Root",
     {
         Property.new("alias", "Name", "string"),
         Attribute.new("class", "string"),
         Attribute.new("globalid", "string"),
         Custom.new(
             "children",
-            CustomEncoder.BaseElement.children,
-            CustomDecoder.BaseElement.children
+            CustomEncoder.Abstract.Root.children,
+            CustomDecoder.Abstract.Root.children
         ),
     },
     {
@@ -29,8 +29,8 @@ const BaseElement = AbstractElement.new<<Instance>>(
     }
 )
 
-const BaseGuiElement = AbstractElement.new<<GuiObject>>(
-    "BaseGuiElement",
+const GuiAbstractElement = AbstractElement.new<<GuiObject>>(
+    "Gui",
     {
         Property.new("anchor", "AnchorPoint", "Vector2"),
         Property.new("background_color", "BackgroundColor3", "Color3"),
@@ -42,18 +42,18 @@ const BaseGuiElement = AbstractElement.new<<GuiObject>>(
         Attribute.new("tooltip", "string"),
         Custom.new(
             "size",
-            CustomEncoder.BaseElement.children,
-            CustomDecoder.BaseGuiElement.size
+            CustomEncoder.Abstract.Gui.size,
+            CustomDecoder.Abstract.Gui.size
         ),
         Custom.new(
             "height",
-            CustomEncoder.BaseGuiElement.height,
-            CustomDecoder.BaseGuiElement.height
+            CustomEncoder.Abstract.Gui.height,
+            CustomDecoder.Abstract.Gui.height
         ),
         Custom.new(
             "width",
-            CustomEncoder.BaseGuiElement.width,
-            CustomDecoder.BaseGuiElement.width
+            CustomEncoder.Abstract.Gui.width,
+            CustomDecoder.Abstract.Gui.width
         ),
     },
     {
@@ -67,11 +67,11 @@ const BaseGuiElement = AbstractElement.new<<GuiObject>>(
         class = "GuiElement",
         tooltip = "",
     },
-    BaseElement
+    RootAbstractElement
 )
 
-const BaseTextElement = AbstractElement.new<<TextLabel>>(
-    "BaseTextElement",
+const TextAbstractElement = AbstractElement.new<<TextLabel>>(
+    "Text",
     {
         Property.new("align_x", "TextXAlignment", "TextXAlignment"),
         Property.new("align_y", "TextYAlignment", "TextYAlignment"),
@@ -84,23 +84,23 @@ const BaseTextElement = AbstractElement.new<<TextLabel>>(
         Property.new("font_transparency", "TextTransparency", "boolean"),
         Custom.new(
             "font",
-            CustomEncoder.BaseTextElement.font,
-            CustomDecoder.BaseTextElement.font
+            CustomEncoder.Abstract.Text.font,
+            CustomDecoder.Abstract.Text.font
         ),
         Custom.new(
             "font_style",
-            CustomEncoder.BaseTextElement.font_style,
-            CustomDecoder.BaseTextElement.font_style
+            CustomEncoder.Abstract.Text.font_style,
+            CustomDecoder.Abstract.Text.font_style
         ),
         Custom.new(
             "font_weight",
-            CustomEncoder.BaseTextElement.font_weight,
-            CustomDecoder.BaseTextElement.font_weight
+            CustomEncoder.Abstract.Text.font_weight,
+            CustomDecoder.Abstract.Text.font_weight
         ),
         Custom.new(
             "font_size",
-            CustomEncoder.BaseTextElement.font_size,
-            CustomDecoder.BaseTextElement.font_size
+            CustomEncoder.Abstract.Text.font_size,
+            CustomDecoder.Abstract.Text.font_size
         ),
     },
     {
@@ -115,11 +115,11 @@ const BaseTextElement = AbstractElement.new<<TextLabel>>(
     {
         class = "TextElement",
     },
-    BaseGuiElement
+    GuiAbstractElement
 )
 
-const BaseImageElement = AbstractElement.new<<ImageLabel>>(
-    "BaseImageElement",
+const ImageAbstractElement = AbstractElement.new<<ImageLabel>>(
+    "Image",
     {
         Property.new("image", "Image", "string"),
         Property.new("image_color", "ImageColor3", "Color3"),
@@ -140,11 +140,11 @@ const BaseImageElement = AbstractElement.new<<ImageLabel>>(
         class = "ImageElement",
         image_id = 107783162934966,
     },
-    BaseGuiElement
+    GuiAbstractElement
 )
 
-const BaseButtonElement = AbstractElement.new<<TextButton>>(
-    "BaseButtonElement",
+const GuiButtonAbstractElement = AbstractElement.new<<TextButton>>(
+    "GuiButton",
     {
         Property.new("auto_color", "AutomaticColor", "boolean"),
     },
@@ -154,11 +154,11 @@ const BaseButtonElement = AbstractElement.new<<TextButton>>(
     {
         class = "ButtonElement",
     },
-    BaseGuiElement
+    GuiAbstractElement
 )
 
-const BaseLinkElement = AbstractElement.new<<TextButton>>(
-    "BaseLinkElement",
+const LinkButtonAbstractElement = AbstractElement.new<<TextButton>>(
+    "LinkButton",
     {
         Attribute.new("href", "string"),
         Attribute.new("new_tab", "boolean"),
@@ -171,11 +171,11 @@ const BaseLinkElement = AbstractElement.new<<TextButton>>(
         href = "example.rbx",
         new_tab = false,
     },
-    BaseButtonElement
+    GuiButtonAbstractElement
 )
 
-const BaseGridStyleElement = AbstractElement.new<<UIGridStyleLayout>>(
-    "BaseLinkElement",
+const GridStyleAbstractElement = AbstractElement.new<<UIGridStyleLayout>>(
+    "GridStyle",
     {
         Property.new("alignment_horizontal", "HorizontalAlignment", "HorizontalAlignment"),
         Property.new("alignment_vertical", "VerticalAlignment", "VerticalAlignment"),
@@ -188,7 +188,7 @@ const BaseGridStyleElement = AbstractElement.new<<UIGridStyleLayout>>(
     {
         class = "GridStyleElement",
     },
-    BaseElement
+    RootAbstractElement
 )
 
 const FrameElement = Element.new<<Frame>>(
@@ -201,10 +201,10 @@ const FrameElement = Element.new<<Frame>>(
     {
         class = "Frame",
     },
-    BaseGuiElement
+    GuiAbstractElement
 )
 
-const ScrollableFrameElement = Element.new<<ScrollingFrame>>(
+const ScrollingFrameElement = Element.new<<ScrollingFrame>>(
     "ScrollingFrame",
     "ScrollingFrame",
     {
@@ -213,8 +213,8 @@ const ScrollableFrameElement = Element.new<<ScrollingFrame>>(
         Property.new("scrollbar_transparency", "ScrollBarImageTransparency", "number"),
         Custom.new(
             "canvassize",
-            CustomEncoder.ScrollableFrameElement.canvassize,
-            CustomDecoder.ScrollableFrameElement.canvassize
+            CustomEncoder.Element.ScrollingFrame.canvassize,
+            CustomDecoder.Element.ScrollingFrame.canvassize
         ),
     },
     {
@@ -224,10 +224,10 @@ const ScrollableFrameElement = Element.new<<ScrollingFrame>>(
     {
         class = "ScrollingFrame",
     },
-    BaseGuiElement
+    GuiAbstractElement
 )
 
-const TextElement = Element.new<<TextLabel>>(
+const TextLabelElement = Element.new<<TextLabel>>(
     "TextLabel",
     "Textlabel",
     {},
@@ -237,10 +237,10 @@ const TextElement = Element.new<<TextLabel>>(
     {
         class = "TextLabel"
     },
-    BaseTextElement
+    TextAbstractElement
 )
 
-const InputElement = Element.new<<TextBox>>(
+const TextBoxElement = Element.new<<TextBox>>(
     "TextBox",
     "TextBox",
     {
@@ -259,10 +259,10 @@ const InputElement = Element.new<<TextBox>>(
     {
         class = "TextBox"
     },
-    BaseTextElement
+    TextAbstractElement
 )
 
-const ButtonElement = Element.new<<TextButton>>(
+const TextButtonElement = Element.new<<TextButton>>(
     "TextButton",
     "TextButton",
     {},
@@ -274,8 +274,8 @@ const ButtonElement = Element.new<<TextButton>>(
     {
         class = "TextButton"
     },
-    BaseTextElement,
-    BaseButtonElement
+    TextAbstractElement,
+    GuiButtonAbstractElement
 )
 
 const LinkButtonElement = Element.new<<TextButton>>(
@@ -290,11 +290,11 @@ const LinkButtonElement = Element.new<<TextButton>>(
     {
         class = "TextButton?link"
     },
-    BaseTextElement,
-    BaseLinkElement
+    TextAbstractElement,
+    LinkButtonAbstractElement
 )
 
-const DonationElement = Element.new<<TextButton>>(
+const DonationButtonElement = Element.new<<TextButton>>(
     "TextButton?donation",
     "TextButton",
     {
@@ -313,10 +313,10 @@ const DonationElement = Element.new<<TextButton>>(
         product_type = Enum.InfoType.Asset,
         thanks_href = "",
     },
-    BaseButtonElement
+    GuiButtonAbstractElement
 )
 
-const TransferElement = Element.new<<TextButton>>(
+const TransferButtonElement = Element.new<<TextButton>>(
     "TextButton?transfer",
     "TextButton",
     {
@@ -333,10 +333,10 @@ const TransferElement = Element.new<<TextButton>>(
         robux_amount = 50,
         transfer_id = 0,
     },
-    BaseButtonElement
+    GuiButtonAbstractElement
 )
 
-const AvatarItemElement = Element.new<<TextButton>>(
+const AvatarItemButtonElement = Element.new<<TextButton>>(
     "TextButton?avataritem",
     "TextButton",
     {
@@ -353,10 +353,10 @@ const AvatarItemElement = Element.new<<TextButton>>(
         product = 0,
         product_type = Enum.InfoType.Asset,
     },
-    BaseButtonElement
+    GuiButtonAbstractElement
 )
 
-const ImageElement = Element.new<<ImageLabel>>(
+const ImageLabelElement = Element.new<<ImageLabel>>(
     "ImageLabel",
     "ImageLabel",
     {},
@@ -366,7 +366,7 @@ const ImageElement = Element.new<<ImageLabel>>(
     {
         class = "ImageLabel",
     },
-    BaseImageElement
+    ImageAbstractElement
 )
 
 const ImageButtonElement = Element.new<<ImageButton>>(
@@ -379,11 +379,11 @@ const ImageButtonElement = Element.new<<ImageButton>>(
     {
         class = "ImageButton",
     },
-    BaseImageElement,
-    BaseButtonElement
+    ImageAbstractElement,
+    GuiButtonAbstractElement
 )
 
-const ImageLinkElement = Element.new<<ImageButton>>(
+const ImageLinkButtonElement = Element.new<<ImageButton>>(
     "ImageButton",
     "ImageButton?link",
     {},
@@ -393,8 +393,8 @@ const ImageLinkElement = Element.new<<ImageButton>>(
     {
         class = "ImageButton?link",
     },
-    BaseImageElement,
-    BaseLinkElement
+    ImageAbstractElement,
+    LinkButtonAbstractElement
 )
 
 const FolderElement = Element.new<<Folder>>(
@@ -407,10 +407,10 @@ const FolderElement = Element.new<<Folder>>(
     {
         class = "Folder",
     },
-    BaseElement
+    RootAbstractElement
 )
 
-const AspectRatioElement = Element.new<<UIAspectRatioConstraint>>(
+const UIAspectRatioConstraintElement = Element.new<<UIAspectRatioConstraint>>(
     "UIAspectRatioConstraint",
     "UIAspectRatioConstraint",
     {
@@ -422,10 +422,10 @@ const AspectRatioElement = Element.new<<UIAspectRatioConstraint>>(
     {
         class = "UIAspectRatioConstraint",
     },
-    BaseElement
+    RootAbstractElement
 )
 
-const ConstraintElement = Element.new<<UISizeConstraint>>(
+const UISizeConstraintElement = Element.new<<UISizeConstraint>>(
     "UISizeConstraint",
     "UISizeConstraint",
     {
@@ -438,10 +438,10 @@ const ConstraintElement = Element.new<<UISizeConstraint>>(
     {
         class = "UISizeConstraint",
     },
-    BaseElement
+    RootAbstractElement
 )
 
-const CornerElement = Element.new<<UICorner>>(
+const UICornerElement = Element.new<<UICorner>>(
     "UICorner",
     "UICorner",
     {
@@ -454,10 +454,10 @@ const CornerElement = Element.new<<UICorner>>(
     {
         class = "UICorner",
     },
-    BaseElement
+    RootAbstractElement
 )
 
-const GradientElement = Element.new<<UIGradient>>(
+const UIGradientElement = Element.new<<UIGradient>>(
     "UIGradient",
     "UIGradient",
     {
@@ -472,10 +472,10 @@ const GradientElement = Element.new<<UIGradient>>(
     {
         class = "UIGradient",
     },
-    BaseElement
+    RootAbstractElement
 )
 
-const GridElement = Element.new<<UIGridLayout>>(
+const UIGridLayoutElement = Element.new<<UIGridLayout>>(
     "UIGridLayout",
     "UIGridLayout",
     {
@@ -490,10 +490,10 @@ const GridElement = Element.new<<UIGridLayout>>(
     {
         class = "UIGridLayout",
     },
-    BaseGridStyleElement
+    GridStyleAbstractElement
 )
 
-const ListElement = Element.new<<UIListLayout>>(
+const UIListLayoutElement = Element.new<<UIListLayout>>(
     "UIListLayout",
     "UIListLayout",
     {
@@ -507,10 +507,10 @@ const ListElement = Element.new<<UIListLayout>>(
     {
         class = "UIListLayout",
     },
-    BaseGridStyleElement
+    GridStyleAbstractElement
 )
 
-const PaddingElement = Element.new<<UIPadding>>(
+const UIPaddingElement = Element.new<<UIPadding>>(
     "UIPadding",
     "UIPadding",
     {
@@ -525,10 +525,10 @@ const PaddingElement = Element.new<<UIPadding>>(
     {
         class = "UIPadding",
     },
-    BaseElement
+    RootAbstractElement
 )
 
-const OutlineElement = Element.new<<UIStroke>>(
+const UIStrokeElement = Element.new<<UIStroke>>(
     "UIStroke",
     "UIStroke",
     {
@@ -549,10 +549,10 @@ const OutlineElement = Element.new<<UIStroke>>(
     {
         class = "UIStroke",
     },
-    BaseElement
+    RootAbstractElement
 )
 
-const FlexItemElement = Element.new<<UIFlexItem>>(
+const UIFlexItemElement = Element.new<<UIFlexItem>>(
     "UIFlexItem",
     "UIFlexItem",
     {
@@ -565,41 +565,41 @@ const FlexItemElement = Element.new<<UIFlexItem>>(
     {
         class = "UIFlexItem",
     },
-    BaseElement
+    RootAbstractElement
 )
 
 return table.freeze({
     Abstract = table.freeze({
-        BaseElement = BaseElement,
-        BaseGuiElement = BaseGuiElement,
-        BaseTextElement = BaseTextElement,
-        BaseImageElement = BaseImageElement,
-        BaseButtonElement = BaseButtonElement,
-        BaseLinkElement = BaseLinkElement,
-        BaseGridStyleElement = BaseGridStyleElement,
+        Root = RootAbstractElement,
+        Gui = GuiAbstractElement,
+        Text = TextAbstractElement,
+        Image = ImageAbstractElement,
+        GuiButton = GuiButtonAbstractElement,
+        LinkButton = LinkButtonAbstractElement,
+        GridStyle = GridStyleAbstractElement,
     }),
     Element = table.freeze({
-        FrameElement = FrameElement,
-        ScrollableFrameElement = ScrollableFrameElement,
-        TextElement = TextElement,
-        InputElement = InputElement,
-        ButtonElement = ButtonElement,
-        LinkButtonElement = LinkButtonElement,
-        DonationElement = DonationElement,
-        TransferElement = TransferElement,
-        AvatarItemElement = AvatarItemElement,
-        ImageElement = ImageElement,
-        ImageButtonElement = ImageButtonElement,
-        ImageLinkElement = ImageLinkElement,
-        FolderElement = FolderElement,
-        AspectRatioElement = AspectRatioElement,
-        ConstraintElement = ConstraintElement,
-        CornerElement = CornerElement,
-        GradientElement = GradientElement,
-        GridElement = GridElement,
-        ListElement = ListElement,
-        PaddingElement = PaddingElement,
-        OutlineElement = OutlineElement,
-        FlexItemElement = FlexItemElement,
+        Frame = FrameElement,
+        ScrollingFrame = ScrollingFrameElement,
+        TextLabel = TextLabelElement,
+        TextBox = TextBoxElement,
+        TextButton = TextButtonElement,
+        ["TextButton?link"] = LinkButtonElement,
+        ["TextButton?donation"] = DonationButtonElement,
+        ["TextButton?transfer"] = TransferButtonElement,
+        ["TextButton?avataritem"] = AvatarItemButtonElement,
+        ImageLabel = ImageLabelElement,
+        ImageButton = ImageButtonElement,
+        ["ImageButton?link"] = ImageLinkButtonElement,
+        Folder = FolderElement,
+        UIAspectRatioConstraint = UIAspectRatioConstraintElement,
+        UISizeConstraint = UISizeConstraintElement,
+        UICorner = UICornerElement,
+        UIGradient = UIGradientElement,
+        UIGridLayout = UIGridLayoutElement,
+        UIListLayout = UIListLayoutElement,
+        UIPadding = UIPaddingElement,
+        UIStroke = UIStrokeElement,
+        UIFlexItem = UIFlexItemElement,
     })
 })

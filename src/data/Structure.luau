@@ -14,12 +14,13 @@ export type JSONTable = { [string | number]: JSONUnknown }
 ]=]
 export type AbstractElementClassNames =
 	"WebContent"
-	| "BaseElement"
-	| "BaseGuiElement"
-	| "BaseButtonElement"
-	| "BaseTextElement"
-	| "BaseImageElement"
-	| "BaseLinkElement"
+	| "Root"
+	| "Gui"
+	| "GuiButton"
+	| "Text"
+	| "Image"
+	| "LinkButton"
+	| "GridStyle"
 --[=[
 	Representation of all real CatWeb Element Classes.
 ]=]
@@ -51,7 +52,7 @@ export type ElementClassNames =
 --[=[
 	Utility type to represent an Element with string indexed properties of a `JSONUnknown` type.
 ]=]
-export type UnknownElement = BaseElement & {
+export type UnknownElement = RootAbstractElement & {
 	[string]: JSONUnknown,
 }
 
@@ -59,7 +60,7 @@ export type UnknownElement = BaseElement & {
 	Abstract JSON Element for all CatWeb Elements.
 	@since 1.2.0
 ]=]
-export type BaseElement = {
+export type RootAbstractElement = {
 	alias: string?,
 	class: string,
 	children: { UnknownElement }?,
@@ -69,7 +70,7 @@ export type BaseElement = {
 	Abstract JSON Element for all CatWeb Gui Elements.
 	@since 1.2.0
 ]=]
-export type BaseGuiElement = {
+export type GuiAbstractElement = {
 	anchor: string?,
 	background_color: string?,
 	background_transparency: string?,
@@ -87,7 +88,7 @@ export type BaseGuiElement = {
 	Abstract JSON Element for all CatWeb Text Elements.
 	@since 1.2.0
 ]=]
-export type BaseTextElement = BaseGuiElement & {
+export type TextAbstractElement = GuiAbstractElement & {
 	align_x: string?,
 	align_y: string?,
 	font: string?,
@@ -106,7 +107,7 @@ export type BaseTextElement = BaseGuiElement & {
 	Abstract JSON Element for all CatWeb Image Elements.
 	@since 1.2.0
 ]=]
-export type BaseImageElement = BaseGuiElement & {
+export type ImageAbstractElement = GuiAbstractElement & {
 	image: string?,
 	image_color: string?,
 	image_id: string?,
@@ -120,14 +121,14 @@ export type BaseImageElement = BaseGuiElement & {
 	Abstract JSON Element for all CatWeb Button Elements.
 	@since 1.2.0
 ]=]
-export type BaseButtonElement = BaseGuiElement & {
+export type GuiButtonAbstractElement = GuiAbstractElement & {
 	auto_color: string?,
 }
 --[=[
 	Abstract JSON Element for all CatWeb Link Elements.
 	@since 1.2.0
 ]=]
-export type BaseLinkElement = BaseButtonElement & {
+export type LinkButtonAbstractElement = GuiButtonAbstractElement & {
 	href: string?,
 	new_tab: string?,
 }
@@ -135,7 +136,7 @@ export type BaseLinkElement = BaseButtonElement & {
 	Abstract JSON Element for all CatWeb Grid Styling Elements.
 	@since 1.3.0
 ]=]
-export type BaseGridStyleElement = BaseElement & {
+export type GridStyleAbstractElement = RootAbstractElement & {
 	alignment_horizontal: string?,
 	alignment_vertical: string?,
 	sort: string?,
@@ -145,12 +146,12 @@ export type BaseGridStyleElement = BaseElement & {
 	CatWeb Frame Element.
 	@since 1.2.0
 ]=]
-export type FrameElement = BaseGuiElement
+export type FrameElement = GuiAbstractElement
 --[=[
 	CatWeb ScrollableFrame Element.
 	@since 1.3.0
 ]=]
-export type ScrollableFrameElement = BaseGuiElement & {
+export type ScrollingFrameElement = GuiAbstractElement & {
 	canvassize: string?,
 	scrollbar_color: string?,
 	scrollbar_thickness: string?,
@@ -160,12 +161,12 @@ export type ScrollableFrameElement = BaseGuiElement & {
 	CatWeb Text Element.
 	@since 1.2.0
 ]=]
-export type TextElement = BaseTextElement
+export type TextLabelElement = TextAbstractElement
 --[=[
 	CatWeb Input Element.
 	@since 1.2.0
 ]=]
-export type InputElement = BaseTextElement & {
+export type TextBoxElement = TextAbstractElement & {
 	editable: string?,
 	multiline: string?,
 	placeholder: string?,
@@ -175,12 +176,12 @@ export type InputElement = BaseTextElement & {
 	CatWeb Button Element.
 	@since 1.2.0
 ]=]
-export type ButtonElement = BaseTextElement & BaseButtonElement
+export type TextButtonElement = TextAbstractElement & GuiButtonAbstractElement
 --[=[
 	CatWeb Link Element.
 	@since 1.2.0
 ]=]
-export type LinkElement = BaseTextElement & BaseLinkElement
+export type LinkButtonElement = TextAbstractElement & LinkButtonAbstractElement
 --[=[
 	CatWeb Donation Element.
 	@deprecated As of 2.17.3.0 due to
@@ -188,7 +189,7 @@ export type LinkElement = BaseTextElement & BaseLinkElement
 	in favor of the Transfers API, use TransferElement or AvatarItemElement instead.
 	@since 1.2.0
 ]=]
-export type DonationElement = ButtonElement & {
+export type DonationButtonElement = TextButtonElement & {
 	product: string?,
 	product_type: string?,
 	thanks_href: string?,
@@ -197,7 +198,7 @@ export type DonationElement = ButtonElement & {
 	CatWeb Transfer Element.
 	@since 2.17.3.0
 ]=]
-export type TransferElement = ButtonElement & {
+export type TransferButtonElement = TextButtonElement & {
 	robux_amount: string?,
 	transfer_id: string?,
 }
@@ -205,7 +206,7 @@ export type TransferElement = ButtonElement & {
 	CatWeb Avatar Item Element.
 	@since 2.17.3.0
 ]=]
-export type AvatarItemElement = ButtonElement & {
+export type AvatarItemButtonElement = TextButtonElement & {
 	product: string?,
 	product_type: string?,
 }
@@ -213,35 +214,35 @@ export type AvatarItemElement = ButtonElement & {
 	CatWeb Image Element.
 	@since 1.2.0
 ]=]
-export type ImageElement = BaseImageElement
+export type ImageLabelElement = ImageAbstractElement
 --[=[
 	CatWeb Image Button Element.
 	@since 2.18.0.0
 ]=]
-export type ImageButtonElement = BaseImageElement & BaseButtonElement
+export type ImageButtonElement = ImageAbstractElement & GuiButtonAbstractElement
 --[=[
 	CatWeb Image Link Element.
 	@since 2.18.0.0
 ]=]
-export type ImageLinkElement = BaseImageElement & BaseLinkElement
+export type ImageLinkButtonElement = ImageAbstractElement & LinkButtonAbstractElement
 --[=[
 	CatWeb Folder Element.
 	@since 2.8.0
 ]=]
-export type FolderElement = BaseElement
+export type FolderElement = RootAbstractElement
 
 --[=[
 	CatWeb AspectRatio Element.
 	@since 1.7.0
 ]=]
-export type AspectRatioElement = BaseElement & {
+export type UIAspectRatioConstraintElement = RootAbstractElement & {
 	ratio: string?,
 }
 --[=[
 	CatWeb Constraint Element.
 	@since 1.7.0
 ]=]
-export type ConstraintElement = BaseElement & {
+export type UISizeConstraintElement = RootAbstractElement & {
 	max_size: string?,
 	min_size: string?,
 }
@@ -249,14 +250,14 @@ export type ConstraintElement = BaseElement & {
 	CatWeb Corner Element.
 	@since 1.3.0
 ]=]
-export type CornerElement = BaseElement & {
+export type UICornerElement = RootAbstractElement & {
 	radius: string?,
 }
 --[=[
 	CatWeb Gradient Element.
 	@since 2.10.0
 ]=]
-export type GradientElement = BaseElement & {
+export type UIGradientElement = RootAbstractElement & {
 	gradient_color: string?,
 	gradient_offset: string?,
 	gradient_transparency: string?,
@@ -266,7 +267,7 @@ export type GradientElement = BaseElement & {
 	CatWeb Grid Element.
 	@since 1.3.0
 ]=]
-export type GridElement = BaseGridStyleElement & {
+export type UIGridLayoutElement = GridStyleAbstractElement & {
 	padding: string?,
 	size: string?,
 }
@@ -274,7 +275,7 @@ export type GridElement = BaseGridStyleElement & {
 	CatWeb List Element.
 	@since 1.3.0
 ]=]
-export type ListElement = BaseGridStyleElement & {
+export type UIListLayoutElement = GridStyleAbstractElement & {
 	direction: string?,
 	padding: string?,
 	wrap_list: string?,
@@ -283,7 +284,7 @@ export type ListElement = BaseGridStyleElement & {
 	CatWeb Padding Element.
 	@since 1.2.0
 ]=]
-export type PaddingElement = BaseElement & {
+export type UIPaddingElement = RootAbstractElement & {
 	bottom: string?,
 	left: string?,
 	right: string?,
@@ -293,7 +294,7 @@ export type PaddingElement = BaseElement & {
 	CatWeb Outline Element.
 	@since 1.3.0
 ]=]
-export type OutlineElement = BaseElement & {
+export type UIStrokeElement = RootAbstractElement & {
 	stroke_color: string?,
 	stroke_mode: string?,
 	stroke_offset: string?,
@@ -308,7 +309,7 @@ export type OutlineElement = BaseElement & {
 	CatWeb Flex Item Element.
 	@since 2.18.0.0
 ]=]
-export type FlexItemElement = BaseElement & {
+export type UIFlexItemElement = RootAbstractElement & {
 	flex_mode: string?,
 	alignment_item_line: string?,
 }
