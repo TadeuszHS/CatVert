@@ -131,6 +131,15 @@ export type BaseLinkElement = BaseButtonElement & {
 	href: string?,
 	new_tab: string?,
 }
+--[=[
+	Abstract JSON Element for all CatWeb Grid Styling Elements.
+	@since 1.3.0
+]=]
+export type BaseGridStyleElement = BaseElement & {
+	alignment_horizontal: string?,
+	alignment_vertical: string?,
+	sort: string?,
+}
 
 --[=[
 	CatWeb Frame Element.
@@ -147,7 +156,6 @@ export type ScrollableFrameElement = BaseGuiElement & {
 	scrollbar_thickness: string?,
 	scrollbar_transparency: string?,
 }
-
 --[=[
 	CatWeb Text Element.
 	@since 1.2.0
@@ -173,7 +181,6 @@ export type ButtonElement = BaseTextElement & BaseButtonElement
 	@since 1.2.0
 ]=]
 export type LinkElement = BaseTextElement & BaseLinkElement
-
 --[=[
 	CatWeb Donation Element.
 	@deprecated As of 2.17.3.0 due to
@@ -202,7 +209,6 @@ export type AvatarItemElement = ButtonElement & {
 	product: string?,
 	product_type: string?,
 }
-
 --[=[
 	CatWeb Image Element.
 	@since 1.2.0
@@ -218,7 +224,6 @@ export type ImageButtonElement = BaseImageElement & BaseButtonElement
 	@since 2.18.0.0
 ]=]
 export type ImageLinkElement = BaseImageElement & BaseLinkElement
-
 --[=[
 	CatWeb Folder Element.
 	@since 2.8.0
@@ -261,23 +266,17 @@ export type GradientElement = BaseElement & {
 	CatWeb Grid Element.
 	@since 1.3.0
 ]=]
-export type GridElement = BaseElement & {
-	alignment_horizontal: string?,
-	alignment_vertical: string?,
+export type GridElement = BaseGridStyleElement & {
 	padding: string?,
 	size: string?,
-	sort: string?,
 }
 --[=[
 	CatWeb List Element.
 	@since 1.3.0
 ]=]
-export type ListElement = BaseElement & {
-	alignment_horizontal: string?,
-	alignment_vertical: string?,
+export type ListElement = BaseGridStyleElement & {
 	direction: string?,
 	padding: string?,
-	sort: string?,
 	wrap_list: string?,
 }
 --[=[
