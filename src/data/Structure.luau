@@ -67,13 +67,13 @@ export type StructureType = "WebContent" | "ElementGroup"
 	@since 1.2.0
 ]=]
 export type WebContentAbstractElement = {
-	description: string?,
-	favicon: string?,
-	thumbnail_id: string?,
-	webcontent: { UnknownElement }?,
-	title: string?,
-	background: string?,
-	thumbanil: string?,
+	description: JSONUnknown,
+	favicon: JSONUnknown,
+	thumbnail_id: JSONUnknown,
+	webcontent: JSONUnknown,
+	title: JSONUnknown,
+	background: JSONUnknown,
+	thumbanil: JSONUnknown,
 }
 --[=[
 	Represents an array of Elements in CatWeb
@@ -86,85 +86,85 @@ export type ElementGroup = { UnknownElement }
 	@since 1.2.0
 ]=]
 export type RootAbstractElement = {
-	alias: string?,
-	class: string,
-	children: { UnknownElement }?,
-	globalid: string,
+	alias: JSONUnknown,
+	class: JSONUnknown,
+	children: JSONUnknown,
+	globalid: JSONUnknown,
 }
 --[=[
 	Abstract JSON Element for all CatWeb Gui Elements.
 	@since 1.2.0
 ]=]
 export type GuiAbstractElement = {
-	anchor: string?,
-	background_color: string?,
-	background_transparency: string?,
-	canvas: string?,
-	position: string?,
-	rotation: string?,
-	size: string?,
-	height: string?,
-	width: string?,
-	tooltip: string?,
-	visible: string?,
-	z_index: string?,
+	anchor: JSONUnknown,
+	background_color: JSONUnknown,
+	background_transparency: JSONUnknown,
+	canvas: JSONUnknown,
+	position: JSONUnknown,
+	rotation: JSONUnknown,
+	size: JSONUnknown,
+	height: JSONUnknown,
+	width: JSONUnknown,
+	tooltip: JSONUnknown,
+	visible: JSONUnknown,
+	z_index: JSONUnknown,
 }
 --[=[
 	Abstract JSON Element for all CatWeb Text Elements.
 	@since 1.2.0
 ]=]
 export type TextAbstractElement = GuiAbstractElement & {
-	align_x: string?,
-	align_y: string?,
-	font: string?,
-	font_color: string?,
-	font_size: string?,
-	font_style: string?,
-	font_transparency: string?,
-	font_weight: string?,
-	line_height: string?,
-	rich: string?,
-	text: string?,
-	truncate: string?,
-	wrap: string?,
+	align_x: JSONUnknown,
+	align_y: JSONUnknown,
+	font: JSONUnknown,
+	font_color: JSONUnknown,
+	font_size: JSONUnknown,
+	font_style: JSONUnknown,
+	font_transparency: JSONUnknown,
+	font_weight: JSONUnknown,
+	line_height: JSONUnknown,
+	rich: JSONUnknown,
+	text: JSONUnknown,
+	truncate: JSONUnknown,
+	wrap: JSONUnknown,
 }
 --[=[
 	Abstract JSON Element for all CatWeb Image Elements.
 	@since 1.2.0
 ]=]
 export type ImageAbstractElement = GuiAbstractElement & {
-	image: string?,
-	image_color: string?,
-	image_id: string?,
-	image_transparency: string?,
-	resample_mode: string?,
-	scale_type: string?,
-	slice_center: string?,
-	slice_scale: string?,
+	image: JSONUnknown,
+	image_color: JSONUnknown,
+	image_id: JSONUnknown,
+	image_transparency: JSONUnknown,
+	resample_mode: JSONUnknown,
+	scale_type: JSONUnknown,
+	slice_center: JSONUnknown,
+	slice_scale: JSONUnknown,
 }
 --[=[
 	Abstract JSON Element for all CatWeb Button Elements.
 	@since 1.2.0
 ]=]
 export type GuiButtonAbstractElement = GuiAbstractElement & {
-	auto_color: string?,
+	auto_color: JSONUnknown,
 }
 --[=[
 	Abstract JSON Element for all CatWeb Link Elements.
 	@since 1.2.0
 ]=]
 export type LinkButtonAbstractElement = GuiButtonAbstractElement & {
-	href: string?,
-	new_tab: string?,
+	href: JSONUnknown,
+	new_tab: JSONUnknown,
 }
 --[=[
 	Abstract JSON Element for all CatWeb Grid Styling Elements.
 	@since 1.3.0
 ]=]
 export type GridStyleAbstractElement = RootAbstractElement & {
-	alignment_horizontal: string?,
-	alignment_vertical: string?,
-	sort: string?,
+	alignment_horizontal: JSONUnknown,
+	alignment_vertical: JSONUnknown,
+	sort: JSONUnknown,
 }
 
 --[=[
@@ -177,10 +177,10 @@ export type FrameElement = GuiAbstractElement
 	@since 1.3.0
 ]=]
 export type ScrollingFrameElement = GuiAbstractElement & {
-	canvassize: string?,
-	scrollbar_color: string?,
-	scrollbar_thickness: string?,
-	scrollbar_transparency: string?,
+	canvassize: JSONUnknown,
+	scrollbar_color: JSONUnknown,
+	scrollbar_thickness: JSONUnknown,
+	scrollbar_transparency: JSONUnknown,
 }
 --[=[
 	CatWeb Text Element.
@@ -192,10 +192,10 @@ export type TextLabelElement = TextAbstractElement
 	@since 1.2.0
 ]=]
 export type TextBoxElement = TextAbstractElement & {
-	editable: string?,
-	multiline: string?,
-	placeholder: string?,
-	placeholder_color: string?,
+	editable: JSONUnknown,
+	multiline: JSONUnknown,
+	placeholder: JSONUnknown,
+	placeholder_color: JSONUnknown,
 }
 --[=[
 	CatWeb Button Element.
@@ -215,25 +215,25 @@ export type LinkButtonElement = TextAbstractElement & LinkButtonAbstractElement
 	@since 1.2.0
 ]=]
 export type DonationButtonElement = TextButtonElement & {
-	product: string?,
-	product_type: string?,
-	thanks_href: string?,
+	product: JSONUnknown,
+	product_type: JSONUnknown,
+	thanks_href: JSONUnknown,
 }
 --[=[
 	CatWeb Transfer Element.
 	@since 2.17.3.0
 ]=]
 export type TransferButtonElement = TextButtonElement & {
-	robux_amount: string?,
-	transfer_id: string?,
+	robux_amount: JSONUnknown,
+	transfer_id: JSONUnknown,
 }
 --[=[
 	CatWeb Avatar Item Element.
 	@since 2.17.3.0
 ]=]
 export type AvatarItemButtonElement = TextButtonElement & {
-	product: string?,
-	product_type: string?,
+	product: JSONUnknown,
+	product_type: JSONUnknown,
 }
 --[=[
 	CatWeb Image Element.
@@ -261,82 +261,82 @@ export type FolderElement = RootAbstractElement
 	@since 1.7.0
 ]=]
 export type UIAspectRatioConstraintElement = RootAbstractElement & {
-	ratio: string?,
+	ratio: JSONUnknown,
 }
 --[=[
 	CatWeb Constraint Element.
 	@since 1.7.0
 ]=]
 export type UISizeConstraintElement = RootAbstractElement & {
-	max_size: string?,
-	min_size: string?,
+	max_size: JSONUnknown,
+	min_size: JSONUnknown,
 }
 --[=[
 	CatWeb Corner Element.
 	@since 1.3.0
 ]=]
 export type UICornerElement = RootAbstractElement & {
-	radius: string?,
+	radius: JSONUnknown,
 }
 --[=[
 	CatWeb Gradient Element.
 	@since 2.10.0
 ]=]
 export type UIGradientElement = RootAbstractElement & {
-	gradient_color: string?,
-	gradient_offset: string?,
-	gradient_transparency: string?,
-	rotation: string?,
+	gradient_color: JSONUnknown,
+	gradient_offset: JSONUnknown,
+	gradient_transparency: JSONUnknown,
+	rotation: JSONUnknown,
 }
 --[=[
 	CatWeb Grid Element.
 	@since 1.3.0
 ]=]
 export type UIGridLayoutElement = GridStyleAbstractElement & {
-	padding: string?,
-	size: string?,
+	padding: JSONUnknown,
+	size: JSONUnknown,
 }
 --[=[
 	CatWeb List Element.
 	@since 1.3.0
 ]=]
 export type UIListLayoutElement = GridStyleAbstractElement & {
-	direction: string?,
-	padding: string?,
-	wrap_list: string?,
+	direction: JSONUnknown,
+	padding: JSONUnknown,
+	wrap_list: JSONUnknown,
 }
 --[=[
 	CatWeb Padding Element.
 	@since 1.2.0
 ]=]
 export type UIPaddingElement = RootAbstractElement & {
-	bottom: string?,
-	left: string?,
-	right: string?,
-	top: string?,
+	bottom: JSONUnknown,
+	left: JSONUnknown,
+	right: JSONUnknown,
+	top: JSONUnknown,
 }
 --[=[
 	CatWeb Outline Element.
 	@since 1.3.0
 ]=]
 export type UIStrokeElement = RootAbstractElement & {
-	stroke_color: string?,
-	stroke_mode: string?,
-	stroke_offset: string?,
-	stroke_position: string?,
-	stroke_sizing_mode: string?,
-	stroke_thickness: string?,
-	stroke_transparency: string?,
-	stroke_type: string?,
-	z_index: string?,
+	stroke_color: JSONUnknown,
+	stroke_mode: JSONUnknown,
+	stroke_offset: JSONUnknown,
+	stroke_position: JSONUnknown,
+	stroke_sizing_mode: JSONUnknown,
+	stroke_thickness: JSONUnknown,
+	stroke_transparency: JSONUnknown,
+	stroke_type: JSONUnknown,
+	z_index: JSONUnknown,
 }
 --[=[
 	CatWeb Flex Item Element.
 	@since 2.18.0.0
 ]=]
 export type UIFlexItemElement = RootAbstractElement & {
-	flex_mode: string?,
-	alignment_item_line: string?,
+	flex_mode: JSONUnknown,
+	alignment_item_line: JSONUnknown,
 }
 
 return table.freeze({})

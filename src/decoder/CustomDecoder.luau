@@ -19,7 +19,7 @@ const CustomDecoder = table.freeze({
     Abstract = table.freeze({
         WebContent = table.freeze({
             webcontent = function(element: WebContentAbstractElement, inst: Instance, element_to_inst: (UnknownElement) -> Instance): ()
-                if not element.webcontent then
+                if typeof(element.webcontent) ~= "table" then
                     return
                 end
 
@@ -31,7 +31,7 @@ const CustomDecoder = table.freeze({
 
         Root = table.freeze({
             children = function(element: RootAbstractElement, inst: Instance, element_to_inst: (UnknownElement) -> Instance): ()
-                if not element.children then
+                if typeof(element.children) ~= "table" then
                     return
                 end
 
