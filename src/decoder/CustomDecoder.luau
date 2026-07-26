@@ -21,14 +21,18 @@ const CustomDecoder = table.freeze({
 			webcontent = function(
 				element: WebContentAbstractElement,
 				inst: Instance,
-				element_to_inst: (UnknownElement) -> Instance
+				element_to_inst: (UnknownElement) -> Instance?
 			): ()
 				if typeof(element.webcontent) ~= "table" then
 					return
 				end
 
 				for _, element_child in element.webcontent do
-					element_to_inst(element_child).Parent = inst
+					const inst_child = element_to_inst(element_child)
+					
+					if inst_child then
+						inst_child.Parent = inst
+					end
 				end
 			end :: CustomDecodeFunction,
 		}),
@@ -37,14 +41,18 @@ const CustomDecoder = table.freeze({
 			children = function(
 				element: RootAbstractElement,
 				inst: Instance,
-				element_to_inst: (UnknownElement) -> Instance
+				element_to_inst: (UnknownElement) -> Instance?
 			): ()
 				if typeof(element.children) ~= "table" then
 					return
 				end
 
 				for _, element_child in element.children do
-					element_to_inst(element_child).Parent = inst
+					const inst_child = element_to_inst(element_child)
+					
+					if inst_child then
+						inst_child.Parent = inst
+					end
 				end
 			end :: CustomDecodeFunction,
 		}),
@@ -78,11 +86,15 @@ const CustomDecoder = table.freeze({
 		Text = table.freeze({
 			font = function(element: TextAbstractElement, inst: TextLabel, _): ()
 				const id = TypeDecoder.number(element.font)
+				const prev_weight = inst.FontFace.Weight
+				const prev_style = inst.FontFace.Style
+
 				if id then
-					inst.FontFace = Font.fromId(id, inst.FontFace.Weight, inst.FontFace.Style)
+					inst.FontFace = Font.fromId(id, prev_weight, prev_style)
 				else
-					inst.FontFace =
-						Font.fromName(TypeDecoder.string(element.font), inst.FontFace.Weight, inst.FontFace.Style)
+					inst.FontFace = Font.fromEnum(TypeDecoder.Font(element.font) :: Enum.Font)
+					inst.FontFace.Weight = prev_weight
+					inst.FontFace.Style = prev_style
 				end
 			end :: CustomDecodeFunction,
 

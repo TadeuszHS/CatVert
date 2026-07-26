@@ -1,6 +1,7 @@
 --!nonstrict
 
 const HttpService = game:GetService("HttpService")
+const Logger = require("../util/Logger")
 const Structure = require("../data/Structure")
 const Conversion = require("../data/Conversion")
 const TypeDecoder = require("./TypeDecoder")
@@ -8,6 +9,7 @@ const Defaults = require("../data/Defaults")
 const AbstractElement = require("../data/element/AbstractElement")
 const Property = require("../data/property/Property")
 
+type JSONUnknown = Structure.JSONUnknown
 type JSONTable = Structure.JSONTable
 type UnknownElement = Structure.UnknownElement
 type ElementGroup = Structure.ElementGroup
@@ -16,12 +18,17 @@ type ElementClassNames = Structure.ElementClassNames
 type AbstractElementType = AbstractElement.AbstractElement
 type Property = Property.Property
 
-const function getStructureType(decoded: JSONTable): StructureType
-	if decoded.webcontent ~= nil then
+const function getStructureType(decoded: JSONTable): StructureType?
+	Logger.withStatus("Decoding").withProcess("DetermineStructureType").withArgs(decoded)
+
+	if typeof(decoded.webcontent) == "table" then
 		return "WebContent"
+	elseif typeof(decoded[1]) == "table" then
+		return "ElementGroup"
 	end
 
-	return "ElementGroup"
+	Logger.event("Error", "Unable to determine StructureType")
+	return nil
 end
 
 const Decoder = {}
@@ -29,26 +36,62 @@ const Decoder = {}
 const function applyElement(element_def: AbstractElementType, element: UnknownElement, inst: Instance): Instance
 	for catweb_index, property in element_def.properties do
 		if element[catweb_index] == nil then
+			Logger.withStatus("Decoding")
+				.withProcess("Apply")
+				.withArgs(element_def, element, inst, catweb_index, property)
+				.event("Info", "Skipping due to property being nil in Element")
 			continue
 		end
 
+		local success
+
 		if property.class == "Property" then
-			(inst :: any)[property.roblox_index] = TypeDecoder[property.value_type](element[catweb_index])
+			success = pcall(function()
+				const decoded = TypeDecoder[property.value_type](element[catweb_index])
+				if decoded ~= nil then
+					(inst :: any)[property.roblox_index] = decoded
+				end
+			end)
+
+			Logger.withStatus("Decoding")
+				.withProcess("ApplyProperty")
+				.withArgs(element_def, element, inst, catweb_index, property)
 		elseif property.class == "Attribute" then
-			inst:SetAttribute(property.catweb_index, TypeDecoder[property.value_type](element[catweb_index]))
+			success = pcall(function()
+				inst:SetAttribute(property.catweb_index, TypeDecoder[property.value_type](element[catweb_index]))
+			end)
+
+			Logger.withStatus("Decoding")
+				.withProcess("ApplyAttribute")
+				.withArgs(element_def, element, inst, catweb_index, property)
 		elseif property.class == "Custom" then
-			property.decode(element, inst, Decoder.decodeElement)
+			success = pcall(function()
+				property.decode(element, inst, Decoder.decodeElement)
+			end)
+
+			Logger.withStatus("Decoding")
+				.withProcess("ApplyCustom")
+				.withArgs(element_def, element, inst, catweb_index, property)
+		end
+
+		if not success then
+			Logger.event("Warn", "Unable to apply property to Instance")
 		end
 	end
 
 	return inst
 end
 
-function Decoder.decodeElement(element: UnknownElement): Instance
+function Decoder.decodeElement(element: UnknownElement): Instance?
+	Logger.withStatus("Decoding").withProcess("CreateInstance").withArgs(element)
+
 	const class = TypeDecoder.string(element.class) :: ElementClassNames
 	const element_def = Conversion.Element[class]
+
+	Logger.withArgs(element, class, element_def)
+
 	if not element_def then
-		warn(`unsupported class {class}`)
+		return Logger.event("Warn", "Unsupported class")
 	end
 
 	const inst = Defaults.new(class)
@@ -64,21 +107,37 @@ function Decoder.decodeElementGroup(elements: ElementGroup): { Instance }
 	const instances = {}
 
 	for i, element in elements do
-		instances[i] = Decoder.decodeElement(element)
+		const inst = Decoder.decodeElement(element)
+
+		if inst then
+			table.insert(instances, inst)
+		end
 	end
 
 	return instances
 end
 
-function Decoder.decode(json: string): Instance | { Instance }
-	const decoded = HttpService:JSONDecode(json) :: JSONTable
-	const structure_type = getStructureType(decoded)
+function Decoder.decodeJSON(json: string): (Instance | { Instance })?
+	Logger.withStatus("Decoding").withProcess("JSONTranscode").withArgs(json)
 
-	if structure_type == "WebContent" then
-		return Decoder.decodeWebContent(decoded)
+	const success, decoded = pcall(function()
+		return HttpService:JSONDecode(json) :: JSONUnknown
+	end)
+
+	if not success then
+		return Logger.event("Error", "HttpService failed to Decode JSON, this is likely due to a syntax error")
+	elseif typeof(decoded) ~= "table" then
+		return Logger.event("Error", "Expected to decode table")
 	end
 
-	return Decoder.decodeElementGroup(decoded :: ElementGroup)
+	const structure_type = getStructureType(decoded)
+	if structure_type == "WebContent" then
+		return Decoder.decodeWebContent(decoded)
+	elseif structure_type == "ElementGroup" then
+		return Decoder.decodeElementGroup(decoded)
+	end
+
+	return nil
 end
 
 return table.freeze(Decoder)
