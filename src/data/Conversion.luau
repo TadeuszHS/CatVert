@@ -8,6 +8,37 @@ const Custom = require("./property/Custom")
 const CustomEncoder = require("../encoder/CustomEncoder")
 const CustomDecoder = require("../decoder/CustomDecoder")
 
+const WebContentAbstractElement = AbstractElement.new<<Frame>>(
+    "WebContent",
+    {
+        Property.new("title", "Name", "string"),
+        Property.new("background", "BackgroundColor3", "Color3"),
+        Attribute.new("description", "string"),
+        Attribute.new("favicon", "number"),
+        Attribute.new("thumbnail_id", "number"),
+        Attribute.new("thumbnail", "string"),
+        Custom.new(
+            "webcontent",
+            CustomEncoder.Abstract.WebContent.webcontent,
+            CustomDecoder.Abstract.WebContent.webcontent
+        )
+    },
+    {
+        Name = "webcontent",
+        Size = UDim2.fromScale(1, 1),
+        Position = UDim2.fromScale(0.5, 0.5),
+        AnchorPoint = Vector2.new(0.5, 0.5),
+        BackgroundColor3 = Color3.fromHex("ffffff"),
+        ZIndex = 0,
+    },
+    {
+        description = "",
+        favicon = 0,
+        thumbnail_id = 0,
+        thumbnail = "",
+    }
+)
+
 const RootAbstractElement = AbstractElement.new<<Instance>>(
     "Root",
     {
@@ -570,6 +601,7 @@ const UIFlexItemElement = Element.new<<UIFlexItem>>(
 
 return table.freeze({
     Abstract = table.freeze({
+        WebContent = WebContentAbstractElement,
         Root = RootAbstractElement,
         Gui = GuiAbstractElement,
         Text = TextAbstractElement,

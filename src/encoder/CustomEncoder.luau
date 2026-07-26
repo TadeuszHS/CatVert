@@ -5,6 +5,7 @@ const Custom = require("../data/property/Custom")
 const TypeEncoder = require("./TypeEncoder")
 
 type UnknownElement = Structure.UnknownElement
+type WebContentAbstractElement = Structure.WebContentAbstractElement
 type RootAbstractElement = Structure.RootAbstractElement
 type GuiAbstractElement = Structure.GuiAbstractElement
 type TextAbstractElement = Structure.TextAbstractElement
@@ -13,6 +14,15 @@ type CustomEncodeFunction = Custom.CustomEncodeFunction
 
 const CustomEncoder = table.freeze({
     Abstract = table.freeze({
+        WebContent = table.freeze({
+            webcontent = function(element: WebContentAbstractElement, inst: Instance, inst_to_element: (Instance) -> UnknownElement)
+                element.webcontent = {}
+                for _, inst_child in inst:GetChildren() do
+                    table.insert(element.webcontent :: { UnknownElement }, inst_to_element(inst_child))
+                end
+            end :: CustomEncodeFunction,
+        }),
+
         Root = table.freeze({
             children = function(element: RootAbstractElement, inst: Instance, inst_to_element: (Instance) -> UnknownElement)
                 element.children = {}

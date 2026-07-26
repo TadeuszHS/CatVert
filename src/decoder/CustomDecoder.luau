@@ -8,6 +8,7 @@ const Custom = require("../data/property/Custom")
 const TypeDecoder = require("./TypeDecoder")
 
 type UnknownElement = Structure.UnknownElement
+type WebContentAbstractElement = Structure.WebContentAbstractElement
 type RootAbstractElement = Structure.RootAbstractElement
 type GuiAbstractElement = Structure.GuiAbstractElement
 type TextAbstractElement = Structure.TextAbstractElement
@@ -16,6 +17,18 @@ type CustomDecodeFunction = Custom.CustomDecodeFunction
 
 const CustomDecoder = table.freeze({
     Abstract = table.freeze({
+        WebContent = table.freeze({
+            webcontent = function(element: WebContentAbstractElement, inst: Instance, element_to_inst: (UnknownElement) -> Instance): ()
+                if not element.webcontent then
+                    return
+                end
+
+                for _, element_child in element.webcontent do
+                    element_to_inst(element_child).Parent = inst
+                end
+            end :: CustomDecodeFunction,
+        }),
+
         Root = table.freeze({
             children = function(element: RootAbstractElement, inst: Instance, element_to_inst: (UnknownElement) -> Instance): ()
                 if not element.children then

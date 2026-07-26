@@ -57,6 +57,31 @@ export type UnknownElement = RootAbstractElement & {
 }
 
 --[=[
+	CatWeb exports in two distinct structures which are:
+		* WebContent
+		* ElementGroup
+]=]
+export type StructureType = "WebContent" | "ElementGroup"
+--[=[
+	Represents a Page in CatWeb.
+	@since 1.2.0
+]=]
+export type WebContentAbstractElement = {
+	description: string?,
+	favicon: string?,
+	thumbnail_id: string?,
+	webcontent: { UnknownElement }?,
+	title: string?,
+	background: string?,
+	thumbanil: string?,
+}
+--[=[
+	Represents an array of Elements in CatWeb
+	@since 1.2.0
+]=]
+export type ElementGroup = { UnknownElement }
+
+--[=[
 	Abstract JSON Element for all CatWeb Elements.
 	@since 1.2.0
 ]=]
