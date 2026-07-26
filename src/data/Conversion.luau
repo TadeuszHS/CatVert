@@ -65,7 +65,7 @@ const GuiAbstractElement = AbstractElement.new<<GuiObject>>(
     {
         Property.new("anchor", "AnchorPoint", "Vector2"),
         Property.new("background_color", "BackgroundColor3", "Color3"),
-        Property.new("background_transparency", "BackgroundTransparency", "boolean"),
+        Property.new("background_transparency", "BackgroundTransparency", "number"),
         Property.new("canvas", "ClipsDescendants", "boolean"),
         Property.new("position", "Position", "UDim2"),
         Property.new("visible", "Visible", "boolean"),
@@ -112,7 +112,7 @@ const TextAbstractElement = AbstractElement.new<<TextLabel>>(
         Property.new("text", "Text", "string"),
         Property.new("wrap", "TextWrapped", "boolean"),
         Property.new("font_color", "TextColor3", "Color3"),
-        Property.new("font_transparency", "TextTransparency", "boolean"),
+        Property.new("font_transparency", "TextTransparency", "number"),
         Custom.new(
             "font",
             CustomEncoder.Abstract.Text.font,
@@ -154,7 +154,7 @@ const ImageAbstractElement = AbstractElement.new<<ImageLabel>>(
     {
         Property.new("image", "Image", "string"),
         Property.new("image_color", "ImageColor3", "Color3"),
-        Property.new("image_transparency", "ImageTransparency", "boolean"),
+        Property.new("image_transparency", "ImageTransparency", "number"),
         Property.new("resample_mode", "ResamplerMode", "ResamplerMode"),
         Property.new("scale_type", "ScaleType", "ScaleType"),
         Property.new("slice_center", "SliceCenter", "Rect"),
@@ -177,7 +177,7 @@ const ImageAbstractElement = AbstractElement.new<<ImageLabel>>(
 const GuiButtonAbstractElement = AbstractElement.new<<TextButton>>(
     "GuiButton",
     {
-        Property.new("auto_color", "AutomaticColor", "boolean"),
+        Property.new("auto_color", "AutoButtonColor", "boolean"),
     },
     {
         Name = "Button",
@@ -260,7 +260,7 @@ const ScrollingFrameElement = Element.new<<ScrollingFrame>>(
 
 const TextLabelElement = Element.new<<TextLabel>>(
     "TextLabel",
-    "Textlabel",
+    "TextLabel",
     {},
     {
         BackgroundTransparency = 1,
@@ -284,7 +284,7 @@ const TextBoxElement = Element.new<<TextBox>>(
         Name = "Input",
         Text = "",
         PlaceholderText = "Input",
-        PlaceholderTextColor = Color3.fromHex("b2b2b2"),
+        PlaceholderColor3 = Color3.fromHex("b2b2b2"),
         BackgroundColor3 = Color3.fromHex("c8c8c8"),
     },
     {
@@ -415,8 +415,8 @@ const ImageButtonElement = Element.new<<ImageButton>>(
 )
 
 const ImageLinkButtonElement = Element.new<<ImageButton>>(
-    "ImageButton",
     "ImageButton?link",
+    "ImageButton",
     {},
     {
         Name = "Image Link"
@@ -515,7 +515,7 @@ const UIGridLayoutElement = Element.new<<UIGridLayout>>(
     },
     {
         Name = "Grid",
-        CellPadding = UDim.new(0, 0),
+        CellPadding = UDim2.fromScale(0, 0),
         CellSize = UDim2.fromScale(0.2, 0.2),
     },
     {
