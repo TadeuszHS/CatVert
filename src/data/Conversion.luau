@@ -141,7 +141,7 @@ const TextAbstractElement = AbstractElement.new<<TextLabel>>(
 		Text = "Text",
 		TextScaled = true,
 		TextTruncate = Enum.TextTruncate.AtEnd,
-		FontFace = Font.fromName("SourceSans", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
+		FontFace = Font.fromName("SourceSansPro", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
 	},
 	{
 		class = "TextElement",
@@ -476,7 +476,7 @@ const UICornerElement = Element.new<<UICorner>>(
 	"UICorner",
 	"UICorner",
 	{
-		Property.new("radius", "Radius", "UDim"),
+		Property.new("radius", "CornerRadius", "UDim"),
 	},
 	{
 		Name = "Corner",
