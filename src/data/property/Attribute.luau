@@ -10,9 +10,9 @@ type PropertyClassNames = Property.PropertyClassNames
     Representation of a property that is exclusive to CatWeb and has no relation to Roblox Instance properties.
 ]=]
 export type Attribute = {
-    read class: PropertyClassNames,
-    read catweb_index: string,
-    read value_type: CatWebTypes,
+	read class: PropertyClassNames,
+	read catweb_index: string,
+	read value_type: CatWebTypes,
 }
 
 const Attribute = {}
@@ -25,11 +25,11 @@ const Attribute = {}
     @return Attribute
 ]=]
 function Attribute.new(catweb_index: string, value_type: CatWebTypes): Attribute
-    return table.freeze({
-        class = "Attribute" :: PropertyClassNames,
-        catweb_index = catweb_index,
-        value_type = value_type,
-    })
+	return table.freeze({
+		class = "Attribute" :: PropertyClassNames,
+		catweb_index = catweb_index,
+		value_type = value_type,
+	})
 end
 
 return table.freeze(Attribute)

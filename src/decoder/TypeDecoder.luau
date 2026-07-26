@@ -11,9 +11,9 @@ type CatWebTypes = Types.CatWebTypes
 type CatWebEnums = Types.CatWebEnums
 
 --[=[
-    Checks if the keypoint array is valid for being an argument of a sequence.
+	Checks if the keypoint array is valid for being an argument of a sequence.
 
-    Keypoints are only valid if they:
+	Keypoints are only valid if they:
 		* Have a minimum of two keypoints.
 		* Have a maximum of twenty keypoints.
 		* Have keypoints with 0 and 1 for time.
@@ -43,20 +43,20 @@ const function isValidKeypointArray(t: { ColorSequenceKeypoint } | { NumberSeque
 end
 
 --[=[
-    Decodes a JSON-encoded sequence to a two-dimensional array of strings.
-    If decoding fails or the structure is incorrect, it will return nil.
+	Decodes a JSON-encoded sequence to a two-dimensional array of strings.
+	If decoding fails or the structure is incorrect, it will return nil.
 
-    The returned value typically represents:
-    ```
-    {
-        {
-            [1]: Value,
-            [2]: Time,
-        }
-    }
-    ```
-    @param j JSONUnknown
-    @return { { string } }?
+	The returned value typically represents:
+	```
+	{
+		{
+			[1]: Value,
+			[2]: Time,
+		}
+	}
+	```
+	@param j JSONUnknown
+	@return { { string } }?
 ]=]
 const function sequenceJSON(j: JSONUnknown): { { string } }?
 	const success, decoded = pcall(function()
@@ -87,17 +87,17 @@ const function sequenceJSON(j: JSONUnknown): { { string } }?
 end
 
 --[=[
-    Decodes a JSON-encoded sequence into a typed sequence value.
+	Decodes a JSON-encoded sequence into a typed sequence value.
 
-    Parses each keypoint's value and time, validates the resulting array,
-    and constructs the final sequence. If any keypoint is invalid or the
-    array fails validation, it will return nil.
+	Parses each keypoint's value and time, validates the resulting array,
+	and constructs the final sequence. If any keypoint is invalid or the
+	array fails validation, it will return nil.
 
-    @param v JSONUnknown
-    @param parse (string) -> T?
-    @param new_keypoint (time: number, value: T) -> K
-    @param new_sequence ({ K }) -> S
-    @return S?
+	@param v JSONUnknown
+	@param parse (string) -> T?
+	@param new_keypoint (time: number, value: T) -> K
+	@param new_sequence ({ K }) -> S
+	@return S?
 ]=]
 const function decodeSequence<T, K, S>(
 	v: JSONUnknown,
@@ -127,11 +127,11 @@ const function decodeSequence<T, K, S>(
 end
 
 --[=[
-    Converts numbers separated by commas into a tuple of numbers.
-    If tonumber fails on a value, that value will be nil.
+	Converts numbers separated by commas into a tuple of numbers.
+	If tonumber fails on a value, that value will be nil.
 
-    @param t JSONUnknown
-    @return (...number?)
+	@param t JSONUnknown
+	@return (...number?)
 ]=]
 const function numberTuple(t: JSONUnknown): ...number?
 	if typeof(t) ~= "string" then
@@ -147,12 +147,12 @@ const function numberTuple(t: JSONUnknown): ...number?
 end
 
 --[=[
-    Returns the EnumItem of the same name from the given Enum.
-    If no match is found, it will return nil.
+	Returns the EnumItem of the same name from the given Enum.
+	If no match is found, it will return nil.
 
-    @param item_name string
-    @param of Enum
-    @return EnumItem?
+	@param item_name string
+	@param of Enum
+	@return EnumItem?
 ]=]
 const function enumItem(item_name: string?, of: Enum): EnumItem?
 	for _, v in of:GetEnumItems() do
@@ -167,11 +167,11 @@ end
 const TypeDecoder = {}
 
 --[=[
-    Decodes a boolean from a JSONUnknown value.
-    Returns true or false if represented as a string, otherwise nil.
+	Decodes a boolean from a JSONUnknown value.
+	Returns true or false if represented as a string, otherwise nil.
 
-    @param v JSONUnknown
-    @return boolean
+	@param v JSONUnknown
+	@return boolean
 ]=]
 function TypeDecoder.boolean(v: JSONUnknown): boolean?
 	if typeof(v) ~= "string" then
@@ -182,32 +182,32 @@ function TypeDecoder.boolean(v: JSONUnknown): boolean?
 end
 
 --[=[
-    Decodes a number from a JSONUnknown value.
-    If the value cannot be converted, it will return nil.
+	Decodes a number from a JSONUnknown value.
+	If the value cannot be converted, it will return nil.
 
-    @param v JSONUnknown
-    @return number?
+	@param v JSONUnknown
+	@return number?
 ]=]
 function TypeDecoder.number(v: JSONUnknown): number?
 	return tonumber(v)
 end
 
 --[=[
-    Decodes a string from a JSONUnknown value via tostring.
+	Decodes a string from a JSONUnknown value via tostring.
 
-    @param v JSONUnknown
-    @return string
+	@param v JSONUnknown
+	@return string
 ]=]
 function TypeDecoder.string(v: JSONUnknown): string
 	return tostring(v)
 end
 
 --[=[
-    Decodes a table from a JSONUnknown value.
-    If the value is not a table, it will return nil.
+	Decodes a table from a JSONUnknown value.
+	If the value is not a table, it will return nil.
 
-    @param v JSONUnknown
-    @return JSONTable?
+	@param v JSONUnknown
+	@return JSONTable?
 ]=]
 function TypeDecoder.table(v: JSONUnknown): JSONTable?
 	if typeof(v) ~= "table" then
@@ -218,21 +218,21 @@ function TypeDecoder.table(v: JSONUnknown): JSONTable?
 end
 
 --[=[
-    Decodes a Color3 from a hex string.
-    If the value is not a valid hex color, it will return nil.
+	Decodes a Color3 from a hex string.
+	If the value is not a valid hex color, it will return nil.
 
-    @param v JSONUnknown
-    @return Color3?
+	@param v JSONUnknown
+	@return Color3?
 ]=]
 function TypeDecoder.Color3(v: JSONUnknown): Color3?
 	return select(2, pcall(Color3.fromHex, v :: string))
 end
 
 --[=[
-    Decodes a Vector2 from a comma-separated string of numbers.
+	Decodes a Vector2 from a comma-separated string of numbers.
 
-    @param v JSONUnknown
-    @return Vector2
+	@param v JSONUnknown
+	@return Vector2
 ]=]
 function TypeDecoder.Vector2(v: JSONUnknown): Vector2
 	const x, y = numberTuple(v)
@@ -240,10 +240,10 @@ function TypeDecoder.Vector2(v: JSONUnknown): Vector2
 end
 
 --[=[
-    Decodes a UDim from a comma-separated string of numbers.
+	Decodes a UDim from a comma-separated string of numbers.
 
-    @param v JSONUnknown
-    @return UDim
+	@param v JSONUnknown
+	@return UDim
 ]=]
 function TypeDecoder.UDim(v: JSONUnknown): UDim
 	const scale, offset = numberTuple(v)
@@ -251,10 +251,10 @@ function TypeDecoder.UDim(v: JSONUnknown): UDim
 end
 
 --[=[
-    Decodes a UDim2 from a string matching the pattern `{x, y}, {x, y}`.
+	Decodes a UDim2 from a string matching the pattern `{x, y}, {x, y}`.
 
-    @param v JSONUnknown
-    @return UDim2
+	@param v JSONUnknown
+	@return UDim2
 ]=]
 function TypeDecoder.UDim2(v: JSONUnknown): UDim2
 	if typeof(v) ~= "string" then
@@ -272,10 +272,10 @@ function TypeDecoder.UDim2(v: JSONUnknown): UDim2
 end
 
 --[=[
-    Decodes a Rect from a comma-separated string of numbers.
+	Decodes a Rect from a comma-separated string of numbers.
 
-    @param v JSONUnknown
-    @return Rect
+	@param v JSONUnknown
+	@return Rect
 ]=]
 function TypeDecoder.Rect(v: JSONUnknown): Rect
 	const minX, minY, maxX, maxY = numberTuple(v)
@@ -283,22 +283,22 @@ function TypeDecoder.Rect(v: JSONUnknown): Rect
 end
 
 --[=[
-    Decodes a ColorSequence from a JSON-encoded keypoint array.
-    If the value is invalid or keypoints fail validation, it will return nil.
+	Decodes a ColorSequence from a JSON-encoded keypoint array.
+	If the value is invalid or keypoints fail validation, it will return nil.
 
-    @param v JSONUnknown
-    @return ColorSequence?
+	@param v JSONUnknown
+	@return ColorSequence?
 ]=]
 function TypeDecoder.ColorSequence(v: JSONUnknown): ColorSequence?
 	return decodeSequence(v, TypeDecoder.Color3 :: (string) -> Color3, ColorSequenceKeypoint.new, ColorSequence.new)
 end
 
 --[=[
-    Decodes a NumberSequence from a JSON-encoded keypoint array.
-    If the value is invalid or keypoints fail validation, it will return nil.
+	Decodes a NumberSequence from a JSON-encoded keypoint array.
+	If the value is invalid or keypoints fail validation, it will return nil.
 
-    @param v JSONUnknown
-    @return NumberSequence?
+	@param v JSONUnknown
+	@return NumberSequence?
 ]=]
 function TypeDecoder.NumberSequence(v: JSONUnknown): NumberSequence?
 	return decodeSequence(v, tonumber :: (string) -> number, NumberSequenceKeypoint.new, NumberSequence.new)
@@ -315,15 +315,15 @@ end
 function TypeDecoder.AutomaticSize(v: JSONUnknown): Enum.AutomaticSize?
 	const decoded_size = TypeDecoder.string(v)
 
-    if decoded_size == "auto" then
-        return Enum.AutomaticSize.XY
-    elseif decoded_size == "auto_x" then
-        return Enum.AutomaticSize.X
-    elseif decoded_size == "auto_y" then
-        return Enum.AutomaticSize.Y
-    end
+	if decoded_size == "auto" then
+		return Enum.AutomaticSize.XY
+	elseif decoded_size == "auto_x" then
+		return Enum.AutomaticSize.X
+	elseif decoded_size == "auto_y" then
+		return Enum.AutomaticSize.Y
+	end
 
-    return nil
+	return nil
 end
 
 for name, enum in EnumMap :: { [CatWebEnums]: Enum } do

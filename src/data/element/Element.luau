@@ -11,49 +11,49 @@ type InstancePropertyMap<I> = AbstractElement.InstancePropertyMap<I>
 type AbstractElement = AbstractElement.AbstractElement
 
 --[=[
-    Element is a data type that represents all of the mapping of behavior between a CatWeb Element and a Roblox Instance.
+	Element is a data type that represents all of the mapping of behavior between a CatWeb Element and a Roblox Instance.
 ]=]
 export type Element = AbstractElement & {
-    read roblox_class: string,
+	read roblox_class: string,
 }
 
 const Element = {}
 
 --[=[
-    Constructor for AbstractElement data type.
-    Inheritance executes from left to right, meaning the right hand side will override the left hand side.
+	Constructor for AbstractElement data type.
+	Inheritance executes from left to right, meaning the right hand side will override the left hand side.
 
-    @param I I & Instance
-    @param catweb_class ElementClassNames
-    @param roblox_class index<I, "ClassName">
-    @param properties PropertyList
-    @param default_props InstancePropertyMap<I>
-    @param default_attr DefaultsMap
-    @param ...: Element | AbstractElement -- (Abstract) Element(s) to inherit from.
+	@param I I & Instance
+	@param catweb_class ElementClassNames
+	@param roblox_class index<I, "ClassName">
+	@param properties PropertyList
+	@param default_props InstancePropertyMap<I>
+	@param default_attr DefaultsMap
+	@param ...: Element | AbstractElement -- (Abstract) Element(s) to inherit from.
 ]=]
 function Element.new<I>(
-    catweb_class: ElementClassNames,
-    roblox_class: index<I, "ClassName">,
-    properties: PropertyList,
-    default_props: InstancePropertyMap<I>,
-    default_attr: DefaultsMap,
-    ...: Element | AbstractElement
+	catweb_class: ElementClassNames,
+	roblox_class: index<I, "ClassName">,
+	properties: PropertyList,
+	default_props: InstancePropertyMap<I>,
+	default_attr: DefaultsMap,
+	...: Element | AbstractElement
 ): Element
-    const self = {
-        class = catweb_class,
-        roblox_class = roblox_class,
-        properties = {},
-        default_props = {},
-        default_attr = {},
-        abstract = false,
-    }
+	const self = {
+		class = catweb_class,
+		roblox_class = roblox_class,
+		properties = {},
+		default_props = {},
+		default_attr = {},
+		abstract = false,
+	}
 
-    AbstractElement.inherit(self, ...)
+	AbstractElement.inherit(self, ...)
 
-    const property_map = AbstractElement.propertyListToMap(properties)
-    AbstractElement.putPropertiesAndDefaults(self, property_map, default_props, default_attr)
+	const property_map = AbstractElement.propertyListToMap(properties)
+	AbstractElement.putPropertiesAndDefaults(self, property_map, default_props, default_attr)
 
-    return AbstractElement.finalize(self) :: Element
+	return AbstractElement.finalize(self) :: Element
 end
 
 return table.freeze(Element)
