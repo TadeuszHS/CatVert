@@ -11,19 +11,26 @@ type InstancePropertyMap<I> = AbstractElement.InstancePropertyMap<I>
 type AbstractElement = AbstractElement.AbstractElement
 
 --[=[
-	Element is a data type that represents all of the mapping of behavior between a CatWeb Element and a Roblox Instance.
+	Element is a data type that represents all of the mapping of behavior 
+	between a CatWeb Element and a Roblox Instance.
+
+	@interface Element
 ]=]
 export type Element = AbstractElement & {
 	read roblox_class: string,
 }
 
+--[=[
+	@class Element
+	@private
+]=]
 const Element = {}
 
 --[=[
 	Constructor for AbstractElement data type.
 	Inheritance executes from left to right, meaning the right hand side will override the left hand side.
 
-	@param I I & Instance
+	@within Element
 	@param catweb_class ElementClassNames
 	@param roblox_class index<I, "ClassName">
 	@param properties PropertyList

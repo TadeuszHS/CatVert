@@ -12,6 +12,12 @@ type CatWebTypes = Types.CatWebTypes
 type CatWebEnums = Types.CatWebEnums
 
 --[=[
+	@class TypeDecoder
+	@private
+]=]
+const TypeDecoder = {}
+
+--[=[
 	Checks if the keypoint array is valid for being an argument of a sequence.
 
 	Keypoints are only valid if they:
@@ -20,6 +26,8 @@ type CatWebEnums = Types.CatWebEnums
 		* Have keypoints with 0 and 1 for time.
 		* Keypoints in the array are ordered in non-descending time value order.
 	
+	@within TypeDecoder
+	@private
 	@param t { ColorSequenceKeypoint} | { NumberSequenceKeypoint }
 	@return boolean
 ]=]
@@ -56,6 +64,8 @@ end
 		}
 	}
 	```
+	@within TypeDecoder
+	@private
 	@param j JSONUnknown
 	@return { { string } }?
 ]=]
@@ -99,6 +109,8 @@ end
 	and constructs the final sequence. If any keypoint is invalid or the
 	array fails validation, it will return nil.
 
+	@within TypeDecoder
+	@private
 	@param v JSONUnknown
 	@param parse (string) -> T?
 	@param new_keypoint (time: number, value: T) -> K
@@ -136,6 +148,8 @@ end
 	Converts numbers separated by commas into a tuple of numbers.
 	If tonumber fails on a value, that value will be nil.
 
+	@within TypeDecoder
+	@private
 	@param t JSONUnknown
 	@return (...number?)
 ]=]
@@ -157,6 +171,8 @@ end
 	Returns the EnumItem of the same name from the given Enum.
 	If no match is found, it will return nil.
 
+	@within TypeDecoder
+	@private
 	@param item_name string
 	@param of Enum
 	@return EnumItem?
@@ -181,12 +197,11 @@ const function enumItem(item_name: JSONUnknown?, of: Enum): EnumItem?
 	return Logger.event("Warn", "Unable to find EnumItem from string")
 end
 
-const TypeDecoder = {}
-
 --[=[
 	Decodes a boolean from a JSONUnknown value.
 	Returns true or false if represented as a string, otherwise nil.
 
+	@within TypeDecoder
 	@param v JSONUnknown
 	@return boolean
 ]=]
@@ -209,6 +224,7 @@ end
 	Decodes a number from a JSONUnknown value.
 	If the value cannot be converted, it will return nil.
 
+	@within TypeDecoder
 	@param v JSONUnknown
 	@return number?
 ]=]
@@ -226,6 +242,7 @@ end
 --[=[
 	Decodes a string from a JSONUnknown value via tostring.
 
+	@within TypeDecoder
 	@param v JSONUnknown
 	@return string
 ]=]
@@ -244,6 +261,7 @@ end
 	Decodes a table from a JSONUnknown value.
 	If the value is not a table, it will return nil.
 
+	@within TypeDecoder
 	@param v JSONUnknown
 	@return JSONTable?
 ]=]
@@ -262,6 +280,7 @@ end
 	Decodes a Color3 from a hex string.
 	If the value is not a valid hex color, it will return nil.
 
+	@within TypeDecoder
 	@param v JSONUnknown
 	@return Color3?
 ]=]
@@ -285,6 +304,7 @@ end
 --[=[
 	Decodes a Vector2 from a comma-separated string of numbers.
 
+	@within TypeDecoder
 	@param v JSONUnknown
 	@return Vector2
 ]=]
@@ -299,6 +319,7 @@ end
 --[=[
 	Decodes a UDim from a comma-separated string of numbers.
 
+	@within TypeDecoder
 	@param v JSONUnknown
 	@return UDim
 ]=]
@@ -313,6 +334,7 @@ end
 --[=[
 	Decodes a UDim2 from a string matching the pattern `{x, y}, {x, y}`.
 
+	@within TypeDecoder
 	@param v JSONUnknown
 	@return UDim2
 ]=]
@@ -337,6 +359,7 @@ end
 --[=[
 	Decodes a Rect from a comma-separated string of numbers.
 
+	@within TypeDecoder
 	@param v JSONUnknown
 	@return Rect
 ]=]
@@ -352,6 +375,7 @@ end
 	Decodes a ColorSequence from a JSON-encoded keypoint array.
 	If the value is invalid or keypoints fail validation, it will return nil.
 
+	@within TypeDecoder
 	@param v JSONUnknown
 	@return ColorSequence?
 ]=]
@@ -365,6 +389,7 @@ end
 	Decodes a NumberSequence from a JSON-encoded keypoint array.
 	If the value is invalid or keypoints fail validation, it will return nil.
 
+	@within TypeDecoder
 	@param v JSONUnknown
 	@return NumberSequence?
 ]=]
@@ -379,6 +404,7 @@ end
 	If the value is invalid, it will return nil.
 	Enum.AutomaticSize.None has no representation in the encoded format, and is what nil can be inferred as.
 
+	@within TypeDecoder
 	@param v JSONUnknown
 	@return Enum.AutomaticSize?
 ]=]
@@ -399,6 +425,15 @@ function TypeDecoder.AutomaticSize(v: JSONUnknown): Enum.AutomaticSize?
 end
 
 for name, enum in EnumMap :: { [CatWebEnums]: Enum } do
+	--[=[
+		Generated decoder for a given Enum.
+		Decodes a string to an EnumItem.
+		Returns nil if there is no match.
+
+		@within TypeDecoder
+		@param JSONUnknown?
+		@return EnumItem?
+	]=]
 	TypeDecoder[name] = function(v: JSONUnknown?): EnumItem?
 		Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v, name, enum)
 

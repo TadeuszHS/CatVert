@@ -7,7 +7,15 @@ type CatVertState = CatVertState.CatVertState
 type Status = CatVertState.Status
 type Process = CatVertState.Process
 
+--[=[
+	A type of Event.
+]=]
 export type EventType = "Info" | "Warn" | "Error"
+--[=[
+	A logged Event.
+
+	@interface Event
+]=]
 export type Event = {
 	read status: Status,
 	read process: Process,
@@ -17,32 +25,87 @@ export type Event = {
 	read time: number,
 }
 
-const state = CatVertState.new("Initializing", "None")
-const logs: { Event } = {}
-const kIgnoreInfo = true
+--[=[
+	Simple singleton logging utility for logging events within CatVert.
 
+	@class Logger
+	@private
+]=]
 const Logger = {}
 
+--[=[
+	@within Logger
+	@prop state CatVertState
+]=]
+const state = CatVertState.new("Initializing", "None")
+--[=[
+	An array of Events ordered by `os.clock()`.
+
+	@within Logger
+	@prop logs { Event }
+]=]
+const logs: { Event } = {}
+--[=[
+	Information logging is often a nuisance for most users.
+
+	@type boolean
+	@private
+]=]
+const ignore_info = true
+
+--[=[
+	Sets the current status to the given status logging insights.
+	Logger is returned for chaining.
+
+	@within Logger
+	@param status Status
+	@return Logger
+]=]
 function Logger.withStatus(status: Status): typeof(Logger)
 	state.status = status
 
 	return Logger
 end
 
+--[=[
+	Sets the current process to the given process for logging insights.
+	Logger is returned for chaining.
+
+	@within Logger
+	@param process Process
+	@return Logger
+]=]
 function Logger.withProcess(process: Process): typeof(Logger)
 	state.process = process
 
 	return Logger
 end
 
+--[=[
+	Sets the current args to the given args for logging insights.
+	Logger is returned for chaining.
+
+	@within Logger
+	@param ... unknown
+	@return Logger
+]=]
 function Logger.withArgs(...: unknown): typeof(Logger)
 	state.args = { ... }
 
 	return Logger
 end
 
+--[=[
+	Logs an event.
+
+	@within Logger
+	@error "Error" -- If the given EventType is "Error".
+	@param type EventType
+	@param message string
+	@return nil
+]=]
 function Logger.event(type: EventType, message: string): nil
-	if type == "Info" and kIgnoreInfo then
+	if type == "Info" and ignore_info then
 		return nil
 	end
 
@@ -65,7 +128,17 @@ function Logger.event(type: EventType, message: string): nil
 	return nil
 end
 
-function Logger.eventAssert(condition: boolean, type: EventType, message: string): nil
+--[=[
+	Logs an event only if the condition is falsy.
+	
+	@within Logger
+	@error "Error" -- Throws an error if the condition is falsy and the given EventType is "Error".
+	@param condition boolean
+	@param type EventType
+	@param message string
+	@return nil
+]=]
+function Logger.eventAssert(condition: unknown, type: EventType, message: string): nil
 	if condition then
 		return nil
 	end
@@ -73,11 +146,23 @@ function Logger.eventAssert(condition: boolean, type: EventType, message: string
 	return Logger.event(type, message)
 end
 
+--[=[
+	Gets an array of all events, ordered by `os.clock()`.
+
+	@within Logger
+	@return { Event }
+]=]
 function Logger.getEvents(): { Event }
 	return logs
 end
 
-function Logger.getMostRecentEvent(): Event
+--[=[
+	Gets the most recent Event, or nil if nothing has been logged.
+
+	@within Logger
+	@return Event?
+]=]
+function Logger.getMostRecentEvent(): Event?
 	return logs[table.maxn(logs)]
 end
 

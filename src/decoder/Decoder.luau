@@ -6,18 +6,34 @@ const Structure = require("../data/Structure")
 const Conversion = require("../data/Conversion")
 const TypeDecoder = require("./TypeDecoder")
 const Defaults = require("../data/Defaults")
-const AbstractElement = require("../data/element/AbstractElement")
+const Element = require("../data/element/Element")
 const Property = require("../data/property/Property")
 
 type JSONUnknown = Structure.JSONUnknown
 type JSONTable = Structure.JSONTable
 type UnknownElement = Structure.UnknownElement
+type WebContentAbstractElement = Structure.WebContentAbstractElement
 type ElementGroup = Structure.ElementGroup
 type StructureType = Structure.StructureType
 type ElementClassNames = Structure.ElementClassNames
-type AbstractElementType = AbstractElement.AbstractElement
+type Element = Element.Element
 type Property = Property.Property
 
+--[=[
+	@class Decoder
+	@private
+]=]
+const Decoder = {}
+
+--[=[
+	Determines the structure type of a JSONTable, 
+
+	@within Decoder
+	@private
+	@error "Unable to determine StructureType"
+	@param decoded JSONTable
+	@return StructureType?
+]=]
 const function determineStructureType(decoded: JSONTable): StructureType?
 	Logger.withStatus("Decoding").withProcess("DetermineStructureType").withArgs(decoded)
 
@@ -27,13 +43,20 @@ const function determineStructureType(decoded: JSONTable): StructureType?
 		return "ElementGroup"
 	end
 
-	Logger.event("Error", "Unable to determine StructureType")
-	return nil
+	return Logger.event("Error", "Unable to determine StructureType")
 end
 
-const Decoder = {}
+--[=[
+	Applies CatWeb Element properties to a Roblox Instance using an Element definition.
 
-const function apply(element_def: AbstractElementType, element: UnknownElement, inst: Instance): Instance
+	@within Decoder
+	@private
+	@param element_def Element
+	@param element UnknownElement
+	@param inst Instance
+	@return Instance
+]=]
+const function apply(element_def: Element, element: UnknownElement, inst: Instance): Instance
 	for catweb_index, property in element_def.properties do
 		if element[catweb_index] == nil then
 			Logger.withStatus("Decoding")
@@ -49,7 +72,7 @@ const function apply(element_def: AbstractElementType, element: UnknownElement, 
 			success = pcall(function()
 				const decoded = TypeDecoder[property.value_type](element[catweb_index])
 				if decoded ~= nil then
-					(inst :: any)[property.roblox_index] = decoded
+					inst[property.roblox_index] = decoded
 				end
 			end)
 
@@ -80,6 +103,14 @@ const function apply(element_def: AbstractElementType, element: UnknownElement, 
 	return inst
 end
 
+--[=[
+	Decodes a CatWeb Element to a Roblox Instance.
+	Returns nil if an Element is unsupported.
+
+	@within Decoder
+	@param element UnknownElement
+	@return Instance?
+]=]
 function Decoder.decodeElement(element: UnknownElement): Instance?
 	const class = TypeDecoder.string(element.class) :: ElementClassNames
 	const element_def = Conversion.Element[class]
@@ -93,11 +124,25 @@ function Decoder.decodeElement(element: UnknownElement): Instance?
 	return apply(element_def, element, inst)
 end
 
-function Decoder.decodeWebContent(element: UnknownElement): Instance
+--[=[
+	Decodes CatWeb WebContent to a Roblox Instance.
+
+	@within Decoder
+	@param element WebContentAbstractElement
+	@return Instance
+]=]
+function Decoder.decodeWebContent(element: WebContentAbstractElement): Instance
 	const inst = Defaults.new("WebContent")
 	return apply(Conversion.Abstract.WebContent, element, inst)
 end
 
+--[=[
+	Decodes an ElementGroup to an array of Roblox Instances.
+
+	@within Decoder
+	@param elements ElementGroup
+	@return { Instance }
+]=]
 function Decoder.decodeElementGroup(elements: ElementGroup): { Instance }
 	const instances = {}
 
@@ -112,6 +157,16 @@ function Decoder.decodeElementGroup(elements: ElementGroup): { Instance }
 	return instances
 end
 
+--[=[
+	Decodes a string containing CatWeb structured JSON into an Instance or array of Instances.
+
+	@within Decoder
+	@error "HttpService failed to decode JSON, this is likely due to a syntax error"
+	@error "Expected to decode table"
+	@error "Unable to determine StructureType"
+	@param json string
+	@return Instance | { Instance }
+]=]
 function Decoder.decodeJSON(json: string): Instance | { Instance }
 	Logger.withStatus("Decoding").withProcess("JSONTranscode").withArgs(json)
 

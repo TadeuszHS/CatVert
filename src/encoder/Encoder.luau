@@ -5,20 +5,35 @@ const Logger = require("../util/Logger")
 const Structure = require("../data/Structure")
 const Conversion = require("../data/Conversion")
 const TypeEncoder = require("./TypeEncoder")
-const AbstractElement = require("../data/element/AbstractElement")
+const Element = require("../data/element/Element")
 const Property = require("../data/property/Property")
 
 type JSONTable = Structure.JSONTable
 type UnknownElement = Structure.UnknownElement
+type WebContentAbstractElement = Structure.WebContentAbstractElement
 type ElementGroup = Structure.ElementGroup
 type StructureType = Structure.StructureType
 type ElementClassNames = Structure.ElementClassNames
-type AbstractElementType = AbstractElement.AbstractElement
+type Element = Element.Element
 type Property = Property.Property
 
+--[=[
+	@class Encoder
+	@private
+]=]
 const Encoder = {}
 
-const function apply(element_def: AbstractElementType, inst: Instance, element: UnknownElement): UnknownElement
+--[=[
+	Applies Roblox Instance properties to a CatWeb Instance using an Element definition.
+
+	@within Encoder
+	@private
+	@param element_def Element
+	@param inst Instance
+	@param element UnknownElement
+	@return UnknownElement
+]=]
+const function apply(element_def: Element, inst: Instance, element: UnknownElement): UnknownElement
 	for catweb_index, property in element_def.properties do
 		local success
 
@@ -54,6 +69,14 @@ const function apply(element_def: AbstractElementType, inst: Instance, element: 
 	return element
 end
 
+--[=[
+	Encodes a Roblox Instance to a CatWeb Element.
+	Returns nil if the class is not supported.
+
+	@within Encoder
+	@param inst Instance
+	@return UnknownElement?
+]=]
 function Encoder.encodeElement(inst: Instance): UnknownElement?
 	Logger.withStatus("Encoding").withProcess("CreateElement").withArgs(inst)
 
@@ -65,17 +88,29 @@ function Encoder.encodeElement(inst: Instance): UnknownElement?
 		return Logger.event("Warn", "Unsupported class")
 	end
 
-	const element: UnknownElement = {}
+	const element = {} :: UnknownElement
 	return apply(element_def, inst, element)
 end
 
-function Encoder.encodeWebContent(inst: Instance): UnknownElement
-	Logger.withStatus("Encoding").withProcess("CreateWebContent").withArgs(inst)
+--[=[
+	Encodes a Roblox Instance to CatWeb WebContent.
 
-	const element: UnknownElement = {}
+	@within Encoder
+	@param inst Frame
+	@return WebContentAbstractElement
+]=]
+function Encoder.encodeWebContent(inst: Frame): WebContentAbstractElement
+	const element = {} :: WebContentAbstractElement
 	return apply(Conversion.Abstract.WebContent, inst, element)
 end
 
+--[=[
+	Encodes an array of Roblox Instances into an ElementGroup.
+
+	@within Encoder
+	@param instances { Instance }
+	@return ElementGroup
+]=]
 function Encoder.encodeElementGroup(instances: { Instance }): ElementGroup
 	const elements = {}
 
@@ -90,17 +125,31 @@ function Encoder.encodeElementGroup(instances: { Instance }): ElementGroup
 	return elements
 end
 
-function Encoder.encodeJSON(data: Instance | { Instance }): string?
+--[=[
+	Encodes a Roblox Instance Frame that represents WebContent or an array of 
+	Roblox Instances representing an ElementGroup into CatWeb structured JSON.
+
+	@within Encoder
+	@error "Expected to encode Frame as WebContent"
+	@error "Expected to encode Frame | { Instance }"
+	@error "HttpService failed to encode JSON"
+	@param data Frame | { Instance }
+	@return string?
+]=]
+function Encoder.encodeJSON(data: Frame | { Instance }): string?
 	Logger.withStatus("Encoding").withProcess("JSONTranscode").withArgs(data)
 
 	local encoded: JSONTable
 
 	if typeof(data) == "Instance" then
+		if not data:IsA("Frame") then
+			return Logger.event("Error", "Expected to encode Frame as WebContent")
+		end
 		encoded = Encoder.encodeWebContent(data)
 	elseif typeof(data) == "table" then
 		encoded = Encoder.encodeElementGroup(data)
 	else
-		return Logger.event("Error", "Expected to encode Instance | { Instance }")
+		return Logger.event("Error", "Expected to encode Frame | { Instance }")
 	end
 
 	const success, result = pcall(function()

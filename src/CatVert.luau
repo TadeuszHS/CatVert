@@ -3,12 +3,38 @@
 const Decoder = require("./decoder/Decoder")
 const Encoder = require("./encoder/Encoder")
 
+--[=[
+	Library entry point for Catvert.
+
+	@class CatVert
+]=]
 const CatVert = {}
 
-function CatVert.JSONEncode(data: Instance | { Instance }): string?
+--[=[
+	Encodes a Roblox Instance Frame that represents WebContent or an array of 
+	Roblox Instances representing an ElementGroup into CatWeb structured JSON.
+
+	@within CatVert
+	@error "Expected to encode Frame as WebContent"
+	@error "Expected to encode Frame | { Instance }"
+	@error "HttpService failed to encode JSON"
+	@param data Frame | { Instance }
+	@return string?
+]=]
+function CatVert.JSONEncode(data: Frame | { Instance }): string?
 	return Encoder.encodeJSON(data)
 end
 
+--[=[
+	Decodes a string containing CatWeb structured JSON into an Instance or array of Instances.
+
+	@within CatVert
+	@error "HttpService failed to decode JSON, this is likely due to a syntax error"
+	@error "Expected to decode table"
+	@error "Unable to determine StructureType"
+	@param json string
+	@return Instance | { Instance }
+]=]
 function CatVert.JSONDecode(json: string): (Instance | { Instance })?
 	return Decoder.decodeJSON(json)
 end

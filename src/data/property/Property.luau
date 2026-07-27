@@ -8,6 +8,8 @@ export type PropertyClassNames = "Property" | "Attribute" | "Custom"
 
 --[=[
 	Representation of a direct relationship between a CatWeb Element property and a Roblox Instance property.
+
+	@interface Property
 ]=]
 export type Property = {
 	read class: PropertyClassNames,
@@ -16,11 +18,16 @@ export type Property = {
 	read value_type: CatWebTypes,
 }
 
+--[=[
+	@class Property
+	@private
+]=]
 const Property = {}
 
 --[=[
 	Constructor for the Property data type.
 
+	@within Property
 	@param catweb_index string,
 	@param roblox_index string,
 	@param value_type CatWebTypes

@@ -8,6 +8,22 @@ type ElementClassNames = Structure.ElementClassNames
 
 export type DefaultClassNames = ElementClassNames | "WebContent"
 
+--[=[
+	@class Defaults
+	@private
+]=]
+const Defaults = {}
+
+--[=[
+	Builds a default Roblox Instance to clone from.
+
+	@within Defaults
+	@private
+	@param roblox_class string
+	@param default_props { [string]: unknown }
+	@param default_attr { [string]: unknown }
+	@return Instance
+]=]
 const function build(
 	roblox_class: string,
 	default_props: { [string]: unknown },
@@ -28,6 +44,14 @@ const function build(
 	return inst
 end
 
+--[=[
+	Map of Roblox Instances to clone from.
+
+	@within Defaults
+	@private
+	@readonly
+	@prop defaults { [DefaultClassNames]: Instance }
+]=]
 const defaults: { [DefaultClassNames]: Instance } = {
 	WebContent = build(
 		"Frame",
@@ -42,8 +66,13 @@ end
 
 table.freeze(defaults)
 
-const Defaults = {}
+--[=[
+	Returns a Roblox Instance clone of the given class name with specified default properties and attributes.
 
+	@within Defaults
+	@param class DefaultClassNames
+	@return Instance
+]=]
 function Defaults.new(class: DefaultClassNames): Instance
 	const default_instance = defaults[class]
 

@@ -7,6 +7,12 @@ const EnumMap = require("../data/EnumMap")
 type CatWebEnums = Types.CatWebEnums
 
 --[=[
+	@class TypeEncoder
+	@private
+]=]
+const TypeEncoder = {}
+
+--[=[
 	Encodes a Sequence into a JSON string.
 
 	Each keypoint is serialized using the provided value encoder,
@@ -19,6 +25,8 @@ type CatWebEnums = Types.CatWebEnums
 		}
 	}
 	```
+	@within TypeEncoder
+	@private
 	@param sequence NumberSequence | ColorSequence
 	@param encode_value (T) -> E
 	@return string
@@ -36,11 +44,10 @@ const function fromSequence<T, E>(sequence: NumberSequence | ColorSequence, enco
 	return HttpService:JSONEncode(result)
 end
 
-const TypeEncoder = {}
-
 --[=[
 	Encodes a boolean as a string.
 
+	@within TypeEncoder
 	@param v boolean
 	@return string
 ]=]
@@ -51,6 +58,7 @@ end
 --[=[
 	Encodes a number as a string.
 
+	@within TypeEncoder
 	@param v number
 	@return string
 ]=]
@@ -61,6 +69,7 @@ end
 --[=[
 	Encodes a string as a string.
 
+	@within TypeEncoder
 	@param v string
 	@return string
 ]=]
@@ -71,6 +80,7 @@ end
 --[=[
 	Encodes a Color3 as a hex string.
 
+	@within TypeEncoder
 	@param v Color3
 	@return string
 ]=]
@@ -81,6 +91,7 @@ end
 --[=[
 	Encodes a UDim as a string.
 
+	@within TypeEncoder
 	@param v UDim
 	@return string
 ]=]
@@ -91,6 +102,7 @@ end
 --[=[
 	Encodes a UDim2 as a string.
 
+	@within TypeEncoder
 	@param v UDim2
 	@return string
 ]=]
@@ -101,6 +113,7 @@ end
 --[=[
 	Encodes a Vector2 as a string.
 
+	@within TypeEncoder
 	@param v Vector2
 	@return string
 ]=]
@@ -111,6 +124,7 @@ end
 --[=[
 	Encodes a Rect as a string.
 
+	@within TypeEncoder
 	@param v Rect
 	@return string
 ]=]
@@ -130,6 +144,7 @@ end
 		}
 	}
 	```
+	@within TypeEncoder
 	@param v ColorSequence
 	@return string
 ]=]
@@ -152,6 +167,7 @@ end
 		}
 	}
 	```
+	@within TypeEncoder
 	@param v NumberSequence
 	@return string
 ]=]
@@ -165,6 +181,7 @@ end
 	Encodes Enum.AutomaticSize as a JSON string.
 	Enum.AutomaticSize.None is not representable in this encoded type and will return nil.
 
+	@within TypeEncoder
 	@param v Enum.AutomaticSize
 	@return string
 ]=]
@@ -181,6 +198,14 @@ function TypeEncoder.AutomaticSize(v: Enum.AutomaticSize): string?
 end
 
 for name, enum in EnumMap :: { [CatWebEnums]: Enum } do
+	--[=[
+		Generated encoder for a given Enum.
+		Returns the `Name` of the given EnumItem.
+
+		@within TypeEncoder
+		@param EnumItem
+		@return string
+	]=]
 	TypeEncoder[name] = function(v: EnumItem): string
 		return v.Name
 	end

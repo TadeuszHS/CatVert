@@ -15,11 +15,15 @@ export type Attribute = {
 	read value_type: CatWebTypes,
 }
 
+--[=[
+	@class Attribute
+]=]
 const Attribute = {}
 
 --[=[
     Constructor for the Attribute data type.
 
+	@within Attribute
     @param catweb_index string
     @param value_type CatWebTypes
     @return Attribute

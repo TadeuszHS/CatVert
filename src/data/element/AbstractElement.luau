@@ -20,6 +20,8 @@ export type InstancePropertyMap<I> = { [keyof<I>]: unknown }
 		* Only exist for the purpose of modeling inheritance.
 		* Or, for Elements that do not meet the typical definition of an Element (e.g. WebContent).
 	Abstract Elements cannot be created and do not actually exist in CatWeb.
+	
+	@interface AbstractElement
 ]=]
 export type AbstractElement = {
 	read class: string,
@@ -29,13 +31,17 @@ export type AbstractElement = {
 	read abstract: boolean,
 }
 
+--[=[
+	@class AbstractElement
+	@private
+]=]
 const AbstractElement = {}
 
 --[=[
 	Constructor for AbstractElement data type.
 	Inheritance executes from left to right, meaning the right hand side will override the left hand side.
 
-	@param I I & Instance
+	@within AbstractElement
 	@param class AbstractElementClassNames
 	@param properties PropertyList
 	@param default_props InstancePropertyMap<I>
@@ -70,6 +76,7 @@ end
 	Converts a PropertyList to a PropertyMap.
 	The `catweb_index` of the Property is used as it's index in the PropertyMap.
 
+	@within AbstractElement
 	@param properties PropertyList
 	@return PropertyMap
 ]=]
@@ -87,6 +94,7 @@ end
 	Finalizes the AbstractElement making it immutable.
 	This is used after inheritance is modeled and no changes should be made to the data.
 
+	@within AbstractElement
 	@param self AbstractElement
 	@return AbstractElement
 ]=]
@@ -100,7 +108,7 @@ end
 --[=[
 	Iterates through the given tables and applies their value and index to the AbstractElement's tables.
 
-	@param I I & Instance
+	@within AbstractElement
 	@param to AbstractElement
 	@param properties PropertyMap
 	@param default_props DefaultsMap | InstancePropertyMap<I>
@@ -130,6 +138,7 @@ end
 	Inherits the AbstractElement(s) to the given AbstractElement.
 	Inheritance executes from left to right, meaning the right hand side will override the left hand side.
 
+	@within AbstractElement
 	@param to AbstractElement
 	@param ... AbstractElement
 	@return AbstractElement
