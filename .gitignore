@@ -5,6 +5,8 @@ Packages
 
 sourcemap.json
 
+build/
+
 wally.lock
 /CatVert.rbxlx
 /*.rbxlx.lock
