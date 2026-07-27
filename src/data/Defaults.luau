@@ -3,8 +3,10 @@
 const Logger = require("../util/Logger")
 const Conversion = require("../data/Conversion")
 const Structure = require("../data/Structure")
+const Element = require("./element/Element")
 
 type ElementClassNames = Structure.ElementClassNames
+type Element = Element.Element
 
 export type DefaultClassNames = ElementClassNames | "WebContent"
 
@@ -60,7 +62,7 @@ const defaults: { [DefaultClassNames]: Instance } = {
 	),
 }
 
-for class, element in Conversion.Element :: { [ElementClassNames]: any } do
+for class, element in Conversion.Element :: { [ElementClassNames]: Element } do
 	defaults[class] = build(element.roblox_class, element.default_props, element.default_attr)
 end
 
