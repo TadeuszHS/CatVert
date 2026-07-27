@@ -19,6 +19,7 @@ export type Event = {
 
 const state = CatVertState.new("Initializing", "None")
 const logs: { Event } = {}
+const kIgnoreInfo = true
 
 const Logger = {}
 
@@ -40,7 +41,11 @@ function Logger.withArgs(...: unknown): typeof(Logger)
 	return Logger
 end
 
-function Logger.event(type: EventType, message: string): ()
+function Logger.event(type: EventType, message: string): nil
+	if type == "Info" and kIgnoreInfo then
+		return nil
+	end
+
 	const time = os.clock()
 	const event = table.clone(state) :: any
 	event.type = type
@@ -56,6 +61,16 @@ function Logger.event(type: EventType, message: string): ()
 	elseif type == "Info" then
 		LogService:Info(`[{event.status}]: {type}: {message}: \{args\}`, event)
 	end
+
+	return nil
+end
+
+function Logger.eventAssert(condition: boolean, type: EventType, message: string): nil
+	if condition then
+		return nil
+	end
+
+	return Logger.event(type, message)
 end
 
 function Logger.getEvents(): { Event }
