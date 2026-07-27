@@ -29,6 +29,7 @@ const WebContentAbstractElement = AbstractElement.new<<Frame>>(
 		Position = UDim2.fromScale(0.5, 0.5),
 		AnchorPoint = Vector2.new(0.5, 0.5),
 		BackgroundColor3 = Color3.fromHex("ffffff"),
+		BorderSizePixel = 0,
 		ZIndex = 0,
 	},
 	{
@@ -155,8 +156,9 @@ const ImageAbstractElement = AbstractElement.new<<ImageLabel>>(
 		Property.new("image", "Image", "string"),
 		Property.new("image_color", "ImageColor3", "Color3"),
 		Property.new("image_transparency", "ImageTransparency", "number"),
-		Property.new("resample_mode", "ResamplerMode", "ResamplerMode"),
+		Property.new("resample_mode", "ResampleMode", "ResamplerMode"),
 		Property.new("scale_type", "ScaleType", "ScaleType"),
+		Property.new("tile_size", "TileSize", "UDim2"),
 		Property.new("slice_center", "SliceCenter", "Rect"),
 		Property.new("slice_scale", "SliceScale", "number"),
 		Attribute.new("image_id", "number"),
@@ -547,8 +549,8 @@ const UIPaddingElement = Element.new<<UIPadding>>(
 	{
 		Property.new("bottom", "PaddingBottom", "UDim"),
 		Property.new("left", "PaddingLeft", "UDim"),
-		Property.new("right", "PaddingTop", "UDim"),
-		Property.new("bottom", "PaddingBottom", "UDim"),
+		Property.new("right", "PaddingRight", "UDim"),
+		Property.new("top", "PaddingTop", "UDim"),
 	},
 	{
 		Name = "Padding",

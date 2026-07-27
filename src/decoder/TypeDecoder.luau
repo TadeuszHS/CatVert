@@ -51,8 +51,8 @@ end
 	```
 	{
 		{
-			[1]: Value,
-			[2]: Time,
+			[1]: Time,
+			[2]: Value,
 		}
 	}
 	```
@@ -71,15 +71,19 @@ const function sequenceJSON(j: JSONUnknown): { { string } }?
 
 	for i, keypoint in decoded do
 		if typeof(i) ~= "number" then
+			Logger.event("Warn", "Expected indexer of sequence to be number")
 			return nil
 		elseif typeof(keypoint) ~= "table" then
+			Logger.event("Warn", "Expected value of sequence to be table")
 			return nil
 		end
 
 		for k, x in keypoint do
 			if typeof(k) ~= "number" then
+				Logger.event("Warn", "Expected indexer of keypoint to be number")
 				return nil
-			elseif typeof(x) ~= "string" then
+			elseif typeof(x) ~= "string" and typeof(x) ~= "number" then
+				Logger.event("Warn", "Expected indexer of keypoint to be string or number")
 				return nil
 			end
 		end
@@ -114,8 +118,8 @@ const function decodeSequence<T, K, S>(
 
 	const points = {}
 	for i, point in decoded do
-		const value = decode(point[1])
-		const time = tonumber(point[2])
+		const time = tonumber(point[1])
+		const value = decode(point[2])
 		if not value or not time then
 			return nil
 		end
@@ -163,14 +167,18 @@ const function enumItem(item_name: JSONUnknown?, of: Enum): EnumItem?
 		return nil
 	end
 
+	if item_name:find(".") then
+		const t = item_name:split(".")
+		item_name = t[#t]
+	end
+
 	for _, v in of:GetEnumItems() do
 		if v.Name == item_name then
 			return v
 		end
 	end
 
-	Logger.event("Warn", "Unable to find EnumItem from string")
-	return nil
+	return Logger.event("Warn", "Unable to find EnumItem from string")
 end
 
 const TypeDecoder = {}
@@ -194,8 +202,7 @@ function TypeDecoder.boolean(v: JSONUnknown): boolean?
 		return false
 	end
 
-	Logger.event("Warn", "Expected value to be either \"true\" or \"false\"")
-	return nil
+	return Logger.event("Warn", "Expected value to be either \"true\" or \"false\"")
 end
 
 --[=[

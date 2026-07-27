@@ -18,7 +18,7 @@ type ElementClassNames = Structure.ElementClassNames
 type AbstractElementType = AbstractElement.AbstractElement
 type Property = Property.Property
 
-const function getStructureType(decoded: JSONTable): StructureType?
+const function determineStructureType(decoded: JSONTable): StructureType?
 	Logger.withStatus("Decoding").withProcess("DetermineStructureType").withArgs(decoded)
 
 	if typeof(decoded.webcontent) == "table" then
@@ -33,7 +33,7 @@ end
 
 const Decoder = {}
 
-const function applyElement(element_def: AbstractElementType, element: UnknownElement, inst: Instance): Instance
+const function apply(element_def: AbstractElementType, element: UnknownElement, inst: Instance): Instance
 	for catweb_index, property in element_def.properties do
 		if element[catweb_index] == nil then
 			Logger.withStatus("Decoding")
@@ -74,33 +74,30 @@ const function applyElement(element_def: AbstractElementType, element: UnknownEl
 				.withArgs(element_def, element, inst, catweb_index, property)
 		end
 
-		if not success then
-			Logger.event("Warn", "Unable to apply property to Instance")
-		end
+		Logger.eventAssert(success, "Warn", "Unable to apply property to Instance")
 	end
 
 	return inst
 end
 
 function Decoder.decodeElement(element: UnknownElement): Instance?
-	Logger.withStatus("Decoding").withProcess("CreateInstance").withArgs(element)
-
 	const class = TypeDecoder.string(element.class) :: ElementClassNames
 	const element_def = Conversion.Element[class]
 
-	Logger.withArgs(element, class, element_def)
-
+	Logger.withStatus("Decoding")
+		.withProcess("CreateInstance")
+		.withArgs(element, class, element_def)
 	if not element_def then
 		return Logger.event("Warn", "Unsupported class")
 	end
 
 	const inst = Defaults.new(class)
-	return applyElement(element_def, element, inst)
+	return apply(element_def, element, inst)
 end
 
 function Decoder.decodeWebContent(element: UnknownElement): Instance
 	const inst = Defaults.new("WebContent")
-	return applyElement(Conversion.Abstract.WebContent, element, inst)
+	return apply(Conversion.Abstract.WebContent, element, inst)
 end
 
 function Decoder.decodeElementGroup(elements: ElementGroup): { Instance }
@@ -117,27 +114,23 @@ function Decoder.decodeElementGroup(elements: ElementGroup): { Instance }
 	return instances
 end
 
-function Decoder.decodeJSON(json: string): (Instance | { Instance })?
+function Decoder.decodeJSON(json: string): Instance | { Instance }
 	Logger.withStatus("Decoding").withProcess("JSONTranscode").withArgs(json)
 
 	const success, decoded = pcall(function()
 		return HttpService:JSONDecode(json) :: JSONUnknown
 	end)
 
-	if not success then
-		return Logger.event("Error", "HttpService failed to Decode JSON, this is likely due to a syntax error")
-	elseif typeof(decoded) ~= "table" then
-		return Logger.event("Error", "Expected to decode table")
-	end
+	Logger.eventAssert(success, "Error", "HttpService failed to decode JSON, this is likely due to a syntax error")
+	Logger.eventAssert(typeof(decoded) == "table", "Error", "Expected to decode table")
 
-	const structure_type = getStructureType(decoded)
+	const structure_type = determineStructureType(decoded)
+
 	if structure_type == "WebContent" then
 		return Decoder.decodeWebContent(decoded)
-	elseif structure_type == "ElementGroup" then
-		return Decoder.decodeElementGroup(decoded)
 	end
 
-	return nil
+	return Decoder.decodeElementGroup(decoded)
 end
 
 return table.freeze(Decoder)

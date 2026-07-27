@@ -1,7 +1,4 @@
 --!strict
---[[
-	TODO: Properly handle/notify of errors during decoding.
-]]
 
 const Structure = require("../data/Structure")
 const Custom = require("../data/property/Custom")
@@ -63,22 +60,30 @@ const CustomDecoder = table.freeze({
 
 				if auto_size then
 					inst.AutomaticSize = auto_size
+					
+					if auto_size == Enum.AutomaticSize.XY then
+						inst.Size = UDim2.fromScale(0, 0)
+					elseif auto_size == Enum.AutomaticSize.X then
+						inst.Size = UDim2.new(UDim.new(0, 0), inst.Size.Y)
+					elseif auto_size == Enum.AutomaticSize.Y then
+						inst.Size = UDim2.new(inst.Size.X, UDim.new(0, 0))
+					end
 				else
 					inst.Size = TypeDecoder.UDim2(element.size)
 				end
 			end :: CustomDecodeFunction,
 
 			height = function(element: GuiAbstractElement, inst: GuiObject, _): ()
-				if TypeDecoder.string(element.size) == "auto_x" then
+				if TypeDecoder.AutomaticSize(element.size) == Enum.AutomaticSize.X then
 					inst.Size =
-						UDim2.new(UDim.new(inst.Size.X.Scale, inst.Size.X.Offset), TypeDecoder.UDim(element.height))
+						UDim2.new(UDim.new(0, 0), TypeDecoder.UDim(element.height))
 				end
 			end :: CustomDecodeFunction,
 
 			width = function(element: GuiAbstractElement, inst: GuiObject, _): ()
-				if TypeDecoder.string(element.size) == "auto_y" then
+				if TypeDecoder.AutomaticSize(element.size) == Enum.AutomaticSize.Y then
 					inst.Size =
-						UDim2.new(TypeDecoder.UDim(element.width), UDim.new(inst.Size.Y.Scale, inst.Size.Y.Offset))
+						UDim2.new(TypeDecoder.UDim(element.width), UDim.new(0, 0))
 				end
 			end :: CustomDecodeFunction,
 		}),
@@ -86,15 +91,21 @@ const CustomDecoder = table.freeze({
 		Text = table.freeze({
 			font = function(element: TextAbstractElement, inst: TextLabel, _): ()
 				const id = TypeDecoder.number(element.font)
-				const prev_weight = inst.FontFace.Weight
-				const prev_style = inst.FontFace.Style
+				local prev_weight = inst.FontFace.Weight
+				local prev_style = inst.FontFace.Style
 
 				if id then
 					inst.FontFace = Font.fromId(id, prev_weight, prev_style)
 				else
-					inst.FontFace = Font.fromEnum(TypeDecoder.Font(element.font) :: Enum.Font)
-					inst.FontFace.Weight = prev_weight
-					inst.FontFace.Style = prev_style
+					const enum_font = Font.fromEnum(TypeDecoder.Font(element.font) :: Enum.Font)
+
+					if enum_font.Weight ~= Enum.FontWeight.Regular then
+						prev_weight = enum_font.Weight
+					elseif enum_font.Style ~= Enum.FontStyle.Normal then
+						prev_style = enum_font.Style
+					end
+
+					inst.FontFace = Font.new(enum_font.Family, prev_weight, prev_style)
 				end
 			end :: CustomDecodeFunction,
 

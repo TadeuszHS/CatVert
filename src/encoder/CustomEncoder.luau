@@ -62,7 +62,15 @@ const CustomEncoder = table.freeze({
 
 		Text = table.freeze({
 			font = function(element: TextAbstractElement, inst: TextLabel, _): ()
-				element.font = TypeEncoder.string(inst.FontFace.Family)
+				const enum_font = inst.Font
+
+				if enum_font ~= Enum.Font.Unknown then
+					element.font = TypeEncoder.Font(enum_font)
+				else
+					const t = inst.FontFace.Family:split("/")
+					const id = t[#t]:split(".")[1]
+					element.font = TypeEncoder.string(id)
+				end
 			end :: CustomEncodeFunction,
 
 			font_style = function(element: TextAbstractElement, inst: TextLabel, _): ()

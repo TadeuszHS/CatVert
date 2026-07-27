@@ -1,5 +1,6 @@
 --!strict
 
+const Logger = require("../util/Logger")
 const Conversion = require("../data/Conversion")
 const Structure = require("../data/Structure")
 
@@ -12,6 +13,8 @@ const function build(
 	default_props: { [string]: unknown },
 	default_attr: { [string]: unknown }
 ): Instance
+	Logger.withStatus("Initializing").withProcess("BuildDefaults").withArgs(roblox_class, default_props, default_attr)
+
 	const inst = Instance.new(roblox_class)
 
 	for roblox_index, value in default_props do
@@ -43,7 +46,6 @@ const Defaults = {}
 
 function Defaults.new(class: DefaultClassNames): Instance
 	const default_instance = defaults[class]
-	assert(default_instance, `CatVert: no default Instance exists for class "{class}"`)
 
 	return default_instance:Clone()
 end

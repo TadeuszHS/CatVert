@@ -14,8 +14,8 @@ type CatWebEnums = Types.CatWebEnums
 	```
 	{
 		{
-			[1]: Value,
-			[2]: Time,
+			[1]: Time,
+			[2]: Value,
 		}
 	}
 	```
@@ -28,8 +28,8 @@ const function fromSequence<T, E>(sequence: NumberSequence | ColorSequence, enco
 
 	for i, point in sequence.Keypoints do
 		const t: { number | E } = {}
-		t[1] = encode_value(point.Value)
-		t[2] = tostring(point.Time)
+		t[1] = tostring(point.Time)
+		t[2] = encode_value(point.Value)
 		result[i] = t
 	end
 
@@ -55,7 +55,7 @@ end
 	@return string
 ]=]
 function TypeEncoder.number(v: number): string
-	return tostring(v)
+	return string.lower(tostring(v))
 end
 
 --[=[
@@ -85,7 +85,7 @@ end
 	@return string
 ]=]
 function TypeEncoder.UDim(v: UDim): string
-	return tostring(v)
+	return string.lower(tostring(v))
 end
 
 --[=[
@@ -95,7 +95,7 @@ end
 	@return string
 ]=]
 function TypeEncoder.UDim2(v: UDim2): string
-	return tostring(v)
+	return string.lower(tostring(v))
 end
 
 --[=[
@@ -105,7 +105,7 @@ end
 	@return string
 ]=]
 function TypeEncoder.Vector2(v: Vector2): string
-	return tostring(v)
+	return string.lower(tostring(v))
 end
 
 --[=[
@@ -115,7 +115,7 @@ end
 	@return string
 ]=]
 function TypeEncoder.Rect(v: Rect): string
-	return tostring(v)
+	return string.lower(tostring(v))
 end
 
 --[=[
@@ -125,8 +125,8 @@ end
 	```
 	{
 		{
-			[1]: Value,
-			[2]: Time,
+			[1]: Time,
+			[2]: Value,
 		}
 	}
 	```
@@ -147,8 +147,8 @@ end
 	```
 	{
 		{
-			[1]: Value,
-			[2]: Time,
+			[1]: Time,
+			[2]: Value,
 		}
 	}
 	```
@@ -157,7 +157,7 @@ end
 ]=]
 function TypeEncoder.NumberSequence(v: NumberSequence): string
 	return fromSequence(v, function(x: number): string
-		return tostring(x)
+		return string.lower(tostring(x))
 	end)
 end
 

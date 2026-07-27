@@ -139,6 +139,7 @@ export type ImageAbstractElement = GuiAbstractElement & {
 	image_transparency: JSONUnknown,
 	resample_mode: JSONUnknown,
 	scale_type: JSONUnknown,
+	tile_size: JSONUnknown,
 	slice_center: JSONUnknown,
 	slice_scale: JSONUnknown,
 }
