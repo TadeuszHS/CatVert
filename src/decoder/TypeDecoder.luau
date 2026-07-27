@@ -202,7 +202,7 @@ function TypeDecoder.boolean(v: JSONUnknown): boolean?
 		return false
 	end
 
-	return Logger.event("Warn", "Expected value to be either \"true\" or \"false\"")
+	return Logger.event("Warn", 'Expected value to be either "true" or "false"')
 end
 
 --[=[

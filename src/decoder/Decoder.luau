@@ -84,9 +84,7 @@ function Decoder.decodeElement(element: UnknownElement): Instance?
 	const class = TypeDecoder.string(element.class) :: ElementClassNames
 	const element_def = Conversion.Element[class]
 
-	Logger.withStatus("Decoding")
-		.withProcess("CreateInstance")
-		.withArgs(element, class, element_def)
+	Logger.withStatus("Decoding").withProcess("CreateInstance").withArgs(element, class, element_def)
 	if not element_def then
 		return Logger.event("Warn", "Unsupported class")
 	end

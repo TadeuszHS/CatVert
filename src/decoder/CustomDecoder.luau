@@ -26,7 +26,7 @@ const CustomDecoder = table.freeze({
 
 				for _, element_child in element.webcontent do
 					const inst_child = element_to_inst(element_child)
-					
+
 					if inst_child then
 						inst_child.Parent = inst
 					end
@@ -46,7 +46,7 @@ const CustomDecoder = table.freeze({
 
 				for _, element_child in element.children do
 					const inst_child = element_to_inst(element_child)
-					
+
 					if inst_child then
 						inst_child.Parent = inst
 					end
@@ -60,7 +60,7 @@ const CustomDecoder = table.freeze({
 
 				if auto_size then
 					inst.AutomaticSize = auto_size
-					
+
 					if auto_size == Enum.AutomaticSize.XY then
 						inst.Size = UDim2.fromScale(0, 0)
 					elseif auto_size == Enum.AutomaticSize.X then
@@ -75,15 +75,13 @@ const CustomDecoder = table.freeze({
 
 			height = function(element: GuiAbstractElement, inst: GuiObject, _): ()
 				if TypeDecoder.AutomaticSize(element.size) == Enum.AutomaticSize.X then
-					inst.Size =
-						UDim2.new(UDim.new(0, 0), TypeDecoder.UDim(element.height))
+					inst.Size = UDim2.new(UDim.new(0, 0), TypeDecoder.UDim(element.height))
 				end
 			end :: CustomDecodeFunction,
 
 			width = function(element: GuiAbstractElement, inst: GuiObject, _): ()
 				if TypeDecoder.AutomaticSize(element.size) == Enum.AutomaticSize.Y then
-					inst.Size =
-						UDim2.new(TypeDecoder.UDim(element.width), UDim.new(0, 0))
+					inst.Size = UDim2.new(TypeDecoder.UDim(element.width), UDim.new(0, 0))
 				end
 			end :: CustomDecodeFunction,
 		}),

@@ -64,7 +64,7 @@ function Encoder.encodeElement(inst: Instance): UnknownElement?
 	if not element_def then
 		return Logger.event("Warn", "Unsupported class")
 	end
-	
+
 	const element: UnknownElement = {}
 	return apply(element_def, inst, element)
 end
