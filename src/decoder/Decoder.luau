@@ -125,15 +125,15 @@ function Decoder.decodeElement(element: UnknownElement): Instance?
 end
 
 --[=[
-	Decodes CatWeb WebContent to a Roblox Instance.
+	Decodes CatWeb WebContent to a Frame.
 
 	@within Decoder
 	@param element WebContentAbstractElement
-	@return Instance
+	@return Frame
 ]=]
-function Decoder.decodeWebContent(element: WebContentAbstractElement): Instance
+function Decoder.decodeWebContent(element: WebContentAbstractElement): Frame
 	const inst = Defaults.new("WebContent")
-	return apply(Conversion.Abstract.WebContent, element, inst)
+	return apply(Conversion.Abstract.WebContent, element, inst) :: Frame
 end
 
 --[=[
@@ -158,16 +158,16 @@ function Decoder.decodeElementGroup(elements: ElementGroup): { Instance }
 end
 
 --[=[
-	Decodes a string containing CatWeb structured JSON into an Instance or array of Instances.
+	Decodes a string containing CatWeb structured JSON into a Frame (WebContent) or array of Instances (Element Group).
 
 	@within Decoder
 	@error "HttpService failed to decode JSON, this is likely due to a syntax error"
 	@error "Expected to decode table"
 	@error "Unable to determine StructureType"
 	@param json string
-	@return Instance | { Instance }
+	@return Frame | { Instance }
 ]=]
-function Decoder.decodeJSON(json: string): Instance | { Instance }
+function Decoder.decodeJSON(json: string): Frame | { Instance }
 	Logger.withStatus("Decoding").withProcess("JSONTranscode").withArgs(json)
 
 	const success, decoded = pcall(function()

@@ -26,16 +26,16 @@ function CatVert.JSONEncode(data: Frame | { Instance }): string?
 end
 
 --[=[
-	Decodes a string containing CatWeb structured JSON into an Instance or array of Instances.
+	Decodes a string containing CatWeb structured JSON into a Frame (WebContent) or array of Instances (Element Group).
 
 	@within CatVert
 	@error "HttpService failed to decode JSON, this is likely due to a syntax error"
 	@error "Expected to decode table"
 	@error "Unable to determine StructureType"
 	@param json string
-	@return Instance | { Instance }
+	@return Frame | { Instance }
 ]=]
-function CatVert.JSONDecode(json: string): (Instance | { Instance })?
+function CatVert.JSONDecode(json: string): (Frame | { Instance })?
 	return Decoder.decodeJSON(json)
 end
 
