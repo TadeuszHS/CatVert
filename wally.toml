@@ -8,4 +8,5 @@ registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 private = true
 
-[dependencies]
+[dev-dependencies]
+lutest = "cayasde/lutest@0.7.1"

@@ -2,10 +2,11 @@
 _local
 
 Packages
+DevPackages
 
 sourcemap.json
 
-build/
+build
 
 wally.lock
 /CatVert.rbxlx

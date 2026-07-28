@@ -1,0 +1,30 @@
+{
+  "name": "CatVert",
+  "syncRules": [
+	{
+		"pattern": "*.json",
+		"use": "text"
+	}
+  ],
+  "tree": {
+	"$className": "DataModel",
+	"ReplicatedStorage": {
+		"$className": "ReplicatedStorage",
+		"CatVert": {
+			"$path": "src"
+		},
+		"DevPackages": {
+			"$path": "DevPackages"
+		},
+		"Resources": {
+			"$path": "resources/json"
+		}
+	},
+	"ServerScriptService": {
+		"$className": "ServerScriptService",
+		"Tests": {
+			"$path": "tests"
+		}
+	}
+  }
+}
