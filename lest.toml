@@ -1,0 +1,9 @@
+[suites.accuracy]
+include = ["tests/**/*.spec.luau"]
+
+[place]
+# TODO: put place file
+
+[settings]
+backend = "cloud"
+timeout_ms = 5000
