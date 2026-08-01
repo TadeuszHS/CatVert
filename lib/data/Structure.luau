@@ -1,11 +1,11 @@
 --!strict
 
 --[=[
-	Representation of all possible types that can be decoded by `HttpService:JsonDecode`.
+	Representation of all possible types that can be decoded by `HttpService:JSONDecode`.
 ]=]
 export type JSONUnknown = string | number | boolean | nil | JSONTable
 --[=[
-	Representation of all possible tables types that can be decoded by `HttpService:JsonDecode`.
+	Representation of all possible tables types that can be decoded by `HttpService:JSONDecode`.
 ]=]
 export type JSONTable = { [string | number]: JSONUnknown }
 
