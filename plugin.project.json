@@ -1,6 +1,6 @@
 {
   "name": "CatVert",
   "tree": {
-    "$path": "lib"
+    "$path": "plugin"
   }
 }

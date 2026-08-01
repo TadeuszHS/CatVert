@@ -11,19 +11,16 @@
 	"ReplicatedStorage": {
 		"$className": "ReplicatedStorage",
 		"CatVert": {
-			"$path": "src"
-		},
-		"DevPackages": {
-			"$path": "DevPackages"
+			"$path": "lib"
 		},
 		"Resources": {
 			"$path": "resources/json"
-		}
-	},
-	"ServerScriptService": {
-		"$className": "ServerScriptService",
+		},
 		"Tests": {
 			"$path": "tests"
+		},
+		"Lest": {
+			"$path": ".lest/core"
 		}
 	}
   }
