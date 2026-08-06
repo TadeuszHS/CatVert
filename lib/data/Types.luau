@@ -40,5 +40,9 @@ export type CatWebTypes =
 	| "ColorSequence"
 	| "NumberSequence"
 	| CatWebEnums
+--[=[
+	Utility type for situations where a table does not have an indexer.
+]=]
+export type Lookup<K, V> = { [K]: V }
 
 return table.freeze({})

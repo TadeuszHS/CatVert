@@ -70,8 +70,8 @@ end
 	@return { { string } }?
 ]=]
 const function SequenceJSON(j: JSONUnknown): { { string } }?
-	const success, decoded = pcall(function()
-		return HttpService:JSONDecode(j :: any) :: { { string } }
+	const success, decoded: { { string } } = pcall(function()
+		return HttpService:JSONDecode(j :: string)
 	end)
 
 	if not success or typeof(decoded) ~= "table" then

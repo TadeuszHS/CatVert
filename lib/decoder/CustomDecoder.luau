@@ -25,7 +25,7 @@ const CustomDecoder = table.freeze({
 				end
 
 				for _, element_child in element.webcontent do
-					const inst_child = element_to_inst(element_child)
+					const inst_child = element_to_inst(element_child :: UnknownElement)
 
 					if inst_child then
 						inst_child.Parent = inst
@@ -45,7 +45,7 @@ const CustomDecoder = table.freeze({
 				end
 
 				for _, element_child in element.children do
-					const inst_child = element_to_inst(element_child)
+					const inst_child = element_to_inst(element_child :: UnknownElement)
 
 					if inst_child then
 						inst_child.Parent = inst

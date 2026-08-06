@@ -1,14 +1,19 @@
---!nonstrict
+--!strict
 
 const HttpService = game:GetService("HttpService")
+const Types = require("../data/Types")
 const Logger = require("../util/Logger")
 const Structure = require("../data/Structure")
 const Conversion = require("../data/Conversion")
-const TypeDecoder = require("./TypeDecoder")
+const TypeDecoder = require("./TypeDecoder") :: Lookup<CatWebTypes, (JSONUnknown) -> unknown>
 const Defaults = require("../data/Defaults")
 const Element = require("../data/element/Element")
 const Property = require("../data/property/Property")
+const Attribute = require("../data/property/Attribute")
+const Custom = require("../data/property/Custom")
 
+type Lookup<K, V> = Types.Lookup<K, V>
+type CatWebTypes = Types.CatWebTypes
 type JSONUnknown = Structure.JSONUnknown
 type JSONTable = Structure.JSONTable
 type UnknownElement = Structure.UnknownElement
@@ -18,6 +23,8 @@ type StructureType = Structure.StructureType
 type ElementClassNames = Structure.ElementClassNames
 type Element = Element.Element
 type Property = Property.Property
+type Attribute = Attribute.Attribute
+type Custom = Custom.Custom
 
 --[=[
 	@class Decoder
@@ -70,9 +77,9 @@ const function Apply(element_def: Element, element: UnknownElement, inst: Instan
 
 		if property.class == "Property" then
 			success = pcall(function()
-				const decoded = TypeDecoder[property.value_type](element[catweb_index])
+				const decoded = TypeDecoder[(property :: Property).value_type](element[catweb_index])
 				if decoded ~= nil then
-					inst[property.roblox_index] = decoded
+					(inst :: any)[(property :: Property).roblox_index] = decoded
 				end
 			end)
 
@@ -81,7 +88,7 @@ const function Apply(element_def: Element, element: UnknownElement, inst: Instan
 				.WithArgs(element_def, element, inst, catweb_index, property)
 		elseif property.class == "Attribute" then
 			success = pcall(function()
-				inst:SetAttribute(property.catweb_index, TypeDecoder[property.value_type](element[catweb_index]))
+				inst:SetAttribute(property.catweb_index, TypeDecoder[(property :: Attribute).value_type](element[catweb_index]))
 			end)
 
 			Logger.WithStatus("Decoding")
@@ -89,7 +96,7 @@ const function Apply(element_def: Element, element: UnknownElement, inst: Instan
 				.WithArgs(element_def, element, inst, catweb_index, property)
 		elseif property.class == "Custom" then
 			success = pcall(function()
-				property.decode(element, inst, Decoder.Element)
+				(property :: Custom).decode(element, inst, Decoder.Element)
 			end)
 
 			Logger.WithStatus("Decoding")
@@ -113,7 +120,7 @@ end
 ]=]
 function Decoder.Element(element: UnknownElement): Instance?
 	const class = TypeDecoder.string(element.class) :: ElementClassNames
-	const element_def = Conversion.Element[class]
+	const element_def = (Conversion.Element :: Lookup<ElementClassNames, Element>)[class]
 
 	Logger.WithStatus("Decoding").WithProcess("CreateInstance").WithArgs(element, class, element_def)
 	if not element_def then
@@ -133,7 +140,8 @@ end
 ]=]
 function Decoder.WebContent(element: WebContentAbstractElement): Frame
 	const inst = Defaults.New("WebContent")
-	return Apply(Conversion.Abstract.WebContent, element, inst) :: Frame
+	--WebContent is not actually an Element, only true for the purposes of this function.
+	return Apply(Conversion.Abstract.WebContent :: Element, element :: UnknownElement, inst) :: Frame
 end
 
 --[=[
@@ -177,13 +185,13 @@ function Decoder.JSONDecode(json: string): Frame | { Instance }
 	Logger.EventAssert(success, "Error", "HttpService failed to decode JSON, this is likely due to a syntax error")
 	Logger.EventAssert(typeof(decoded) == "table", "Error", "Expected to decode table")
 
-	const structure_type = DetermineStructureType(decoded)
+	const structure_type = DetermineStructureType(decoded :: JSONTable)
 
 	if structure_type == "WebContent" then
-		return Decoder.WebContent(decoded)
+		return Decoder.WebContent(decoded :: WebContentAbstractElement)
 	end
 
-	return Decoder.ElementGroup(decoded)
+	return Decoder.ElementGroup(decoded :: ElementGroup)
 end
 
 return table.freeze(Decoder)

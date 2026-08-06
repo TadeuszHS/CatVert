@@ -110,7 +110,7 @@ function Logger.Event(type: EventType, message: string): nil
 	end
 
 	const time = os.clock()
-	const event = table.clone(state) :: any
+	const event = table.clone(state) :: { [string]: any }
 	event.type = type
 	event.message = message
 	event.time = time
