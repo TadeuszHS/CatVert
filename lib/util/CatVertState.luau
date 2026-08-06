@@ -41,7 +41,7 @@ const CatVertState = {}
 	@param ... unknown
 	@return CatVertState
 ]=]
-function CatVertState.new(status: Status, process: Process, ...: unknown): CatVertState
+function CatVertState.New(status: Status, process: Process, ...: unknown): CatVertState
 	return {
 		status = status,
 		process = process,

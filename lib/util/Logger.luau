@@ -37,7 +37,7 @@ const Logger = {}
 	@within Logger
 	@prop state CatVertState
 ]=]
-const state = CatVertState.new("Initializing", "None")
+const state = CatVertState.New("Initializing", "None")
 --[=[
 	An array of Events ordered by `os.clock()`.
 
@@ -61,7 +61,7 @@ const ignore_info = true
 	@param status Status
 	@return Logger
 ]=]
-function Logger.withStatus(status: Status): typeof(Logger)
+function Logger.WithStatus(status: Status): typeof(Logger)
 	state.status = status
 
 	return Logger
@@ -75,7 +75,7 @@ end
 	@param process Process
 	@return Logger
 ]=]
-function Logger.withProcess(process: Process): typeof(Logger)
+function Logger.WithProcess(process: Process): typeof(Logger)
 	state.process = process
 
 	return Logger
@@ -89,7 +89,7 @@ end
 	@param ... unknown
 	@return Logger
 ]=]
-function Logger.withArgs(...: unknown): typeof(Logger)
+function Logger.WithArgs(...: unknown): typeof(Logger)
 	state.args = { ... }
 
 	return Logger
@@ -104,7 +104,7 @@ end
 	@param message string
 	@return nil
 ]=]
-function Logger.event(type: EventType, message: string): nil
+function Logger.Event(type: EventType, message: string): nil
 	if type == "Info" and ignore_info then
 		return nil
 	end
@@ -138,12 +138,12 @@ end
 	@param message string
 	@return nil
 ]=]
-function Logger.eventAssert(condition: unknown, type: EventType, message: string): nil
+function Logger.EventAssert(condition: unknown, type: EventType, message: string): nil
 	if condition then
 		return nil
 	end
 
-	return Logger.event(type, message)
+	return Logger.Event(type, message)
 end
 
 --[=[
@@ -152,7 +152,7 @@ end
 	@within Logger
 	@return { Event }
 ]=]
-function Logger.getEvents(): { Event }
+function Logger.GetEvents(): { Event }
 	return logs
 end
 
@@ -162,7 +162,7 @@ end
 	@within Logger
 	@return Event?
 ]=]
-function Logger.getMostRecentEvent(): Event?
+function Logger.GetMostRecentEvent(): Event?
 	return logs[table.maxn(logs)]
 end
 

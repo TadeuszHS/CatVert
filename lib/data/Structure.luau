@@ -64,7 +64,7 @@ export type UnknownElement = RootAbstractElement & {
 export type StructureType = "WebContent" | "ElementGroup"
 --[=[
 	Represents a Page in CatWeb.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type WebContentAbstractElement = {
 	description: JSONUnknown,
@@ -77,13 +77,13 @@ export type WebContentAbstractElement = {
 }
 --[=[
 	Represents an array of Elements in CatWeb
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type ElementGroup = { UnknownElement }
 
 --[=[
 	Abstract JSON Element for all CatWeb Elements.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type RootAbstractElement = {
 	alias: JSONUnknown,
@@ -93,7 +93,7 @@ export type RootAbstractElement = {
 }
 --[=[
 	Abstract JSON Element for all CatWeb Gui Elements.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type GuiAbstractElement = {
 	anchor: JSONUnknown,
@@ -111,7 +111,7 @@ export type GuiAbstractElement = {
 }
 --[=[
 	Abstract JSON Element for all CatWeb Text Elements.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type TextAbstractElement = GuiAbstractElement & {
 	align_x: JSONUnknown,
@@ -130,7 +130,7 @@ export type TextAbstractElement = GuiAbstractElement & {
 }
 --[=[
 	Abstract JSON Element for all CatWeb Image Elements.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type ImageAbstractElement = GuiAbstractElement & {
 	image: JSONUnknown,
@@ -145,14 +145,14 @@ export type ImageAbstractElement = GuiAbstractElement & {
 }
 --[=[
 	Abstract JSON Element for all CatWeb Button Elements.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type GuiButtonAbstractElement = GuiAbstractElement & {
 	auto_color: JSONUnknown,
 }
 --[=[
 	Abstract JSON Element for all CatWeb Link Elements.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type LinkButtonAbstractElement = GuiButtonAbstractElement & {
 	href: JSONUnknown,
@@ -160,7 +160,7 @@ export type LinkButtonAbstractElement = GuiButtonAbstractElement & {
 }
 --[=[
 	Abstract JSON Element for all CatWeb Grid Styling Elements.
-	@since 1.3.0
+	@since CatWeb v1.3.0
 ]=]
 export type GridStyleAbstractElement = RootAbstractElement & {
 	alignment_horizontal: JSONUnknown,
@@ -170,12 +170,12 @@ export type GridStyleAbstractElement = RootAbstractElement & {
 
 --[=[
 	CatWeb Frame Element.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type FrameElement = GuiAbstractElement
 --[=[
 	CatWeb ScrollableFrame Element.
-	@since 1.3.0
+	@since CatWeb v1.3.0
 ]=]
 export type ScrollingFrameElement = GuiAbstractElement & {
 	canvassize: JSONUnknown,
@@ -185,12 +185,12 @@ export type ScrollingFrameElement = GuiAbstractElement & {
 }
 --[=[
 	CatWeb Text Element.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type TextLabelElement = TextAbstractElement
 --[=[
 	CatWeb Input Element.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type TextBoxElement = TextAbstractElement & {
 	editable: JSONUnknown,
@@ -200,12 +200,12 @@ export type TextBoxElement = TextAbstractElement & {
 }
 --[=[
 	CatWeb Button Element.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type TextButtonElement = TextAbstractElement & GuiButtonAbstractElement
 --[=[
 	CatWeb Link Element.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type LinkButtonElement = TextAbstractElement & LinkButtonAbstractElement
 --[=[
@@ -213,7 +213,7 @@ export type LinkButtonElement = TextAbstractElement & LinkButtonAbstractElement
 	@deprecated As of 2.17.3.0 due to
 	[Roblox updates](https://devforum.roblox.com/t/disabling-cross-game-sales-of-passes-and-dev-products-and-introducing-the-transfers-api/4618396)
 	in favor of the Transfers API, use TransferElement or AvatarItemElement instead.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type DonationButtonElement = TextButtonElement & {
 	product: JSONUnknown,
@@ -222,7 +222,7 @@ export type DonationButtonElement = TextButtonElement & {
 }
 --[=[
 	CatWeb Transfer Element.
-	@since 2.17.3.0
+	@since CatWeb v2.17.3.0
 ]=]
 export type TransferButtonElement = TextButtonElement & {
 	robux_amount: JSONUnknown,
@@ -230,7 +230,7 @@ export type TransferButtonElement = TextButtonElement & {
 }
 --[=[
 	CatWeb Avatar Item Element.
-	@since 2.17.3.0
+	@since CatWeb v2.17.3.0
 ]=]
 export type AvatarItemButtonElement = TextButtonElement & {
 	product: JSONUnknown,
@@ -238,35 +238,35 @@ export type AvatarItemButtonElement = TextButtonElement & {
 }
 --[=[
 	CatWeb Image Element.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type ImageLabelElement = ImageAbstractElement
 --[=[
 	CatWeb Image Button Element.
-	@since 2.18.0.0
+	@since CatWeb v2.18.0.0
 ]=]
 export type ImageButtonElement = ImageAbstractElement & GuiButtonAbstractElement
 --[=[
 	CatWeb Image Link Element.
-	@since 2.18.0.0
+	@since CatWeb v2.18.0.0
 ]=]
 export type ImageLinkButtonElement = ImageAbstractElement & LinkButtonAbstractElement
 --[=[
 	CatWeb Folder Element.
-	@since 2.8.0
+	@since CatWeb v2.8.0
 ]=]
 export type FolderElement = RootAbstractElement
 
 --[=[
 	CatWeb AspectRatio Element.
-	@since 1.7.0
+	@since CatWeb v1.7.0
 ]=]
 export type UIAspectRatioConstraintElement = RootAbstractElement & {
 	ratio: JSONUnknown,
 }
 --[=[
 	CatWeb Constraint Element.
-	@since 1.7.0
+	@since CatWeb v1.7.0
 ]=]
 export type UISizeConstraintElement = RootAbstractElement & {
 	max_size: JSONUnknown,
@@ -274,14 +274,14 @@ export type UISizeConstraintElement = RootAbstractElement & {
 }
 --[=[
 	CatWeb Corner Element.
-	@since 1.3.0
+	@since CatWeb v1.3.0
 ]=]
 export type UICornerElement = RootAbstractElement & {
 	radius: JSONUnknown,
 }
 --[=[
 	CatWeb Gradient Element.
-	@since 2.10.0
+	@since CatWeb v2.10.0
 ]=]
 export type UIGradientElement = RootAbstractElement & {
 	gradient_color: JSONUnknown,
@@ -291,7 +291,7 @@ export type UIGradientElement = RootAbstractElement & {
 }
 --[=[
 	CatWeb Grid Element.
-	@since 1.3.0
+	@since CatWeb v1.3.0
 ]=]
 export type UIGridLayoutElement = GridStyleAbstractElement & {
 	padding: JSONUnknown,
@@ -299,7 +299,7 @@ export type UIGridLayoutElement = GridStyleAbstractElement & {
 }
 --[=[
 	CatWeb List Element.
-	@since 1.3.0
+	@since CatWeb v1.3.0
 ]=]
 export type UIListLayoutElement = GridStyleAbstractElement & {
 	direction: JSONUnknown,
@@ -308,7 +308,7 @@ export type UIListLayoutElement = GridStyleAbstractElement & {
 }
 --[=[
 	CatWeb Padding Element.
-	@since 1.2.0
+	@since CatWeb v1.2.0
 ]=]
 export type UIPaddingElement = RootAbstractElement & {
 	bottom: JSONUnknown,
@@ -318,7 +318,7 @@ export type UIPaddingElement = RootAbstractElement & {
 }
 --[=[
 	CatWeb Outline Element.
-	@since 1.3.0
+	@since CatWeb v1.3.0
 ]=]
 export type UIStrokeElement = RootAbstractElement & {
 	stroke_color: JSONUnknown,
@@ -333,7 +333,7 @@ export type UIStrokeElement = RootAbstractElement & {
 }
 --[=[
 	CatWeb Flex Item Element.
-	@since 2.18.0.0
+	@since CatWeb v2.18.0.0
 ]=]
 export type UIFlexItemElement = RootAbstractElement & {
 	flex_mode: JSONUnknown,

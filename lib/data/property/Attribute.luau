@@ -28,7 +28,7 @@ const Attribute = {}
     @param value_type CatWebTypes
     @return Attribute
 ]=]
-function Attribute.new(catweb_index: string, value_type: CatWebTypes): Attribute
+function Attribute.New(catweb_index: string, value_type: CatWebTypes): Attribute
 	return table.freeze({
 		class = "Attribute" :: PropertyClassNames,
 		catweb_index = catweb_index,

@@ -34,8 +34,8 @@ const Decoder = {}
 	@param decoded JSONTable
 	@return StructureType?
 ]=]
-const function determineStructureType(decoded: JSONTable): StructureType?
-	Logger.withStatus("Decoding").withProcess("DetermineStructureType").withArgs(decoded)
+const function DetermineStructureType(decoded: JSONTable): StructureType?
+	Logger.WithStatus("Decoding").WithProcess("DetermineStructureType").WithArgs(decoded)
 
 	if typeof(decoded.webcontent) == "table" then
 		return "WebContent"
@@ -43,7 +43,7 @@ const function determineStructureType(decoded: JSONTable): StructureType?
 		return "ElementGroup"
 	end
 
-	return Logger.event("Error", "Unable to determine StructureType")
+	return Logger.Event("Error", "Unable to determine StructureType")
 end
 
 --[=[
@@ -56,13 +56,13 @@ end
 	@param inst Instance
 	@return Instance
 ]=]
-const function apply(element_def: Element, element: UnknownElement, inst: Instance): Instance
+const function Apply(element_def: Element, element: UnknownElement, inst: Instance): Instance
 	for catweb_index, property in element_def.properties do
 		if element[catweb_index] == nil then
-			Logger.withStatus("Decoding")
-				.withProcess("Apply")
-				.withArgs(element_def, element, inst, catweb_index, property)
-				.event("Info", "Skipping due to property being nil in Element")
+			Logger.WithStatus("Decoding")
+				.WithProcess("Apply")
+				.WithArgs(element_def, element, inst, catweb_index, property)
+				.Event("Info", "Skipping due to property being nil in Element")
 			continue
 		end
 
@@ -76,28 +76,28 @@ const function apply(element_def: Element, element: UnknownElement, inst: Instan
 				end
 			end)
 
-			Logger.withStatus("Decoding")
-				.withProcess("ApplyProperty")
-				.withArgs(element_def, element, inst, catweb_index, property)
+			Logger.WithStatus("Decoding")
+				.WithProcess("ApplyProperty")
+				.WithArgs(element_def, element, inst, catweb_index, property)
 		elseif property.class == "Attribute" then
 			success = pcall(function()
 				inst:SetAttribute(property.catweb_index, TypeDecoder[property.value_type](element[catweb_index]))
 			end)
 
-			Logger.withStatus("Decoding")
-				.withProcess("ApplyAttribute")
-				.withArgs(element_def, element, inst, catweb_index, property)
+			Logger.WithStatus("Decoding")
+				.WithProcess("ApplyAttribute")
+				.WithArgs(element_def, element, inst, catweb_index, property)
 		elseif property.class == "Custom" then
 			success = pcall(function()
-				property.decode(element, inst, Decoder.decodeElement)
+				property.decode(element, inst, Decoder.Element)
 			end)
 
-			Logger.withStatus("Decoding")
-				.withProcess("ApplyCustom")
-				.withArgs(element_def, element, inst, catweb_index, property)
+			Logger.WithStatus("Decoding")
+				.WithProcess("ApplyCustom")
+				.WithArgs(element_def, element, inst, catweb_index, property)
 		end
 
-		Logger.eventAssert(success, "Warn", "Unable to apply property to Instance")
+		Logger.EventAssert(success, "Warn", "Unable to apply property to Instance")
 	end
 
 	return inst
@@ -111,17 +111,17 @@ end
 	@param element UnknownElement
 	@return Instance?
 ]=]
-function Decoder.decodeElement(element: UnknownElement): Instance?
+function Decoder.Element(element: UnknownElement): Instance?
 	const class = TypeDecoder.string(element.class) :: ElementClassNames
 	const element_def = Conversion.Element[class]
 
-	Logger.withStatus("Decoding").withProcess("CreateInstance").withArgs(element, class, element_def)
+	Logger.WithStatus("Decoding").WithProcess("CreateInstance").WithArgs(element, class, element_def)
 	if not element_def then
-		return Logger.event("Warn", "Unsupported class")
+		return Logger.Event("Warn", "Unsupported class")
 	end
 
-	const inst = Defaults.new(class)
-	return apply(element_def, element, inst)
+	const inst = Defaults.New(class)
+	return Apply(element_def, element, inst)
 end
 
 --[=[
@@ -131,9 +131,9 @@ end
 	@param element WebContentAbstractElement
 	@return Frame
 ]=]
-function Decoder.decodeWebContent(element: WebContentAbstractElement): Frame
-	const inst = Defaults.new("WebContent")
-	return apply(Conversion.Abstract.WebContent, element, inst) :: Frame
+function Decoder.WebContent(element: WebContentAbstractElement): Frame
+	const inst = Defaults.New("WebContent")
+	return Apply(Conversion.Abstract.WebContent, element, inst) :: Frame
 end
 
 --[=[
@@ -143,11 +143,11 @@ end
 	@param elements ElementGroup
 	@return { Instance }
 ]=]
-function Decoder.decodeElementGroup(elements: ElementGroup): { Instance }
+function Decoder.ElementGroup(elements: ElementGroup): { Instance }
 	const instances = {}
 
 	for i, element in elements do
-		const inst = Decoder.decodeElement(element)
+		const inst = Decoder.Element(element)
 
 		if inst then
 			table.insert(instances, inst)
@@ -167,23 +167,23 @@ end
 	@param json string
 	@return Frame | { Instance }
 ]=]
-function Decoder.decodeJSON(json: string): Frame | { Instance }
-	Logger.withStatus("Decoding").withProcess("JSONTranscode").withArgs(json)
+function Decoder.JSONDecode(json: string): Frame | { Instance }
+	Logger.WithStatus("Decoding").WithProcess("JSONTranscode").WithArgs(json)
 
 	const success, decoded = pcall(function()
 		return HttpService:JSONDecode(json) :: JSONUnknown
 	end)
 
-	Logger.eventAssert(success, "Error", "HttpService failed to decode JSON, this is likely due to a syntax error")
-	Logger.eventAssert(typeof(decoded) == "table", "Error", "Expected to decode table")
+	Logger.EventAssert(success, "Error", "HttpService failed to decode JSON, this is likely due to a syntax error")
+	Logger.EventAssert(typeof(decoded) == "table", "Error", "Expected to decode table")
 
-	const structure_type = determineStructureType(decoded)
+	const structure_type = DetermineStructureType(decoded)
 
 	if structure_type == "WebContent" then
-		return Decoder.decodeWebContent(decoded)
+		return Decoder.WebContent(decoded)
 	end
 
-	return Decoder.decodeElementGroup(decoded)
+	return Decoder.ElementGroup(decoded)
 end
 
 return table.freeze(Decoder)

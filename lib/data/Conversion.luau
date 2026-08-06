@@ -8,16 +8,16 @@ const Custom = require("./property/Custom")
 const CustomEncoder = require("../encoder/CustomEncoder")
 const CustomDecoder = require("../decoder/CustomDecoder")
 
-const WebContentAbstractElement = AbstractElement.new<<Frame>>(
+const WebContentAbstractElement = AbstractElement.New<<Frame>>(
 	"WebContent",
 	{
-		Property.new("title", "Name", "string"),
-		Property.new("background", "BackgroundColor3", "Color3"),
-		Attribute.new("description", "string"),
-		Attribute.new("favicon", "number"),
-		Attribute.new("thumbnail_id", "number"),
-		Attribute.new("thumbnail", "string"),
-		Custom.new(
+		Property.New("title", "Name", "string"),
+		Property.New("background", "BackgroundColor3", "Color3"),
+		Attribute.New("description", "string"),
+		Attribute.New("favicon", "number"),
+		Attribute.New("thumbnail_id", "number"),
+		Attribute.New("thumbnail", "string"),
+		Custom.New(
 			"webcontent",
 			CustomEncoder.Abstract.WebContent.webcontent,
 			CustomDecoder.Abstract.WebContent.webcontent
@@ -40,13 +40,13 @@ const WebContentAbstractElement = AbstractElement.new<<Frame>>(
 	}
 )
 
-const RootAbstractElement = AbstractElement.new<<Instance>>(
+const RootAbstractElement = AbstractElement.New<<Instance>>(
 	"Root",
 	{
-		Property.new("alias", "Name", "string"),
-		Attribute.new("class", "string"),
-		Attribute.new("globalid", "string"),
-		Custom.new(
+		Property.New("alias", "Name", "string"),
+		Attribute.New("class", "string"),
+		Attribute.New("globalid", "string"),
+		Custom.New(
 			"children",
 			CustomEncoder.Abstract.Root.children,
 			CustomDecoder.Abstract.Root.children
@@ -61,28 +61,28 @@ const RootAbstractElement = AbstractElement.new<<Instance>>(
 	}
 )
 
-const GuiAbstractElement = AbstractElement.new<<GuiObject>>(
+const GuiAbstractElement = AbstractElement.New<<GuiObject>>(
 	"Gui",
 	{
-		Property.new("anchor", "AnchorPoint", "Vector2"),
-		Property.new("background_color", "BackgroundColor3", "Color3"),
-		Property.new("background_transparency", "BackgroundTransparency", "number"),
-		Property.new("canvas", "ClipsDescendants", "boolean"),
-		Property.new("position", "Position", "UDim2"),
-		Property.new("visible", "Visible", "boolean"),
-		Property.new("z_index", "ZIndex", "number"),
-		Attribute.new("tooltip", "string"),
-		Custom.new(
+		Property.New("anchor", "AnchorPoint", "Vector2"),
+		Property.New("background_color", "BackgroundColor3", "Color3"),
+		Property.New("background_transparency", "BackgroundTransparency", "number"),
+		Property.New("canvas", "ClipsDescendants", "boolean"),
+		Property.New("position", "Position", "UDim2"),
+		Property.New("visible", "Visible", "boolean"),
+		Property.New("z_index", "ZIndex", "number"),
+		Attribute.New("tooltip", "string"),
+		Custom.New(
 			"size",
 			CustomEncoder.Abstract.Gui.size,
 			CustomDecoder.Abstract.Gui.size
 		),
-		Custom.new(
+		Custom.New(
 			"height",
 			CustomEncoder.Abstract.Gui.height,
 			CustomDecoder.Abstract.Gui.height
 		),
-		Custom.new(
+		Custom.New(
 			"width",
 			CustomEncoder.Abstract.Gui.width,
 			CustomDecoder.Abstract.Gui.width
@@ -102,34 +102,34 @@ const GuiAbstractElement = AbstractElement.new<<GuiObject>>(
 	RootAbstractElement
 )
 
-const TextAbstractElement = AbstractElement.new<<TextLabel>>(
+const TextAbstractElement = AbstractElement.New<<TextLabel>>(
 	"Text",
 	{
-		Property.new("align_x", "TextXAlignment", "TextXAlignment"),
-		Property.new("align_y", "TextYAlignment", "TextYAlignment"),
-		Property.new("truncate", "TextTruncate", "TextTruncate"),
-		Property.new("line_height", "LineHeight", "number"),
-		Property.new("rich", "RichText", "boolean"),
-		Property.new("text", "Text", "string"),
-		Property.new("wrap", "TextWrapped", "boolean"),
-		Property.new("font_color", "TextColor3", "Color3"),
-		Property.new("font_transparency", "TextTransparency", "number"),
-		Custom.new(
+		Property.New("align_x", "TextXAlignment", "TextXAlignment"),
+		Property.New("align_y", "TextYAlignment", "TextYAlignment"),
+		Property.New("truncate", "TextTruncate", "TextTruncate"),
+		Property.New("line_height", "LineHeight", "number"),
+		Property.New("rich", "RichText", "boolean"),
+		Property.New("text", "Text", "string"),
+		Property.New("wrap", "TextWrapped", "boolean"),
+		Property.New("font_color", "TextColor3", "Color3"),
+		Property.New("font_transparency", "TextTransparency", "number"),
+		Custom.New(
 			"font",
 			CustomEncoder.Abstract.Text.font,
 			CustomDecoder.Abstract.Text.font
 		),
-		Custom.new(
+		Custom.New(
 			"font_style",
 			CustomEncoder.Abstract.Text.font_style,
 			CustomDecoder.Abstract.Text.font_style
 		),
-		Custom.new(
+		Custom.New(
 			"font_weight",
 			CustomEncoder.Abstract.Text.font_weight,
 			CustomDecoder.Abstract.Text.font_weight
 		),
-		Custom.new(
+		Custom.New(
 			"font_size",
 			CustomEncoder.Abstract.Text.font_size,
 			CustomDecoder.Abstract.Text.font_size
@@ -150,18 +150,18 @@ const TextAbstractElement = AbstractElement.new<<TextLabel>>(
 	GuiAbstractElement
 )
 
-const ImageAbstractElement = AbstractElement.new<<ImageLabel>>(
+const ImageAbstractElement = AbstractElement.New<<ImageLabel>>(
 	"Image",
 	{
-		Property.new("image", "Image", "string"),
-		Property.new("image_color", "ImageColor3", "Color3"),
-		Property.new("image_transparency", "ImageTransparency", "number"),
-		Property.new("resample_mode", "ResampleMode", "ResamplerMode"),
-		Property.new("scale_type", "ScaleType", "ScaleType"),
-		Property.new("tile_size", "TileSize", "UDim2"),
-		Property.new("slice_center", "SliceCenter", "Rect"),
-		Property.new("slice_scale", "SliceScale", "number"),
-		Attribute.new("image_id", "number"),
+		Property.New("image", "Image", "string"),
+		Property.New("image_color", "ImageColor3", "Color3"),
+		Property.New("image_transparency", "ImageTransparency", "number"),
+		Property.New("resample_mode", "ResampleMode", "ResamplerMode"),
+		Property.New("scale_type", "ScaleType", "ScaleType"),
+		Property.New("tile_size", "TileSize", "UDim2"),
+		Property.New("slice_center", "SliceCenter", "Rect"),
+		Property.New("slice_scale", "SliceScale", "number"),
+		Attribute.New("image_id", "number"),
 	},
 	{
 		Name = "Image",
@@ -176,10 +176,10 @@ const ImageAbstractElement = AbstractElement.new<<ImageLabel>>(
 	GuiAbstractElement
 )
 
-const GuiButtonAbstractElement = AbstractElement.new<<TextButton>>(
+const GuiButtonAbstractElement = AbstractElement.New<<TextButton>>(
 	"GuiButton",
 	{
-		Property.new("auto_color", "AutoButtonColor", "boolean"),
+		Property.New("auto_color", "AutoButtonColor", "boolean"),
 	},
 	{
 		Name = "Button",
@@ -190,11 +190,11 @@ const GuiButtonAbstractElement = AbstractElement.new<<TextButton>>(
 	GuiAbstractElement
 )
 
-const LinkButtonAbstractElement = AbstractElement.new<<TextButton>>(
+const LinkButtonAbstractElement = AbstractElement.New<<TextButton>>(
 	"LinkButton",
 	{
-		Attribute.new("href", "string"),
-		Attribute.new("new_tab", "boolean"),
+		Attribute.New("href", "string"),
+		Attribute.New("new_tab", "boolean"),
 	},
 	{
 		Name = "Link",
@@ -207,12 +207,12 @@ const LinkButtonAbstractElement = AbstractElement.new<<TextButton>>(
 	GuiButtonAbstractElement
 )
 
-const GridStyleAbstractElement = AbstractElement.new<<UIGridStyleLayout>>(
+const GridStyleAbstractElement = AbstractElement.New<<UIGridStyleLayout>>(
 	"GridStyle",
 	{
-		Property.new("alignment_horizontal", "HorizontalAlignment", "HorizontalAlignment"),
-		Property.new("alignment_vertical", "VerticalAlignment", "VerticalAlignment"),
-		Property.new("sort", "SortOrder", "SortOrder"),
+		Property.New("alignment_horizontal", "HorizontalAlignment", "HorizontalAlignment"),
+		Property.New("alignment_vertical", "VerticalAlignment", "VerticalAlignment"),
+		Property.New("sort", "SortOrder", "SortOrder"),
 	},
 	{
 		Name = "GridStyle",
@@ -224,7 +224,7 @@ const GridStyleAbstractElement = AbstractElement.new<<UIGridStyleLayout>>(
 	RootAbstractElement
 )
 
-const FrameElement = Element.new<<Frame>>(
+const FrameElement = Element.New<<Frame>>(
 	"Frame",
 	"Frame",
 	{},
@@ -237,14 +237,14 @@ const FrameElement = Element.new<<Frame>>(
 	GuiAbstractElement
 )
 
-const ScrollingFrameElement = Element.new<<ScrollingFrame>>(
+const ScrollingFrameElement = Element.New<<ScrollingFrame>>(
 	"ScrollingFrame",
 	"ScrollingFrame",
 	{
-		Property.new("scrollbar_color", "ScrollBarImageColor3", "Color3"),
-		Property.new("scrollbar_thickness", "ScrollBarThickness", "number"),
-		Property.new("scrollbar_transparency", "ScrollBarImageTransparency", "number"),
-		Custom.new(
+		Property.New("scrollbar_color", "ScrollBarImageColor3", "Color3"),
+		Property.New("scrollbar_thickness", "ScrollBarThickness", "number"),
+		Property.New("scrollbar_transparency", "ScrollBarImageTransparency", "number"),
+		Custom.New(
 			"canvassize",
 			CustomEncoder.Element.ScrollingFrame.canvassize,
 			CustomDecoder.Element.ScrollingFrame.canvassize
@@ -260,7 +260,7 @@ const ScrollingFrameElement = Element.new<<ScrollingFrame>>(
 	GuiAbstractElement
 )
 
-const TextLabelElement = Element.new<<TextLabel>>(
+const TextLabelElement = Element.New<<TextLabel>>(
 	"TextLabel",
 	"TextLabel",
 	{},
@@ -273,14 +273,14 @@ const TextLabelElement = Element.new<<TextLabel>>(
 	TextAbstractElement
 )
 
-const TextBoxElement = Element.new<<TextBox>>(
+const TextBoxElement = Element.New<<TextBox>>(
 	"TextBox",
 	"TextBox",
 	{
-		Property.new("editable", "TextEditable", "boolean"),
-		Property.new("multiline", "MultiLine", "boolean"),
-		Property.new("placeholder", "PlaceholderText", "string"),
-		Property.new("placeholder_color", "PlaceholderColor3", "Color3"),
+		Property.New("editable", "TextEditable", "boolean"),
+		Property.New("multiline", "MultiLine", "boolean"),
+		Property.New("placeholder", "PlaceholderText", "string"),
+		Property.New("placeholder_color", "PlaceholderColor3", "Color3"),
 	},
 	{
 		Name = "Input",
@@ -295,7 +295,7 @@ const TextBoxElement = Element.new<<TextBox>>(
 	TextAbstractElement
 )
 
-const TextButtonElement = Element.new<<TextButton>>(
+const TextButtonElement = Element.New<<TextButton>>(
 	"TextButton",
 	"TextButton",
 	{},
@@ -311,7 +311,7 @@ const TextButtonElement = Element.new<<TextButton>>(
 	GuiButtonAbstractElement
 )
 
-const LinkButtonElement = Element.new<<TextButton>>(
+const LinkButtonElement = Element.New<<TextButton>>(
 	"TextButton?link",
 	"TextButton",
 	{},
@@ -327,13 +327,13 @@ const LinkButtonElement = Element.new<<TextButton>>(
 	LinkButtonAbstractElement
 )
 
-const DonationButtonElement = Element.new<<TextButton>>(
+const DonationButtonElement = Element.New<<TextButton>>(
 	"TextButton?donation",
 	"TextButton",
 	{
-		Attribute.new("product", "string"),
-		Attribute.new("product_type", "InfoType"),
-		Attribute.new("thanks_href", "string"),
+		Attribute.New("product", "string"),
+		Attribute.New("product_type", "InfoType"),
+		Attribute.New("thanks_href", "string"),
 	},
 	{
 		Name = "Donation",
@@ -349,12 +349,12 @@ const DonationButtonElement = Element.new<<TextButton>>(
 	GuiButtonAbstractElement
 )
 
-const TransferButtonElement = Element.new<<TextButton>>(
+const TransferButtonElement = Element.New<<TextButton>>(
 	"TextButton?transfer",
 	"TextButton",
 	{
-		Attribute.new("robux_amount", "number"),
-		Attribute.new("transfer_id", "number"),
+		Attribute.New("robux_amount", "number"),
+		Attribute.New("transfer_id", "number"),
 	},
 	{
 		Name = "Donation",
@@ -369,12 +369,12 @@ const TransferButtonElement = Element.new<<TextButton>>(
 	GuiButtonAbstractElement
 )
 
-const AvatarItemButtonElement = Element.new<<TextButton>>(
+const AvatarItemButtonElement = Element.New<<TextButton>>(
 	"TextButton?avataritem",
 	"TextButton",
 	{
-		Attribute.new("product", "number"),
-		Attribute.new("product_type", "InfoType"),
+		Attribute.New("product", "number"),
+		Attribute.New("product_type", "InfoType"),
 	},
 	{
 		Name = "Avatar Item",
@@ -389,7 +389,7 @@ const AvatarItemButtonElement = Element.new<<TextButton>>(
 	GuiButtonAbstractElement
 )
 
-const ImageLabelElement = Element.new<<ImageLabel>>(
+const ImageLabelElement = Element.New<<ImageLabel>>(
 	"ImageLabel",
 	"ImageLabel",
 	{},
@@ -402,7 +402,7 @@ const ImageLabelElement = Element.new<<ImageLabel>>(
 	ImageAbstractElement
 )
 
-const ImageButtonElement = Element.new<<ImageButton>>(
+const ImageButtonElement = Element.New<<ImageButton>>(
 	"ImageButton",
 	"ImageButton",
 	{},
@@ -416,7 +416,7 @@ const ImageButtonElement = Element.new<<ImageButton>>(
 	GuiButtonAbstractElement
 )
 
-const ImageLinkButtonElement = Element.new<<ImageButton>>(
+const ImageLinkButtonElement = Element.New<<ImageButton>>(
 	"ImageButton?link",
 	"ImageButton",
 	{},
@@ -430,7 +430,7 @@ const ImageLinkButtonElement = Element.new<<ImageButton>>(
 	LinkButtonAbstractElement
 )
 
-const FolderElement = Element.new<<Folder>>(
+const FolderElement = Element.New<<Folder>>(
 	"Folder",
 	"Folder",
 	{},
@@ -443,11 +443,11 @@ const FolderElement = Element.new<<Folder>>(
 	RootAbstractElement
 )
 
-const UIAspectRatioConstraintElement = Element.new<<UIAspectRatioConstraint>>(
+const UIAspectRatioConstraintElement = Element.New<<UIAspectRatioConstraint>>(
 	"UIAspectRatioConstraint",
 	"UIAspectRatioConstraint",
 	{
-		Property.new("ratio", "AspectRatio", "number"),
+		Property.New("ratio", "AspectRatio", "number"),
 	},
 	{
 		Name = "Aspect Ratio",
@@ -458,12 +458,12 @@ const UIAspectRatioConstraintElement = Element.new<<UIAspectRatioConstraint>>(
 	RootAbstractElement
 )
 
-const UISizeConstraintElement = Element.new<<UISizeConstraint>>(
+const UISizeConstraintElement = Element.New<<UISizeConstraint>>(
 	"UISizeConstraint",
 	"UISizeConstraint",
 	{
-		Property.new("max_size", "MaxSize", "Vector2"),
-		Property.new("min_size", "MinSize", "Vector2"),
+		Property.New("max_size", "MaxSize", "Vector2"),
+		Property.New("min_size", "MinSize", "Vector2"),
 	},
 	{
 		Name = "Constraint",
@@ -474,11 +474,11 @@ const UISizeConstraintElement = Element.new<<UISizeConstraint>>(
 	RootAbstractElement
 )
 
-const UICornerElement = Element.new<<UICorner>>(
+const UICornerElement = Element.New<<UICorner>>(
 	"UICorner",
 	"UICorner",
 	{
-		Property.new("radius", "CornerRadius", "UDim"),
+		Property.New("radius", "CornerRadius", "UDim"),
 	},
 	{
 		Name = "Corner",
@@ -490,14 +490,14 @@ const UICornerElement = Element.new<<UICorner>>(
 	RootAbstractElement
 )
 
-const UIGradientElement = Element.new<<UIGradient>>(
+const UIGradientElement = Element.New<<UIGradient>>(
 	"UIGradient",
 	"UIGradient",
 	{
-		Property.new("gradient_color", "Color", "ColorSequence"),
-		Property.new("gradient_offset", "Offset", "Vector2"),
-		Property.new("gradient_transparency", "Transparency", "NumberSequence"),
-		Property.new("rotation", "Rotation", "number"),
+		Property.New("gradient_color", "Color", "ColorSequence"),
+		Property.New("gradient_offset", "Offset", "Vector2"),
+		Property.New("gradient_transparency", "Transparency", "NumberSequence"),
+		Property.New("rotation", "Rotation", "number"),
 	},
 	{
 		Name = "Gradient",
@@ -508,12 +508,12 @@ const UIGradientElement = Element.new<<UIGradient>>(
 	RootAbstractElement
 )
 
-const UIGridLayoutElement = Element.new<<UIGridLayout>>(
+const UIGridLayoutElement = Element.New<<UIGridLayout>>(
 	"UIGridLayout",
 	"UIGridLayout",
 	{
-		Property.new("padding", "CellPadding", "UDim"),
-		Property.new("size", "Size", "UDim2"),
+		Property.New("padding", "CellPadding", "UDim"),
+		Property.New("size", "Size", "UDim2"),
 	},
 	{
 		Name = "Grid",
@@ -526,13 +526,13 @@ const UIGridLayoutElement = Element.new<<UIGridLayout>>(
 	GridStyleAbstractElement
 )
 
-const UIListLayoutElement = Element.new<<UIListLayout>>(
+const UIListLayoutElement = Element.New<<UIListLayout>>(
 	"UIListLayout",
 	"UIListLayout",
 	{
-		Property.new("direction", "FillDirection", "FillDirection"),
-		Property.new("padding", "Padding", "UDim"),
-		Property.new("wrap_list", "Wraps", "boolean"),
+		Property.New("direction", "FillDirection", "FillDirection"),
+		Property.New("padding", "Padding", "UDim"),
+		Property.New("wrap_list", "Wraps", "boolean"),
 	},
 	{
 		Name = "List",
@@ -543,14 +543,14 @@ const UIListLayoutElement = Element.new<<UIListLayout>>(
 	GridStyleAbstractElement
 )
 
-const UIPaddingElement = Element.new<<UIPadding>>(
+const UIPaddingElement = Element.New<<UIPadding>>(
 	"UIPadding",
 	"UIPadding",
 	{
-		Property.new("bottom", "PaddingBottom", "UDim"),
-		Property.new("left", "PaddingLeft", "UDim"),
-		Property.new("right", "PaddingRight", "UDim"),
-		Property.new("top", "PaddingTop", "UDim"),
+		Property.New("bottom", "PaddingBottom", "UDim"),
+		Property.New("left", "PaddingLeft", "UDim"),
+		Property.New("right", "PaddingRight", "UDim"),
+		Property.New("top", "PaddingTop", "UDim"),
 	},
 	{
 		Name = "Padding",
@@ -561,18 +561,18 @@ const UIPaddingElement = Element.new<<UIPadding>>(
 	RootAbstractElement
 )
 
-const UIStrokeElement = Element.new<<UIStroke>>(
+const UIStrokeElement = Element.New<<UIStroke>>(
 	"UIStroke",
 	"UIStroke",
 	{
-		Property.new("stroke_color", "Color", "Color3"),
-		Property.new("stroke_mode", "ApplyStrokeMode", "ApplyStrokeMode"),
-		Property.new("stroke_offset", "BorderOffset", "UDim"),
-		Property.new("stroke_position", "BorderStrokePosition", "BorderStrokePosition"),
-		Property.new("stroke_thickness", "Thickness", "number"),
-		Property.new("stroke_transparency", "Transparency", "number"),
-		Property.new("stroke_type", "LineJoinMode", "LineJoinMode"),
-		Property.new("z_index", "ZIndex", "number"),
+		Property.New("stroke_color", "Color", "Color3"),
+		Property.New("stroke_mode", "ApplyStrokeMode", "ApplyStrokeMode"),
+		Property.New("stroke_offset", "BorderOffset", "UDim"),
+		Property.New("stroke_position", "BorderStrokePosition", "BorderStrokePosition"),
+		Property.New("stroke_thickness", "Thickness", "number"),
+		Property.New("stroke_transparency", "Transparency", "number"),
+		Property.New("stroke_type", "LineJoinMode", "LineJoinMode"),
+		Property.New("z_index", "ZIndex", "number"),
 	},
 	{
 		Name = "Outline",
@@ -585,12 +585,12 @@ const UIStrokeElement = Element.new<<UIStroke>>(
 	RootAbstractElement
 )
 
-const UIFlexItemElement = Element.new<<UIFlexItem>>(
+const UIFlexItemElement = Element.New<<UIFlexItem>>(
 	"UIFlexItem",
 	"UIFlexItem",
 	{
-		Property.new("flex_mode", "FlexMode", "UIFlexMode"),
-		Property.new("alignment_item_line", "ItemLineAlignment", "ItemLineAlignment"),
+		Property.New("flex_mode", "FlexMode", "UIFlexMode"),
+		Property.New("alignment_item_line", "ItemLineAlignment", "ItemLineAlignment"),
 	},
 	{
 		Name = "Flex Item",

@@ -31,7 +31,7 @@ const TypeDecoder = {}
 	@param t { ColorSequenceKeypoint} | { NumberSequenceKeypoint }
 	@return boolean
 ]=]
-const function isValidKeypointArray(t: { ColorSequenceKeypoint } | { NumberSequenceKeypoint }): boolean
+const function IsValidKeypointArray(t: { ColorSequenceKeypoint } | { NumberSequenceKeypoint }): boolean
 	const size = #t
 
 	if size < 2 or size > 21 then
@@ -69,31 +69,31 @@ end
 	@param j JSONUnknown
 	@return { { string } }?
 ]=]
-const function sequenceJSON(j: JSONUnknown): { { string } }?
+const function SequenceJSON(j: JSONUnknown): { { string } }?
 	const success, decoded = pcall(function()
 		return HttpService:JSONDecode(j :: any) :: { { string } }
 	end)
 
 	if not success or typeof(decoded) ~= "table" then
-		Logger.event("Warn", "Expected to decode JSONTable from string")
+		Logger.Event("Warn", "Expected to decode JSONTable from string")
 		return nil
 	end
 
 	for i, keypoint in decoded do
 		if typeof(i) ~= "number" then
-			Logger.event("Warn", "Expected indexer of sequence to be number")
+			Logger.Event("Warn", "Expected indexer of sequence to be number")
 			return nil
 		elseif typeof(keypoint) ~= "table" then
-			Logger.event("Warn", "Expected value of sequence to be table")
+			Logger.Event("Warn", "Expected value of sequence to be table")
 			return nil
 		end
 
 		for k, x in keypoint do
 			if typeof(k) ~= "number" then
-				Logger.event("Warn", "Expected indexer of keypoint to be number")
+				Logger.Event("Warn", "Expected indexer of keypoint to be number")
 				return nil
 			elseif typeof(x) ~= "string" and typeof(x) ~= "number" then
-				Logger.event("Warn", "Expected indexer of keypoint to be string or number")
+				Logger.Event("Warn", "Expected indexer of keypoint to be string or number")
 				return nil
 			end
 		end
@@ -117,13 +117,13 @@ end
 	@param new_sequence ({ K }) -> S
 	@return S?
 ]=]
-const function decodeSequence<T, K, S>(
+const function DecodeSequence<T, K, S>(
 	v: JSONUnknown,
 	decode: (string) -> T,
 	new_keypoint: (time: number, value: T, ...any) -> K,
 	new_sequence: ({ K }) -> S
 ): S?
-	const decoded = sequenceJSON(v)
+	const decoded = SequenceJSON(v)
 	if not decoded then
 		return nil
 	end
@@ -138,7 +138,7 @@ const function decodeSequence<T, K, S>(
 		points[i] = new_keypoint(time, value)
 	end
 
-	if isValidKeypointArray(points) then
+	if IsValidKeypointArray(points) then
 		return new_sequence(points)
 	end
 	return nil
@@ -153,9 +153,9 @@ end
 	@param t JSONUnknown
 	@return (...number?)
 ]=]
-const function numberTuple(t: JSONUnknown): ...number?
+const function NumberTuple(t: JSONUnknown): ...number?
 	if typeof(t) ~= "string" then
-		Logger.event("Warn", "Expected to decode Tuple<Number> from string")
+		Logger.Event("Warn", "Expected to decode Tuple<Number> from string")
 		return
 	end
 
@@ -177,9 +177,9 @@ end
 	@param of Enum
 	@return EnumItem?
 ]=]
-const function enumItem(item_name: JSONUnknown?, of: Enum): EnumItem?
+const function EnumItem(item_name: JSONUnknown?, of: Enum): EnumItem?
 	if typeof(item_name) ~= "string" then
-		Logger.event("Warn", "Expected to decode EnumItem from string")
+		Logger.Event("Warn", "Expected to decode EnumItem from string")
 		return nil
 	end
 
@@ -194,7 +194,7 @@ const function enumItem(item_name: JSONUnknown?, of: Enum): EnumItem?
 		end
 	end
 
-	return Logger.event("Warn", "Unable to find EnumItem from string")
+	return Logger.Event("Warn", "Unable to find EnumItem from string")
 end
 
 --[=[
@@ -206,10 +206,10 @@ end
 	@return boolean
 ]=]
 function TypeDecoder.boolean(v: JSONUnknown): boolean?
-	Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v)
+	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
 	if typeof(v) ~= "string" then
-		Logger.event("Warn", "Expected to decode boolean from string")
+		Logger.Event("Warn", "Expected to decode boolean from string")
 		return nil
 	elseif v == "true" then
 		return true
@@ -217,7 +217,7 @@ function TypeDecoder.boolean(v: JSONUnknown): boolean?
 		return false
 	end
 
-	return Logger.event("Warn", 'Expected value to be either "true" or "false"')
+	return Logger.Event("Warn", 'Expected value to be either "true" or "false"')
 end
 
 --[=[
@@ -229,10 +229,10 @@ end
 	@return number?
 ]=]
 function TypeDecoder.number(v: JSONUnknown): number?
-	Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v)
+	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
 	if typeof(v) ~= "string" then
-		Logger.event("Warn", "Expected to decode number from string")
+		Logger.Event("Warn", "Expected to decode number from string")
 		return nil
 	end
 
@@ -247,10 +247,10 @@ end
 	@return string
 ]=]
 function TypeDecoder.string(v: JSONUnknown): string?
-	Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v)
+	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
 	if typeof(v) ~= "string" then
-		Logger.event("Warn", "Expected to decode string from string")
+		Logger.Event("Warn", "Expected to decode string from string")
 		return nil
 	end
 
@@ -266,10 +266,10 @@ end
 	@return JSONTable?
 ]=]
 function TypeDecoder.table(v: JSONUnknown): JSONTable?
-	Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v)
+	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
 	if typeof(v) ~= "table" then
-		Logger.event("Warn", "Expected to decode table from table")
+		Logger.Event("Warn", "Expected to decode table from table")
 		return nil
 	end
 
@@ -285,17 +285,17 @@ end
 	@return Color3?
 ]=]
 function TypeDecoder.Color3(v: JSONUnknown): Color3?
-	Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v)
+	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
 	if typeof(v) ~= "string" then
-		Logger.event("Warn", "Expected to decode Color3 from string")
+		Logger.Event("Warn", "Expected to decode Color3 from string")
 		return nil
 	end
 
 	const result = select(2, pcall(Color3.fromHex, v :: string))
 
 	if not result then
-		Logger.event("Warn", "Unable to decode to Color3")
+		Logger.Event("Warn", "Unable to decode to Color3")
 	end
 
 	return result
@@ -309,9 +309,9 @@ end
 	@return Vector2
 ]=]
 function TypeDecoder.Vector2(v: JSONUnknown): Vector2
-	Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v)
+	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
-	const x, y = numberTuple(v)
+	const x, y = NumberTuple(v)
 
 	return Vector2.new(x, y)
 end
@@ -324,9 +324,9 @@ end
 	@return UDim
 ]=]
 function TypeDecoder.UDim(v: JSONUnknown): UDim
-	Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v)
+	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
-	const scale, offset = numberTuple(v)
+	const scale, offset = NumberTuple(v)
 
 	return UDim.new(scale, offset)
 end
@@ -339,10 +339,10 @@ end
 	@return UDim2
 ]=]
 function TypeDecoder.UDim2(v: JSONUnknown): UDim2
-	Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v)
+	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
 	if typeof(v) ~= "string" then
-		Logger.event("Warn", "Expected to decode UDim2 from string")
+		Logger.Event("Warn", "Expected to decode UDim2 from string")
 		return UDim2.new()
 	end
 
@@ -364,9 +364,9 @@ end
 	@return Rect
 ]=]
 function TypeDecoder.Rect(v: JSONUnknown): Rect
-	Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v)
+	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
-	const minX, minY, maxX, maxY = numberTuple(v)
+	const minX, minY, maxX, maxY = NumberTuple(v)
 
 	return Rect.new(minX :: number, minY :: number, maxX :: number, maxY :: number)
 end
@@ -380,9 +380,9 @@ end
 	@return ColorSequence?
 ]=]
 function TypeDecoder.ColorSequence(v: JSONUnknown): ColorSequence?
-	Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v)
+	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
-	return decodeSequence(v, TypeDecoder.Color3 :: (string) -> Color3, ColorSequenceKeypoint.new, ColorSequence.new)
+	return DecodeSequence(v, TypeDecoder.Color3 :: (string) -> Color3, ColorSequenceKeypoint.new, ColorSequence.new)
 end
 
 --[=[
@@ -394,9 +394,9 @@ end
 	@return NumberSequence?
 ]=]
 function TypeDecoder.NumberSequence(v: JSONUnknown): NumberSequence?
-	Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v)
+	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
-	return decodeSequence(v, tonumber :: (string) -> number, NumberSequenceKeypoint.new, NumberSequence.new)
+	return DecodeSequence(v, tonumber :: (string) -> number, NumberSequenceKeypoint.new, NumberSequence.new)
 end
 
 --[=[
@@ -409,7 +409,7 @@ end
 	@return Enum.AutomaticSize?
 ]=]
 function TypeDecoder.AutomaticSize(v: JSONUnknown): Enum.AutomaticSize?
-	Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v)
+	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
 	const decoded_size = TypeDecoder.string(v)
 
@@ -435,9 +435,9 @@ for name, enum in EnumMap :: { [CatWebEnums]: Enum } do
 		@return EnumItem?
 	]=]
 	TypeDecoder[name] = function(v: JSONUnknown?): EnumItem?
-		Logger.withStatus("Decoding").withProcess("TypeConversion").withArgs(v, name, enum)
+		Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v, name, enum)
 
-		return enumItem(v, enum)
+		return EnumItem(v, enum)
 	end
 end
 

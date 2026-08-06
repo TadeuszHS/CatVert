@@ -31,7 +31,7 @@ const TypeEncoder = {}
 	@param encode_value (T) -> E
 	@return string
 ]=]
-const function fromSequence<T, E>(sequence: NumberSequence | ColorSequence, encode_value: (T) -> E): string
+const function FromSequence<T, E>(sequence: NumberSequence | ColorSequence, encode_value: (T) -> E): string
 	const result = {}
 
 	for i, point in sequence.Keypoints do
@@ -149,7 +149,7 @@ end
 	@return string
 ]=]
 function TypeEncoder.ColorSequence(v: ColorSequence): string
-	return fromSequence(v, function(v: Color3): string
+	return FromSequence(v, function(v: Color3): string
 		--intentional ommission of `#`, CatWeb does not use it on ColorSequences.
 		return v:ToHex()
 	end)
@@ -172,7 +172,7 @@ end
 	@return string
 ]=]
 function TypeEncoder.NumberSequence(v: NumberSequence): string
-	return fromSequence(v, function(x: number): string
+	return FromSequence(v, function(x: number): string
 		return string.lower(tostring(x))
 	end)
 end

@@ -49,7 +49,7 @@ const AbstractElement = {}
 	@param ... AbstractElement -- Abstract Element(s) to inherit from.
 	@return AbstractElement
 ]=]
-function AbstractElement.new<I>(
+function AbstractElement.New<I>(
 	class: AbstractElementClassNames,
 	properties: PropertyList,
 	default_props: InstancePropertyMap<I>,
@@ -64,12 +64,12 @@ function AbstractElement.new<I>(
 		abstract = true,
 	}
 
-	AbstractElement.inherit(self, ...)
+	AbstractElement.Inherit(self, ...)
 
-	const property_map = AbstractElement.propertyListToMap(properties)
-	AbstractElement.putPropertiesAndDefaults(self, property_map, default_props, default_attr)
+	const property_map = AbstractElement.PropertyListToMap(properties)
+	AbstractElement.PutPropertiesAndDefaults(self, property_map, default_props, default_attr)
 
-	return AbstractElement.finalize(self)
+	return AbstractElement.Finalize(self)
 end
 
 --[=[
@@ -80,7 +80,7 @@ end
 	@param properties PropertyList
 	@return PropertyMap
 ]=]
-function AbstractElement.propertyListToMap(properties: PropertyList): PropertyMap
+function AbstractElement.PropertyListToMap(properties: PropertyList): PropertyMap
 	const property_map: PropertyMap = {}
 
 	for _, property in properties do
@@ -98,7 +98,7 @@ end
 	@param self AbstractElement
 	@return AbstractElement
 ]=]
-function AbstractElement.finalize(self: AbstractElement): AbstractElement
+function AbstractElement.Finalize(self: AbstractElement): AbstractElement
 	table.freeze(self.properties)
 	table.freeze(self.default_props)
 	table.freeze(self.default_attr)
@@ -115,7 +115,7 @@ end
 	@param default_attr DefaultsMap
 	@return AbstractElement
 ]=]
-function AbstractElement.putPropertiesAndDefaults<I>(
+function AbstractElement.PutPropertiesAndDefaults<I>(
 	to: AbstractElement,
 	properties: PropertyMap,
 	default_props: DefaultsMap | InstancePropertyMap<I>,
@@ -143,9 +143,9 @@ end
 	@param ... AbstractElement
 	@return AbstractElement
 ]=]
-function AbstractElement.inherit(to: AbstractElement, ...: AbstractElement): AbstractElement
+function AbstractElement.Inherit(to: AbstractElement, ...: AbstractElement): AbstractElement
 	for _, parent in { ... } do
-		AbstractElement.putPropertiesAndDefaults(to, parent.properties, parent.default_props, parent.default_attr)
+		AbstractElement.PutPropertiesAndDefaults(to, parent.properties, parent.default_props, parent.default_attr)
 	end
 
 	return to

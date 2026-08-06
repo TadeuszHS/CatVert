@@ -62,7 +62,7 @@ const Custom = {}
 	@param decode CustomDecodeFunction
 	@return Custom
 ]=]
-function Custom.new(catweb_index: string, encode: CustomEncodeFunction, decode: CustomDecodeFunction): Custom
+function Custom.New(catweb_index: string, encode: CustomEncodeFunction, decode: CustomDecodeFunction): Custom
 	return table.freeze({
 		class = "Custom" :: PropertyClassNames,
 		catweb_index = catweb_index,

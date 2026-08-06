@@ -22,11 +22,12 @@ const CatVert = {}
 	@return string?
 ]=]
 function CatVert.JSONEncode(data: Frame | { Instance }): string?
-	return Encoder.encodeJSON(data)
+	return Encoder.JSONEncode(data)
 end
 
 --[=[
-	Decodes a string containing CatWeb structured JSON into a Frame (WebContent) or array of Instances (Element Group).
+	Decodes a string containing CatWeb structured JSON into a Frame that 
+	represents WebContent or an array of Instances representing an ElementGroup.
 
 	@within CatVert
 	@error "HttpService failed to decode JSON, this is likely due to a syntax error"
@@ -36,7 +37,7 @@ end
 	@return Frame | { Instance }
 ]=]
 function CatVert.JSONDecode(json: string): (Frame | { Instance })?
-	return Decoder.decodeJSON(json)
+	return Decoder.JSONDecode(json)
 end
 
 return table.freeze(CatVert)

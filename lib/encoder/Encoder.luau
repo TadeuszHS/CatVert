@@ -33,7 +33,7 @@ const Encoder = {}
 	@param element UnknownElement
 	@return UnknownElement
 ]=]
-const function apply(element_def: Element, inst: Instance, element: UnknownElement): UnknownElement
+const function Apply(element_def: Element, inst: Instance, element: UnknownElement): UnknownElement
 	for catweb_index, property in element_def.properties do
 		local success
 
@@ -42,28 +42,28 @@ const function apply(element_def: Element, inst: Instance, element: UnknownEleme
 				element[catweb_index] = TypeEncoder[property.value_type](inst[property.roblox_index])
 			end)
 
-			Logger.withStatus("Encoding")
-				.withProcess("ApplyProperty")
-				.withArgs(element_def, element, inst, catweb_index, property)
+			Logger.WithStatus("Encoding")
+				.WithProcess("ApplyProperty")
+				.WithArgs(element_def, element, inst, catweb_index, property)
 		elseif property.class == "Attribute" then
 			success = pcall(function()
 				element[catweb_index] = TypeEncoder[property.value_type](inst:GetAttribute(property.catweb_index))
 			end)
 
-			Logger.withStatus("Encoding")
-				.withProcess("ApplyAttribute")
-				.withArgs(element_def, element, inst, catweb_index, property)
+			Logger.WithStatus("Encoding")
+				.WithProcess("ApplyAttribute")
+				.WithArgs(element_def, element, inst, catweb_index, property)
 		elseif property.class == "Custom" then
 			success = pcall(function()
-				property.encode(element, inst, Encoder.encodeElement)
+				property.encode(element, inst, Encoder.Element)
 			end)
 
-			Logger.withStatus("Encoding")
-				.withProcess("ApplyCustom")
-				.withArgs(element_def, element, inst, catweb_index, property)
+			Logger.WithStatus("Encoding")
+				.WithProcess("ApplyCustom")
+				.WithArgs(element_def, element, inst, catweb_index, property)
 		end
 
-		Logger.eventAssert(success, "Warn", "Unable to apply property to Element")
+		Logger.EventAssert(success, "Warn", "Unable to apply property to Element")
 	end
 
 	return element
@@ -77,19 +77,19 @@ end
 	@param inst Instance
 	@return UnknownElement?
 ]=]
-function Encoder.encodeElement(inst: Instance): UnknownElement?
-	Logger.withStatus("Encoding").withProcess("CreateElement").withArgs(inst)
+function Encoder.Element(inst: Instance): UnknownElement?
+	Logger.WithStatus("Encoding").WithProcess("CreateElement").WithArgs(inst)
 
 	const class = inst:GetAttribute("class")
 	const element_def = Conversion.Element[class]
 
-	Logger.withArgs(inst, class, element_def)
+	Logger.WithArgs(inst, class, element_def)
 	if not element_def then
-		return Logger.event("Warn", "Unsupported class")
+		return Logger.Event("Warn", "Unsupported class")
 	end
 
 	const element = {} :: UnknownElement
-	return apply(element_def, inst, element)
+	return Apply(element_def, inst, element)
 end
 
 --[=[
@@ -99,9 +99,9 @@ end
 	@param inst Frame
 	@return WebContentAbstractElement
 ]=]
-function Encoder.encodeWebContent(inst: Frame): WebContentAbstractElement
+function Encoder.WebContent(inst: Frame): WebContentAbstractElement
 	const element = {} :: WebContentAbstractElement
-	return apply(Conversion.Abstract.WebContent, inst, element)
+	return Apply(Conversion.Abstract.WebContent, inst, element)
 end
 
 --[=[
@@ -111,11 +111,11 @@ end
 	@param instances { Instance }
 	@return ElementGroup
 ]=]
-function Encoder.encodeElementGroup(instances: { Instance }): ElementGroup
+function Encoder.ElementGroup(instances: { Instance }): ElementGroup
 	const elements = {}
 
 	for _, inst in instances do
-		const element = Encoder.encodeElement(inst)
+		const element = Encoder.Element(inst)
 
 		if element then
 			table.insert(elements, element)
@@ -136,30 +136,30 @@ end
 	@param data Frame | { Instance }
 	@return string?
 ]=]
-function Encoder.encodeJSON(data: Frame | { Instance }): string?
-	Logger.withStatus("Encoding").withProcess("JSONTranscode").withArgs(data)
+function Encoder.JSONEncode(data: Frame | { Instance }): string?
+	Logger.WithStatus("Encoding").WithProcess("JSONTranscode").WithArgs(data)
 
 	local encoded: JSONTable
 
 	if typeof(data) == "Instance" then
 		if not data:IsA("Frame") then
-			return Logger.event("Error", "Expected to encode Frame as WebContent")
+			return Logger.Event("Error", "Expected to encode Frame as WebContent")
 		end
-		encoded = Encoder.encodeWebContent(data)
+		encoded = Encoder.WebContent(data)
 	elseif typeof(data) == "table" then
-		encoded = Encoder.encodeElementGroup(data)
+		encoded = Encoder.ElementGroup(data)
 	else
-		return Logger.event("Error", "Expected to encode Frame | { Instance }")
+		return Logger.Event("Error", "Expected to encode Frame | { Instance }")
 	end
 
 	const success, result = pcall(function()
 		return HttpService:JSONEncode(encoded)
 	end)
 
-	Logger.withStatus("Encoding")
-		.withProcess("JSONTranscode")
-		.withArgs(data)
-		.eventAssert(success, "Error", "HttpService failed to encode JSON")
+	Logger.WithStatus("Encoding")
+		.WithProcess("JSONTranscode")
+		.WithArgs(data)
+		.EventAssert(success, "Error", "HttpService failed to encode JSON")
 
 	return result
 end

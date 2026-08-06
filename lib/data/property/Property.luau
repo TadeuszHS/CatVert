@@ -33,7 +33,7 @@ const Property = {}
 	@param value_type CatWebTypes
 	@return Property
 ]=]
-function Property.new(catweb_index: string, roblox_index: string, value_type: CatWebTypes): Property
+function Property.New(catweb_index: string, roblox_index: string, value_type: CatWebTypes): Property
 	return table.freeze({
 		class = "Property" :: PropertyClassNames,
 		catweb_index = catweb_index,

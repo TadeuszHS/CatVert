@@ -26,12 +26,12 @@ const Defaults = {}
 	@param default_attr { [string]: unknown }
 	@return Instance
 ]=]
-const function build(
+const function Build(
 	roblox_class: string,
 	default_props: { [string]: unknown },
 	default_attr: { [string]: unknown }
 ): Instance
-	Logger.withStatus("Initializing").withProcess("BuildDefaults").withArgs(roblox_class, default_props, default_attr)
+	Logger.WithStatus("Initializing").WithProcess("BuildDefaults").WithArgs(roblox_class, default_props, default_attr)
 
 	const inst = Instance.new(roblox_class)
 
@@ -55,7 +55,7 @@ end
 	@prop defaults { [DefaultClassNames]: Instance }
 ]=]
 const defaults: { [DefaultClassNames]: Instance } = {
-	WebContent = build(
+	WebContent = Build(
 		"Frame",
 		Conversion.Abstract.WebContent.default_props,
 		Conversion.Abstract.WebContent.default_attr
@@ -63,7 +63,7 @@ const defaults: { [DefaultClassNames]: Instance } = {
 }
 
 for class, element in Conversion.Element :: { [ElementClassNames]: Element } do
-	defaults[class] = build(element.roblox_class, element.default_props, element.default_attr)
+	defaults[class] = Build(element.roblox_class, element.default_props, element.default_attr)
 end
 
 table.freeze(defaults)
@@ -75,7 +75,7 @@ table.freeze(defaults)
 	@param class DefaultClassNames
 	@return Instance
 ]=]
-function Defaults.new(class: DefaultClassNames): Instance
+function Defaults.New(class: DefaultClassNames): Instance
 	const default_instance = defaults[class]
 
 	return default_instance:Clone()

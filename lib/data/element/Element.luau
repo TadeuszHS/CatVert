@@ -38,7 +38,7 @@ const Element = {}
 	@param default_attr DefaultsMap
 	@param ...: Element | AbstractElement -- (Abstract) Element(s) to inherit from.
 ]=]
-function Element.new<I>(
+function Element.New<I>(
 	catweb_class: ElementClassNames,
 	roblox_class: index<I, "ClassName">,
 	properties: PropertyList,
@@ -55,12 +55,12 @@ function Element.new<I>(
 		abstract = false,
 	}
 
-	AbstractElement.inherit(self, ...)
+	AbstractElement.Inherit(self, ...)
 
-	const property_map = AbstractElement.propertyListToMap(properties)
-	AbstractElement.putPropertiesAndDefaults(self, property_map, default_props, default_attr)
+	const property_map = AbstractElement.PropertyListToMap(properties)
+	AbstractElement.PutPropertiesAndDefaults(self, property_map, default_props, default_attr)
 
-	return AbstractElement.finalize(self) :: Element
+	return AbstractElement.Finalize(self) :: Element
 end
 
 return table.freeze(Element)
