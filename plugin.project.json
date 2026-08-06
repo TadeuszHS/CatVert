@@ -1,6 +1,10 @@
 {
   "name": "CatVert",
   "tree": {
-    "$path": "plugin"
+    "$path": "plugin",
+
+    "packages": {
+      "$path": "DevPackages"
+    }
   }
 }

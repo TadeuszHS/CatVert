@@ -8,3 +8,6 @@ registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 exclude = ["resources", "plugin", "tests", "test.project.json"]
 private = true
+
+[dev-dependencies]
+vide = "centau/vide@0.4.1"
