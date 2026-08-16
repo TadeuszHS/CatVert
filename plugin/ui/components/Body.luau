@@ -6,7 +6,7 @@ const Text = require("./Text")
 
 type SourceOrValue<T> = Types.SourceOrValue<T>
 
-const function Header(props: {
+const function Body(props: {
     read Text: SourceOrValue<string>,
     read LayoutOrder: SourceOrValue<number>,
 })
@@ -14,9 +14,9 @@ const function Header(props: {
     
     return Text {
         Text = props.Text,
-        Font = Fonts.Header,
+        Font = Fonts.Body,
         LayoutOrder = props.LayoutOrder,
     }
 end
 
-return Header
+return Body

@@ -3,7 +3,7 @@
 const Vide = require("../../packages/vide")
 const Button = require("./Button")
 const Fonts = require("../style/Fonts")
-const Types = require("../Types")
+const Types = require("../../util/Types")
 
 const create = Vide.create
 
@@ -11,10 +11,12 @@ type Source<T> = Vide.Source<T>
 export type SourceOrValue<T> = Types.SourceOrValue<T>
 
 const function OvalButton(props: {
-    Text: SourceOrValue<string>,
-    Activated: () -> (),
-    LayoutOrder: SourceOrValue<number>,
+    read Text: SourceOrValue<string>,
+    read Activated: () -> (),
+    read LayoutOrder: SourceOrValue<number>,
 })
+    table.freeze(props)
+
     return Button({
         ButtonColor = "PrimaryColor",
 
