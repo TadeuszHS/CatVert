@@ -18,17 +18,34 @@ export type ThemeChangedSignal = (ThemeView) -> ()
 
 const Themes = {}
 
-const mode: Mode = if Settings.IsDarkModeEnabled() then "Dark" else "Light"
+function Themes.IsColorDark(color: Color3): boolean
+    return (color.R * 0.299 + color.G * 0.587 + color.B * 0.114) < 0.5
+end
+
+const mode: Mode = 
+    if Themes.IsColorDark(Settings.GetStudioTheme():GetColor(Enum.StudioStyleGuideColor.MainBackground))
+    then "Dark" 
+    else "Light"
+
 const user_themes: ThemeViewMap = 
     Settings.GetSetting<<ThemeViewMap>>("UserThemes")
     or Settings.SetSetting("UserThemes", {} :: ThemeViewMap)
+
 local current_theme: Source<ThemeView> = 
     source(table.freeze(Settings.GetSetting<<Theme>>("CurrentTheme"))
     or Settings.SetSetting("CurrentTheme", (Theme :: ThemeViewMap)[mode]))
+
 const derived: () -> ThemeView = derive(current_theme)
 
 for _, theme in user_themes do
     table.freeze(theme)
+end
+
+function Themes.IsThemeDark(theme: ThemeView?): boolean
+    return
+        if theme then
+            Themes.IsColorDark(theme.BackgroundColor)
+        else Themes.IsColorDark(current_theme().BackgroundColor)
 end
 
 function Themes.GetTheme(): () -> ThemeView

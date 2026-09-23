@@ -22,13 +22,6 @@ function Settings.GetStudioTheme(): StudioTheme
     return settings().Studio.Theme
 end
 
-function Settings.IsDarkModeEnabled(): boolean
-    const color = settings().Studio.Theme:GetColor(Enum.StudioStyleGuideColor.MainBackground)
-
-    --whether the color is visually dark
-    return (color.R * 0.299 + color.G * 0.587 + color.B * 0.114) < 0.5
-end
-
 function Settings.SetSetting<T>(key: string, value: T): T 
     data[key] = value
     return value
