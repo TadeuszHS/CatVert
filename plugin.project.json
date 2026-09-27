@@ -5,6 +5,10 @@
 
     "packages": {
       "$path": "DevPackages"
+    },
+
+    "lib": {
+      "$path": "lib"
     }
   }
 }

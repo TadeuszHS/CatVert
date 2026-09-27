@@ -32,10 +32,12 @@ const user_themes: ThemeViewMap =
     or Settings.SetSetting("UserThemes", {} :: ThemeViewMap)
 
 local current_theme: Source<ThemeView> = 
-    source(table.freeze(Settings.GetSetting<<Theme>>("CurrentTheme"))
-    or Settings.SetSetting("CurrentTheme", (Theme :: ThemeViewMap)[mode]))
+    if Settings.GetSetting<<Theme>>("CurrentTheme") then
+        source(table.freeze(Settings.GetSetting<<Theme>>("CurrentTheme")))
+    else
+        source(Settings.SetSetting("CurrentTheme", (Theme :: ThemeViewMap)[mode]))
 
-const derived: () -> ThemeView = derive(current_theme)
+const derived: () -> ThemeView = derive(function() return current_theme() end)
 
 for _, theme in user_themes do
     table.freeze(theme)
