@@ -3,7 +3,7 @@
 const Settings = {}
 const data_key = "CatVert"
 local plugin: Plugin
-local data: { [string]: unknown } = {}
+local data: { [string]: any } = {}
 
 function Settings.initialize(plgn: Plugin): ()
     plugin = plgn
@@ -18,8 +18,8 @@ function Settings.GetSetting<T>(key: string): T
     return data[key]
 end
 
-function Settings.GetStudioTheme(): StudioTheme
-    return settings().Studio.Theme
+function Settings.GetStudioSettings(): Studio
+    return settings().Studio
 end
 
 function Settings.SetSetting<T>(key: string, value: T): T 

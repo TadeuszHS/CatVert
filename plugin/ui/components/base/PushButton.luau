@@ -1,49 +1,58 @@
 --!strict
 
-const Vide = require("../../packages/vide")
-const Themes = require("../../app/Themes")
-const Lerp = require("../style/Lerp")
-const Types = require("../../util/Types")
+const Vide = require("../../../packages/vide")
+const Themes = require("../../../app/Themes")
+const Lerp = require("../../style/Lerp")
+const Types = require("../../../util/Types")
 
 const create = Vide.create
 const source = Vide.source
-const derive = Vide.derive
 
 type Source<T> = Vide.Source<T>
 type SourceOrValue<T> = Types.SourceOrValue<T>
+type Theme = Themes.Theme
+type Lerp = Lerp.Lerp
 
-type ThemeLookup = Themes.ThemeLookup
-type LerpView = Lerp.LerpView
+const theme = Themes.GetDerivedTheme()
 
-const theme = Themes.GetTheme() :: () -> ThemeLookup
+const function PushButton(props: {
+    read Size: SourceOrValue<UDim2>?,
+    read AnchorPoint: SourceOrValue<Vector2>?,
 
-const function Button(props: {
     read ButtonColor: "BackgroundColor" | "PrimaryColor" | SourceOrValue<Color3>,
+    read BackgroundTransparency: SourceOrValue<number>?,
 
     read Text: SourceOrValue<string>,
-    read Activated: () -> () | (InputObject, number) -> (),
-    read LayoutOrder: SourceOrValue<number>,
-
     read FontFace: SourceOrValue<Font>?,
     read TextSize: SourceOrValue<number>?,
-}, ...: Instance)
-    table.freeze(props)
+    read TextColor: SourceOrValue<Color3>?,
 
-    const lerp: Source<LerpView> = source(Lerp.None)
+    read Activated: () -> () | (InputObject, number) -> (),
+
+    read LayoutOrder: SourceOrValue<number>,
+}, ...: Instance)
+    const lerp: Source<Lerp> = source(Lerp.None)
 
     return create "TextButton" {
-        AnchorPoint = Vector2.new(0.5, 0),
-        Size = UDim2.new(1, 0, 0, 40),
+        Size = props.Size or UDim2.new(1, 0, 0, 40),
+        AnchorPoint = props.AnchorPoint or Vector2.new(0.5, 0),
+
+        Text = props.Text,
+        FontFace = props.FontFace,
+        TextSize = props.TextSize,
+        TextColor3 = props.TextColor or theme.TextColor,
+
+        AutoButtonColor = false,
         BackgroundColor3 = function()
             const c = 
                 if typeof(props.ButtonColor) == "Color3" then
                     props.ButtonColor
                 elseif typeof(props.ButtonColor) == "function" then
                     props.ButtonColor()
-                else theme()[props.ButtonColor]
+                else theme.Get()[props.ButtonColor]
             const l = lerp()
             
-            return c:Lerp(l.Color, l.Alpha)
+            return c:Lerp(l.Color(), l.Alpha)
         end,
 
         MouseEnter = function()
@@ -59,18 +68,12 @@ const function Button(props: {
             lerp(Lerp.Hover)
         end,
 
-        Text = props.Text,
         Activated = props.Activated :: (InputObject, number) -> (),
+
         LayoutOrder = props.LayoutOrder,
-        
-        TextColor3 = derive(function()
-            return theme().TextColor
-        end),
-        FontFace = props.FontFace,
-        TextSize = props.TextSize,
 
         ...
     }
 end
 
-return Button
+return PushButton

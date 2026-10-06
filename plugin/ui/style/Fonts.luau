@@ -4,21 +4,21 @@ export type FontInfo = {
     Font: Font,
     Size: number,
 }
-export type FontView = typeof(table.freeze({} :: FontInfo))
+export type FontInfoMap = { [string]: FontInfo }
 
-const Fonts = table.freeze({
-    Header = table.freeze({
+const Fonts: FontInfoMap = {
+    Header = {
         Font = Font.fromName("SourceSansPro", Enum.FontWeight.SemiBold, Enum.FontStyle.Normal),
         Size = 16,
-    }),
-    SubHeader = table.freeze({
+    },
+    SubHeader = {
         Font = Font.fromName("SourceSansPro", Enum.FontWeight.SemiBold, Enum.FontStyle.Normal),
         Size = 14,
-    }),
-    Body = table.freeze({
+    },
+    Body = {
         Font = Font.fromName("SourceSansPro", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
         Size = 14,
-    }),
-})
+    },
+}
 
 return Fonts

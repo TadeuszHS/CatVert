@@ -2,24 +2,164 @@
 
 export type Theme = {
 	index: string,
+	BackdropColor: Color3,
 	BackgroundColor: Color3,
+	SurfaceColor: Color3,
 	PrimaryColor: Color3,
 	TextColor: Color3,
 }
-export type ThemeLookup = typeof(table.freeze({} :: {
-	["BackgroundColor" | "PrimaryColor" | "TextColor"]: Color3
-}))
-export type ThemeView = typeof(table.freeze({} :: Theme))
-export type ThemeViewMap = { [string]: ThemeView }
+export type ThemeLookup = {
+	index: string,
+	["BackdropColor" | "BackgroundColor" | "SurfaceColor" | "PrimaryColor" | "TextColor"]: Color3,
+}
+export type ThemeMap = { [string]: Theme }
 export type Mode = "Dark" | "Light"
 
-const Theme = table.freeze({
-	Dark = table.freeze({
+const Theme: ThemeMap = {
+	Dark = {
 		index = "Dark",
+		BackdropColor = Color3.fromHex("1e1e1e"),
 		BackgroundColor = Color3.fromHex("323232"),
+		SurfaceColor = Color3.fromHex("1e1e1e"),
 		PrimaryColor = Color3.fromHex("2a91ff"),
 		TextColor = Color3.fromHex("ffffff"),
-	}),
-})
+	},
+	Light = {
+		index = "Light",
+		BackdropColor = Color3.fromHex("e1ebf6"),
+		BackgroundColor = Color3.fromHex("ffffff"),
+		SurfaceColor = Color3.fromHex("ebf9ff"),
+		PrimaryColor = Color3.fromHex("2a91ff"),
+		TextColor = Color3.fromHex("000000"),
+	},
+	Blackout = {
+		index = "Black",
+		BackdropColor = Color3.fromHex("141414"),
+		BackgroundColor = Color3.fromHex("000000"),
+		SurfaceColor = Color3.fromHex("0f0f0f"),
+		PrimaryColor = Color3.fromHex("2a91ff"),
+		TextColor = Color3.fromHex("ffffff"),
+	},
+	DarkBlue = {
+		index = "DarkBlue",
+		BackdropColor = Color3.fromHex("17191f"),
+		BackgroundColor = Color3.fromHex("2a2d38"),
+		SurfaceColor = Color3.fromHex("1f2028"),
+		PrimaryColor = Color3.fromHex("2a91ff"),
+		TextColor = Color3.fromHex("ffffff"),
+	},
+	DarkBlurple = {
+		index = "DarkBlurple",
+		BackdropColor = Color3.fromHex("10151a"),
+		BackgroundColor = Color3.fromHex("191a26"),
+		SurfaceColor = Color3.fromHex("1c1f2b"),
+		PrimaryColor = Color3.fromHex("5f6de7"),
+		TextColor = Color3.fromHex("ffffff"),
+	},
+	DarkRed = {
+		index = "DarkRed",
+		BackdropColor = Color3.fromHex("1f1616"),
+		BackgroundColor = Color3.fromHex("382828"),
+		SurfaceColor = Color3.fromHex("281c1c"),
+		PrimaryColor = Color3.fromHex("ff2222"),
+		TextColor = Color3.fromHex("ffffff"),
+	},
+	DarkYellow = {
+		index = "DarkYellow",
+		BackdropColor = Color3.fromHex("1f1a15"),
+		BackgroundColor = Color3.fromHex("382f26"),
+		SurfaceColor = Color3.fromHex("28221b"),
+		PrimaryColor = Color3.fromHex("ff8522"),
+		TextColor = Color3.fromHex("ffffff"),
+	},
+	DarkGreen = {
+		index = "DarkGreen",
+		BackdropColor = Color3.fromHex("1f1f15"),
+		BackgroundColor = Color3.fromHex("383825"),
+		SurfaceColor = Color3.fromHex("28281b"),
+		PrimaryColor = Color3.fromHex("ad9e14"),
+		TextColor = Color3.fromHex("ffffff"),
+	},
+	DarkAlgae = {
+		index = "DarkAlgae",
+		BackdropColor = Color3.fromHex("181f15"),
+		BackgroundColor = Color3.fromHex("2b3826"),
+		SurfaceColor = Color3.fromHex("1f281b"),
+		PrimaryColor = Color3.fromHex("31c517"),
+		TextColor = Color3.fromHex("ffffff"),
+	},
+	DarkViolet = {
+		index = "DarkViolet",
+		BackdropColor = Color3.fromHex("1f141f"),
+		BackgroundColor = Color3.fromHex("382538"),
+		SurfaceColor = Color3.fromHex("281a28"),
+		PrimaryColor = Color3.fromHex("c26bc5"),
+		TextColor = Color3.fromHex("ffffff"),
+	},
+	DarkPurple = {
+		index = "DarkPurple",
+		BackdropColor = Color3.fromHex("19121f"),
+		BackgroundColor = Color3.fromHex("2e2138"),
+		SurfaceColor = Color3.fromHex("211828"),
+		PrimaryColor = Color3.fromHex("8936c5"),
+		TextColor = Color3.fromHex("ffffff"),
+	},
+	LightBlue = {
+		index = "LightBlue",
+		BackdropColor = Color3.fromHex("b9dbff"),
+		BackgroundColor = Color3.fromHex("ddebff"),
+		SurfaceColor = Color3.fromHex("cde0ff"),
+		PrimaryColor = Color3.fromHex("2a91ff"),
+		TextColor = Color3.fromHex("000000"),
+	},
+	LightRed = {
+		index = "LightRed",
+		BackdropColor = Color3.fromHex("ffb9ba"),
+		BackgroundColor = Color3.fromHex("ffe6e6"),
+		SurfaceColor = Color3.fromHex("ffd2d3"),
+		PrimaryColor = Color3.fromHex("bd1e21"),
+		TextColor = Color3.fromHex("000000"),
+	},
+	LightOrange = {
+		index = "LightOrange",
+		BackdropColor = Color3.fromHex("ffd0af"),
+		BackgroundColor = Color3.fromHex("ffeee0"),
+		SurfaceColor = Color3.fromHex("ffe3cb"),
+		PrimaryColor = Color3.fromHex("bd7420"),
+		TextColor = Color3.fromHex("000000"),
+	},
+	LightYellow = {
+		index = "LightYellow",
+		BackdropColor = Color3.fromHex("e3daa5"),
+		BackgroundColor = Color3.fromHex("fffde1"),
+		SurfaceColor = Color3.fromHex("f0e7ae"),
+		PrimaryColor = Color3.fromHex("bdbd21"),
+		TextColor = Color3.fromHex("000000"),
+	},
+	LightGreen = {
+		index = "LightGreen",
+		BackdropColor = Color3.fromHex("c3ffb9"),
+		BackgroundColor = Color3.fromHex("e7ffe1"),
+		SurfaceColor = Color3.fromHex("d4ffcd"),
+		PrimaryColor = Color3.fromHex("32bd1c"),
+		TextColor = Color3.fromHex("000000"),
+	},
+	LightViolet = {
+		index = "LightViolet",
+		BackdropColor = Color3.fromHex("ffd2ff"),
+		BackgroundColor = Color3.fromHex("ffe7ff"),
+		SurfaceColor = Color3.fromHex("ffdcff"),
+		PrimaryColor = Color3.fromHex("d78cda"),
+		TextColor = Color3.fromHex("000000"),
+	},
+	LightPurple = {
+		index = "LightPurple",
+		BackdropColor = Color3.fromHex("e6d2ff"),
+		BackgroundColor = Color3.fromHex("ffe7ff"),
+		SurfaceColor = Color3.fromHex("eedcff"),
+		PrimaryColor = Color3.fromHex("8f57c7"),
+		TextColor = Color3.fromHex("000000"),
+	},
+}
 
 return Theme

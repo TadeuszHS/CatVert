@@ -2,6 +2,7 @@
 
 const Vide = require("../../packages/vide")
 const Types = require("../../util/Types")
+const UIFlexItem = require("./ext/UIFlexItem")
 
 const create = Vide.create
 
@@ -16,9 +17,9 @@ const function FlexPadding(props: {
         AutomaticSize = Enum.AutomaticSize.XY,
         LayoutOrder = props.LayoutOrder,
         
-        (create "UIFlexItem" {
+        UIFlexItem {
             FlexMode = Enum.UIFlexMode.Fill,
-        }) :: UIFlexItem,
+        }
     }
 end
 

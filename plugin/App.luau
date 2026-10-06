@@ -10,7 +10,7 @@ const App = {}
 
 local plugin: Plugin
 
-function App.initialize(plgn: Plugin)
+function App.Initialize(plgn: Plugin)
     plugin = plgn
 
     const toolbar = plugin:CreateToolbar("CatVert")
