@@ -64,8 +64,10 @@ end
 	@param v number
 	@return string
 ]=]
-function TypeEncoder.number(v: number): string
-	return string.lower(tostring(v))
+function TypeEncoder.number(v: number): string?
+	return if typeof(v) == "number" 
+		then string.lower(tostring(v))
+		else nil
 end
 
 --[=[

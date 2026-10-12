@@ -43,11 +43,12 @@ const Encoder = {}
 ]=]
 const function Apply(element_def: Element, element: UnknownElement, inst: Instance): UnknownElement
 	for catweb_index, property in element_def.properties do
+		const encoded_type = (property :: Property | Attribute).value_type
 		local success
 
 		if property.class == "Property" then
 			success = pcall(function()
-				element[catweb_index] = TypeEncoder[(property :: Property).value_type]((inst :: any)[(property :: Property).roblox_index])
+				element[catweb_index] = TypeEncoder[encoded_type]((inst :: any)[(property :: Property).roblox_index])
 			end)
 
 			Logger.WithStatus("Encoding")
@@ -55,7 +56,8 @@ const function Apply(element_def: Element, element: UnknownElement, inst: Instan
 				.WithArgs(element_def, element, inst, catweb_index, property)
 		elseif property.class == "Attribute" then
 			success = pcall(function()
-				element[catweb_index] = TypeEncoder[(property :: Attribute).value_type](inst:GetAttribute(property.catweb_index))
+				element[catweb_index] = TypeEncoder[encoded_type](inst:GetAttribute(property.catweb_index))
+										or TypeEncoder[encoded_type](element_def.default_attr[property.catweb_index])
 			end)
 
 			Logger.WithStatus("Encoding")
@@ -88,7 +90,7 @@ end
 function Encoder.Element(inst: Instance): UnknownElement?
 	Logger.WithStatus("Encoding").WithProcess("CreateElement").WithArgs(inst)
 
-	const class = inst:GetAttribute("class") :: ElementClassNames
+	const class = (inst:GetAttribute("class") or inst.ClassName) :: ElementClassNames 
 	const element_def = (Conversion.Element :: Lookup<ElementClassNames, Element>)[class]
 
 	Logger.WithArgs(inst, class, element_def)

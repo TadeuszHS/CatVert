@@ -77,7 +77,7 @@ const GuiAbstractElement = AbstractElement.New<<GuiObject>>(
 		Property.New("visible", "Visible", "boolean"),
 		Property.New("z_index", "ZIndex", "number"),
 		Attribute.New("tooltip", "string"),
-		Attribute.New("mouse_icon", "AssetId"),
+		Attribute.New("mouse_icon", "number"),
 		Custom.New(
 			"size",
 			CustomEncoder.Abstract.Gui.size,
@@ -104,7 +104,7 @@ const GuiAbstractElement = AbstractElement.New<<GuiObject>>(
 	{
 		class = "GuiElement",
 		tooltip = "",
-		mouse_icon = "rbxassetid://0",
+		mouse_icon = 0,
 	},
 	RootAbstractElement
 )
