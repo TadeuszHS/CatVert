@@ -526,8 +526,8 @@ const UIGridLayoutElement = Element.New<<UIGridLayout>>(
 	"UIGridLayout",
 	"UIGridLayout",
 	{
-		Property.New("padding", "CellPadding", "UDim"),
-		Property.New("size", "Size", "UDim2"),
+		Property.New("padding", "CellPadding", "UDim2"),
+		Property.New("size", "CellSize", "UDim2"),
 	},
 	{
 		Name = "Grid",
