@@ -12,6 +12,19 @@ type TextAbstractElement = Structure.TextAbstractElement
 type ScrollingFrameElement = Structure.ScrollingFrameElement
 type CustomDecodeFunction = Custom.CustomDecodeFunction
 
+const function DecalIdToProperty(element: UnknownElement, inst: Instance, catweb_index: string, roblox_index: string): ()
+	if typeof(element[catweb_index]) ~= "string" then
+		return
+	end
+
+	const asset_id = TypeDecoder.AssetId(element[catweb_index])
+
+	if asset_id ~= nil then
+		(inst :: any)[roblox_index] = asset_id
+		inst:SetAttribute(catweb_index, TypeDecoder.number(element[catweb_index]))
+	end
+end
+
 const CustomDecoder = table.freeze({
 	Abstract = table.freeze({
 		WebContent = table.freeze({
@@ -156,6 +169,15 @@ const CustomDecoder = table.freeze({
 				else
 					inst.CanvasSize = TypeDecoder.UDim2(element.canvassize)
 				end
+			end :: CustomDecodeFunction,
+			scrollbar_bottom_image_id = function(element: ScrollingFrameElement, inst: ScrollingFrame, _): ()
+				return DecalIdToProperty(element :: UnknownElement, inst, "scrollbar_bottom_image_id", "BottomImage")
+			end :: CustomDecodeFunction,
+			scrollbar_mid_image_id = function(element: ScrollingFrameElement, inst: ScrollingFrame, _): ()
+				return DecalIdToProperty(element :: UnknownElement, inst, "scrollbar_mid_image_id", "MidImage")
+			end :: CustomDecodeFunction,
+			scrollbar_top_image_id = function(element: ScrollingFrameElement, inst: ScrollingFrame, _): ()
+				return DecalIdToProperty(element :: UnknownElement, inst, "scrollbar_top_image_id", "TopImage")
 			end :: CustomDecodeFunction,
 		}),
 	}),

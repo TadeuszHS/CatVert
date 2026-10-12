@@ -56,8 +56,10 @@ const function Apply(element_def: Element, element: UnknownElement, inst: Instan
 				.WithArgs(element_def, element, inst, catweb_index, property)
 		elseif property.class == "Attribute" then
 			success = pcall(function()
-				element[catweb_index] = TypeEncoder[encoded_type](inst:GetAttribute(property.catweb_index))
-										or TypeEncoder[encoded_type](element_def.default_attr[property.catweb_index])
+				const value = TypeEncoder[encoded_type](inst:GetAttribute(property.catweb_index))
+				if value ~= nil then
+					element[catweb_index] = value
+				end
 			end)
 
 			Logger.WithStatus("Encoding")
@@ -90,7 +92,7 @@ end
 function Encoder.Element(inst: Instance): UnknownElement?
 	Logger.WithStatus("Encoding").WithProcess("CreateElement").WithArgs(inst)
 
-	const class = (inst:GetAttribute("class") or inst.ClassName) :: ElementClassNames 
+	local class = (inst:GetAttribute("class") or inst.ClassName) :: ElementClassNames 
 	const element_def = (Conversion.Element :: Lookup<ElementClassNames, Element>)[class]
 
 	Logger.WithArgs(inst, class, element_def)
@@ -99,7 +101,8 @@ function Encoder.Element(inst: Instance): UnknownElement?
 	end
 
 	const element = {}
-	return Apply(element_def, element, inst)
+	element.class = class
+	return Apply(element_def, element :: UnknownElement, inst)
 end
 
 --[=[

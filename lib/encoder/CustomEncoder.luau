@@ -51,7 +51,7 @@ const CustomEncoder = table.freeze({
 				const element_attributes: { Attribute } = {}
 
 				for name, value in attributes do
-					if element_def.default_attr[name] then
+					if element_def.properties[name] then
 						continue
 					end
 
@@ -128,6 +128,15 @@ const CustomEncoder = table.freeze({
 				const auto_size = TypeEncoder.AutomaticSize(inst.AutomaticCanvasSize)
 
 				element.canvassize = auto_size or TypeEncoder.UDim2(inst.CanvasSize)
+			end :: CustomEncodeFunction,
+			scrollbar_bottom_image_id = function(element: ScrollingFrameElement, inst: ScrollingFrame, _): ()
+				element.scrollbar_bottom_image_id = TypeEncoder.number(inst:GetAttribute("scrollbar_bottom_image_id"))
+			end :: CustomEncodeFunction,
+			scrollbar_mid_image_id = function(element: ScrollingFrameElement, inst: ScrollingFrame, _): ()
+				element.scrollbar_mid_image_id = TypeEncoder.number(inst:GetAttribute("scrollbar_mid_image_id"))
+			end :: CustomEncodeFunction,
+			scrollbar_top_image_id = function(element: ScrollingFrameElement, inst: ScrollingFrame, _): ()
+				element.scrollbar_top_image_id = TypeEncoder.number(inst:GetAttribute("scrollbar_top_image_id"))
 			end :: CustomEncodeFunction,
 		}),
 	}),

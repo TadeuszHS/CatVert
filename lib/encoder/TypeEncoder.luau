@@ -61,10 +61,10 @@ end
 	Encodes a number as a string.
 
 	@within TypeEncoder
-	@param v number
+	@param v unknown
 	@return string
 ]=]
-function TypeEncoder.number(v: number): string?
+function TypeEncoder.number(v: unknown): string?
 	return if typeof(v) == "number" 
 		then string.lower(tostring(v))
 		else nil
@@ -104,15 +104,19 @@ function TypeEncoder.table(v: JSONTable): JSONTable
 end
 
 --[=[
-	Encodes an AssetId as a string number.
-	If the conversion cannot be made, it will default to 0.
+	Encodes an AssetId as a string.
+	If the conversion cannot be made, it will return nil.
 
 	@within TypeEncoder
 	@param v string
 	@return string
 ]=]
-function TypeEncoder.AssetId(v: string): string
-	return tostring(tonumber(v:split("rbxassetid://")[1]) or 0)
+function TypeEncoder.AssetId(v: string?): string?
+	if typeof(v) ~= "string" then
+		return nil
+	end
+
+	return v
 end
 
 --[=[

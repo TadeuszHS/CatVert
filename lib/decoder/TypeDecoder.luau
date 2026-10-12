@@ -1,6 +1,7 @@
 --!strict
 
 const HttpService = game:GetService("HttpService")
+const InsertService = game:GetService("InsertService")
 const Logger = require("../util/Logger")
 const Types = require("../data/Types")
 const Structure = require("../data/Structure")
@@ -75,26 +76,21 @@ const function SequenceJSON(j: JSONUnknown): { { string } }?
 	end)
 
 	if not success or typeof(decoded) ~= "table" then
-		Logger.Event("Warn", "Expected to decode JSONTable from string")
-		return nil
+		return Logger.Event("Warn", "Expected to decode JSONTable from string")
 	end
 
 	for i, keypoint in decoded do
 		if typeof(i) ~= "number" then
-			Logger.Event("Warn", "Expected indexer of sequence to be number")
-			return nil
+			return Logger.Event("Warn", "Expected indexer of sequence to be number")
 		elseif typeof(keypoint) ~= "table" then
-			Logger.Event("Warn", "Expected value of sequence to be table")
-			return nil
+			return Logger.Event("Warn", "Expected value of sequence to be table")
 		end
 
 		for k, x in keypoint do
 			if typeof(k) ~= "number" then
-				Logger.Event("Warn", "Expected indexer of keypoint to be number")
-				return nil
+				return Logger.Event("Warn", "Expected indexer of keypoint to be number")
 			elseif typeof(x) ~= "string" and typeof(x) ~= "number" then
-				Logger.Event("Warn", "Expected indexer of keypoint to be string or number")
-				return nil
+				return Logger.Event("Warn", "Expected indexer of keypoint to be string or number")
 			end
 		end
 	end
@@ -135,7 +131,7 @@ const function DecodeSequence<T, K, S>(
 		if not value or not time then
 			return nil
 		end
-		points[i] = new_keypoint(time, value)
+		points[i] = new_keypoint(time, value :: T)
 	end
 
 	if IsValidKeypointArray(points) then
@@ -155,8 +151,7 @@ end
 ]=]
 const function NumberTuple(t: JSONUnknown): ...number?
 	if typeof(t) ~= "string" then
-		Logger.Event("Warn", "Expected to decode Tuple<Number> from string")
-		return
+		return Logger.Event("Warn", "Expected to decode Tuple<Number> from string")
 	end
 
 	const values = t:split(",")
@@ -179,8 +174,7 @@ end
 ]=]
 const function EnumItem(item_name: JSONUnknown?, of: Enum): EnumItem?
 	if typeof(item_name) ~= "string" then
-		Logger.Event("Warn", "Expected to decode EnumItem from string")
-		return nil
+		return Logger.Event("Warn", "Expected to decode EnumItem from string")
 	end
 
 	if item_name:find(".") then
@@ -209,8 +203,7 @@ function TypeDecoder.boolean(v: JSONUnknown): boolean?
 	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
 	if typeof(v) ~= "string" then
-		Logger.Event("Warn", "Expected to decode boolean from string")
-		return nil
+		return Logger.Event("Warn", "Expected to decode boolean from string")
 	elseif v == "true" then
 		return true
 	elseif v == "false" then
@@ -232,8 +225,7 @@ function TypeDecoder.number(v: JSONUnknown): number?
 	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
 	if typeof(v) ~= "string" then
-		Logger.Event("Warn", "Expected to decode number from string")
-		return nil
+		return Logger.Event("Warn", "Expected to decode number from string")
 	end
 
 	return tonumber(v)
@@ -250,8 +242,7 @@ function TypeDecoder.string(v: JSONUnknown): string?
 	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
 	if typeof(v) ~= "string" then
-		Logger.Event("Warn", "Expected to decode string from string")
-		return nil
+		return Logger.Event("Warn", "Expected to decode string from string")
 	end
 
 	return tostring(v)
@@ -269,30 +260,39 @@ function TypeDecoder.table(v: JSONUnknown): JSONTable?
 	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
 	if typeof(v) ~= "table" then
-		Logger.Event("Warn", "Expected to decode table from table")
-		return nil
+		return Logger.Event("Warn", "Expected to decode table from table")
 	end
 
 	return v
 end
 
 --[=[
-	Decodes an rbxassetid from a JSONUnknown value.
-	If the value is not a number, it will return an empty string.
+	Decodes and retrieves rbxassetid from a JSONUnknown value interpreted as a decal id.
+	If the value is not a decal id or the rbxassetid cannot be retrieved, it will return nil.
 
 	@within TypeDecoder
 	@param v JSONUnknown
 	@return string
 ]=]
-function TypeDecoder.AssetId(v: JSONUnknown): string
+function TypeDecoder.AssetId(v: JSONUnknown): string?
 	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
-	if typeof(v) ~= "string" then
-		Logger.Event("Warn", "Expected to decode AssetId from number")
-		return ""
+	const id = tonumber(v)
+	if typeof(v) ~= "string" or typeof(id) ~= "number" then
+		return Logger.Event("Warn", "Expected to decode AssetId from string representing number")
 	end
 
-	return "rbxassetid://" .. v
+	const success, result = pcall(InsertService.LoadAsset, InsertService, id)
+
+	if not success then
+		return Logger.Event("Warn", "Unable to Load Asset to decode AssetId")
+	end
+	const decal = result:FindFirstChild("Decal")
+	if not decal then
+		return Logger.Event("Warn", "Expected to Load Decal Asset to decode AssetId")
+	end
+
+	return (decal :: Decal).ColorMapContent.Uri
 end
 
 --[=[
@@ -307,8 +307,7 @@ function TypeDecoder.Color3(v: JSONUnknown): Color3?
 	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
 
 	if typeof(v) ~= "string" then
-		Logger.Event("Warn", "Expected to decode Color3 from string")
-		return nil
+		return Logger.Event("Warn", "Expected to decode Color3 from string")
 	end
 
 	const result = select(2, pcall(Color3.fromHex, v :: string))

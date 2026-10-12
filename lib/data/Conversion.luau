@@ -34,9 +34,9 @@ const WebContentAbstractElement = AbstractElement.New<<Frame>>(
 	},
 	{
 		description = "",
-		favicon = 0,
-		thumbnail_id = 0,
-		thumbnail = "",
+		favicon = nil,
+		thumbnail_id = nil,
+		thumbnail = nil,
 	}
 )
 
@@ -76,6 +76,7 @@ const GuiAbstractElement = AbstractElement.New<<GuiObject>>(
 		Property.New("position", "Position", "UDim2"),
 		Property.New("visible", "Visible", "boolean"),
 		Property.New("z_index", "ZIndex", "number"),
+		Property.New("order", "LayoutOrder", "number"),
 		Attribute.New("tooltip", "string"),
 		Attribute.New("mouse_icon", "number"),
 		Custom.New(
@@ -104,7 +105,7 @@ const GuiAbstractElement = AbstractElement.New<<GuiObject>>(
 	{
 		class = "GuiElement",
 		tooltip = "",
-		mouse_icon = 0,
+		mouse_icon = nil,
 	},
 	RootAbstractElement
 )
@@ -251,9 +252,21 @@ const ScrollingFrameElement = Element.New<<ScrollingFrame>>(
 		Property.New("scrollbar_color", "ScrollBarImageColor3", "Color3"),
 		Property.New("scrollbar_thickness", "ScrollBarThickness", "number"),
 		Property.New("scrollbar_transparency", "ScrollBarImageTransparency", "number"),
-		Property.New("scrollbar_bottom_image_id", "BottomImage", "AssetId"),
-		Property.New("scrollbar_mid_image_id", "MidImage", "AssetId"),
-		Property.New("scrollbar_top_image_id", "TopImage", "AssetId"),
+		Custom.New(
+			"scrollbar_bottom_image_id",
+			CustomEncoder.Element.ScrollingFrame.scrollbar_bottom_image_id,
+			CustomDecoder.Element.ScrollingFrame.scrollbar_bottom_image_id
+		),
+		Custom.New(
+			"scrollbar_mid_image_id",
+			CustomEncoder.Element.ScrollingFrame.scrollbar_mid_image_id,
+			CustomDecoder.Element.ScrollingFrame.scrollbar_mid_image_id
+		),
+		Custom.New(
+			"scrollbar_top_image_id",
+			CustomEncoder.Element.ScrollingFrame.scrollbar_top_image_id,
+			CustomDecoder.Element.ScrollingFrame.scrollbar_top_image_id
+		),
 		Custom.New(
 			"canvassize",
 			CustomEncoder.Element.ScrollingFrame.canvassize,
@@ -352,7 +365,7 @@ const DonationButtonElement = Element.New<<TextButton>>(
 	},
 	{
 		class = "TextButton?donation",
-		product = 0,
+		product = nil,
 		product_type = Enum.InfoType.Asset,
 		thanks_href = "",
 	},
@@ -393,7 +406,7 @@ const AvatarItemButtonElement = Element.New<<TextButton>>(
 	},
 	{
 		class = "TextButton?avataritem",
-		product = 0,
+		product = nil,
 		product_type = Enum.InfoType.Asset,
 	},
 	GuiButtonAbstractElement
@@ -605,6 +618,8 @@ const UIFlexItemElement = Element.New<<UIFlexItem>>(
 	{
 		Property.New("flex_mode", "FlexMode", "UIFlexMode"),
 		Property.New("alignment_item_line", "ItemLineAlignment", "ItemLineAlignment"),
+		Property.New("grow_ratio", "GrowRatio", "number"),
+		Property.New("shrink_ratio", "ShrinkRatio", "number"),
 	},
 	{
 		Name = "Flex Item",
