@@ -10,6 +10,20 @@ export type JSONUnknown = string | number | boolean | nil | JSONTable
 export type JSONTable = { [string | number]: JSONUnknown }
 
 --[=[
+	CatWeb Element implementation of user attributes in Roblox Instances.
+
+	@since CatWeb v2.19.0.0
+]=]
+export type Attribute = {
+	name: {
+		value: string?,
+	},
+	value: {
+		value: string?,
+	},
+}
+
+--[=[
 	Representation of non creatable helper Element Classes.
 ]=]
 export type AbstractElementClassNames =
@@ -47,6 +61,7 @@ export type ElementClassNames =
 	| "UIGradient"
 	| "UIPadding"
 	| "UIFlexItem"
+	| "UIShadow"
 	| "script"
 
 --[=[
@@ -89,6 +104,7 @@ export type RootAbstractElement = {
 	alias: JSONUnknown,
 	class: JSONUnknown,
 	children: JSONUnknown,
+	attributes: JSONUnknown,
 	globalid: JSONUnknown,
 }
 --[=[
@@ -182,6 +198,9 @@ export type ScrollingFrameElement = GuiAbstractElement & {
 	scrollbar_color: JSONUnknown,
 	scrollbar_thickness: JSONUnknown,
 	scrollbar_transparency: JSONUnknown,
+	scrollbar_bottom_image_id: JSONUnknown,
+	scrollbar_mid_image_id: JSONUnknown,
+	scrollbar_top_image_id: JSONUnknown,
 }
 --[=[
 	CatWeb Text Element.
@@ -338,6 +357,18 @@ export type UIStrokeElement = RootAbstractElement & {
 export type UIFlexItemElement = RootAbstractElement & {
 	flex_mode: JSONUnknown,
 	alignment_item_line: JSONUnknown,
+}
+--[=[
+	CatWeb UI Shadow Element.
+	@since CatWeb v2.19.0.0
+]=]
+export type UIShadowElement = RootAbstractElement & {
+	blur_radius: JSONUnknown,
+	shadow_offset: JSONUnknown,
+	shadow_color: JSONUnknown,
+	shadow_transparency: JSONUnknown,
+	shadow_spread: JSONUnknown,
+	z_index: JSONUnknown,
 }
 
 return table.freeze({})

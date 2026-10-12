@@ -2,9 +2,11 @@
 
 const HttpService = game:GetService("HttpService")
 const Types = require("../data/Types")
+const Structure = require("../data/Structure")
 const EnumMap = require("../data/EnumMap")
 
 type CatWebEnums = Types.CatWebEnums
+type JSONTable = Structure.JSONTable
 
 --[=[
 	@class TypeEncoder
@@ -86,6 +88,29 @@ end
 ]=]
 function TypeEncoder.Color3(v: Color3): string
 	return "#" .. v:ToHex()
+end
+
+--[=[
+	Encodes a table as a table
+
+	@within TypeEncoder
+	@param v JSONTable
+	@return JSONTable
+]=]
+function TypeEncoder.table(v: JSONTable): JSONTable
+	return v
+end
+
+--[=[
+	Encodes an AssetId as a string number.
+	If the conversion cannot be made, it will default to 0.
+
+	@within TypeEncoder
+	@param v string
+	@return string
+]=]
+function TypeEncoder.AssetId(v: string): string
+	return tostring(tonumber(v:split("rbxassetid://")[1]) or 0)
 end
 
 --[=[

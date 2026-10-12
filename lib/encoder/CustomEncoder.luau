@@ -2,9 +2,14 @@
 
 const Structure = require("../data/Structure")
 const Custom = require("../data/property/Custom")
+const Element = require("../data/element/Element")
 const TypeEncoder = require("./TypeEncoder")
 
+type Element = Element.Element
+type Attribute = Structure.Attribute
+type JSONUnknown = Structure.JSONUnknown
 type UnknownElement = Structure.UnknownElement
+type ElementClassNames = Structure.ElementClassNames
 type WebContentAbstractElement = Structure.WebContentAbstractElement
 type RootAbstractElement = Structure.RootAbstractElement
 type GuiAbstractElement = Structure.GuiAbstractElement
@@ -38,6 +43,32 @@ const CustomEncoder = table.freeze({
 					table.insert(element.children :: { UnknownElement }, inst_to_element(inst_child))
 				end
 			end :: CustomEncodeFunction,
+			attributes = function(element: RootAbstractElement, inst: Instance): ()
+				const attributes = inst:GetAttributes()
+				const element_class: ElementClassNames = (attributes.class or element.class) :: ElementClassNames
+				const element_def = (require("../data/Conversion").Element[element_class]) :: Element
+
+				const element_attributes: { Attribute } = {}
+
+				for name, value in attributes do
+					if element_def.default_attr[name] then
+						continue
+					end
+
+					const attribute: Attribute  = {
+						name = {
+							value = name,
+						},
+						value = {
+							value = tostring(value)
+						}
+					}
+
+					table.insert(element_attributes, attribute)
+				end
+
+				element.attributes = element_attributes :: JSONUnknown
+			end
 		}),
 
 		Gui = table.freeze({

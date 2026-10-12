@@ -1,7 +1,7 @@
 --!strict
 
-const Decoder = require("./decoder/Decoder")
-const Encoder = require("./encoder/Encoder")
+const Decoder = require("@self/decoder/Decoder")
+const Encoder = require("@self/encoder/Encoder")
 
 --[=[
 	Library entry point for Catvert.

@@ -52,6 +52,24 @@ const CustomDecoder = table.freeze({
 					end
 				end
 			end :: CustomDecodeFunction,
+			attributes = function(element: RootAbstractElement, inst: Instance, _): ()
+				if typeof(element.attributes) ~= "table" then
+					return
+				end
+
+				for _, attribute in element.attributes do
+					if typeof(attribute) ~= "table" 
+					or typeof(attribute.name) ~= "table"
+					or typeof(attribute.value) ~= "table"
+					or typeof(attribute.name.value) ~= "string"
+					or typeof(attribute.value.value) == "table" then
+						continue
+					end
+
+					-- try to convert to a number for convenience
+					inst:SetAttribute(attribute.name.value, tonumber(attribute.value.value) or attribute.value.value)
+				end
+			end
 		}),
 
 		Gui = table.freeze({

@@ -33,6 +33,7 @@ export type CatWebTypes =
 	| "string"
 	| "Color3"
 	| "table"
+	| "AssetId"
 	| "UDim"
 	| "UDim2"
 	| "Vector2"

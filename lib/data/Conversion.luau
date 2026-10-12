@@ -51,6 +51,11 @@ const RootAbstractElement = AbstractElement.New<<Instance>>(
 			CustomEncoder.Abstract.Root.children,
 			CustomDecoder.Abstract.Root.children
 		),
+		Custom.New(
+			"attributes",
+			CustomEncoder.Abstract.Root.attributes,
+			CustomDecoder.Abstract.Root.attributes
+		),
 	},
 	{
 		Name = "Element",
@@ -72,6 +77,7 @@ const GuiAbstractElement = AbstractElement.New<<GuiObject>>(
 		Property.New("visible", "Visible", "boolean"),
 		Property.New("z_index", "ZIndex", "number"),
 		Attribute.New("tooltip", "string"),
+		Attribute.New("mouse_icon", "AssetId"),
 		Custom.New(
 			"size",
 			CustomEncoder.Abstract.Gui.size,
@@ -98,6 +104,7 @@ const GuiAbstractElement = AbstractElement.New<<GuiObject>>(
 	{
 		class = "GuiElement",
 		tooltip = "",
+		mouse_icon = "rbxassetid://0",
 	},
 	RootAbstractElement
 )
@@ -244,6 +251,9 @@ const ScrollingFrameElement = Element.New<<ScrollingFrame>>(
 		Property.New("scrollbar_color", "ScrollBarImageColor3", "Color3"),
 		Property.New("scrollbar_thickness", "ScrollBarThickness", "number"),
 		Property.New("scrollbar_transparency", "ScrollBarImageTransparency", "number"),
+		Property.New("scrollbar_bottom_image_id", "BottomImage", "AssetId"),
+		Property.New("scrollbar_mid_image_id", "MidImage", "AssetId"),
+		Property.New("scrollbar_top_image_id", "TopImage", "AssetId"),
 		Custom.New(
 			"canvassize",
 			CustomEncoder.Element.ScrollingFrame.canvassize,
@@ -479,6 +489,10 @@ const UICornerElement = Element.New<<UICorner>>(
 	"UICorner",
 	{
 		Property.New("radius", "CornerRadius", "UDim"),
+		Property.New("radius_bottom_left", "BottomLeftRadius", "UDim"),
+		Property.New("radius_bottom_right", "BottomRightRadius", "UDim"),
+		Property.New("radius_top_left", "TopLeftRadius", "UDim"),
+		Property.New("radius_top_right", "TopRightRadius", "UDim"),
 	},
 	{
 		Name = "Corner",
@@ -601,6 +615,29 @@ const UIFlexItemElement = Element.New<<UIFlexItem>>(
 	RootAbstractElement
 )
 
+const UIShadowElement = Element.New<<UIShadow>>(
+	"UIShadow",
+	"UIShadow",
+	{
+		Property.New("blur_radius", "BlurRadius", "UDim"),
+		Property.New("shadow_offset", "Offset", "UDim2"),
+		Property.New("shadow_color", "Color", "Color3"),
+		Property.New("shadow_transparency", "Transparency", "number"),
+		Property.New("shadow_spread", "Spread", "UDim2"),
+		Property.New("z_index", "ZIndex", "number"),
+	},
+	{
+		Name = "Shadow",
+		BlurRadius = UDim.new(0, 0),
+		Transparency = 0,
+		ZIndex = 0,
+	},
+	{
+		class = "UIShadow"
+	},
+	RootAbstractElement
+)
+
 return table.freeze({
 	Abstract = table.freeze({
 		WebContent = WebContentAbstractElement,
@@ -635,5 +672,6 @@ return table.freeze({
 		UIPadding = UIPaddingElement,
 		UIStroke = UIStrokeElement,
 		UIFlexItem = UIFlexItemElement,
+		UIShadow = UIShadowElement,
 	})
 })

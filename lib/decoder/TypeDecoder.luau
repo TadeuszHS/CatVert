@@ -277,6 +277,25 @@ function TypeDecoder.table(v: JSONUnknown): JSONTable?
 end
 
 --[=[
+	Decodes an rbxassetid from a JSONUnknown value.
+	If the value is not a number, it will return an empty string.
+
+	@within TypeDecoder
+	@param v JSONUnknown
+	@return string
+]=]
+function TypeDecoder.AssetId(v: JSONUnknown): string
+	Logger.WithStatus("Decoding").WithProcess("TypeConversion").WithArgs(v)
+
+	if typeof(v) ~= "string" then
+		Logger.Event("Warn", "Expected to decode AssetId from number")
+		return ""
+	end
+
+	return "rbxassetid://" .. v
+end
+
+--[=[
 	Decodes a Color3 from a hex string.
 	If the value is not a valid hex color, it will return nil.
 
