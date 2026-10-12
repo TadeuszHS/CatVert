@@ -34,7 +34,7 @@ end
 	@error "Expected to decode table"
 	@error "Unable to determine StructureType"
 	@param json string
-	@return Frame | { Instance }
+	@return (Frame | { Instance })?
 ]=]
 function CatVert.JSONDecode(json: string): (Frame | { Instance })?
 	return Decoder.JSONDecode(json)
